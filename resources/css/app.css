@@ -1,0 +1,56 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+/**
+ * Here you would add any of your custom component classes; stuff that you'd
+ * want loaded *before* the utilities so that the utilities could still
+ * override them.
+ *
+ * Example:
+ *
+ * .btn { ... }
+ * .form-input { ... }
+ */
+
+/*.font-apple { font-family: 'Homemade Apple', cursive; 
+	}
+
+.pink { color: pink; }
+
+.colorwheel {
+    -webkit-animation: pulsate 20s linear infinite;
+    -moz-animation: pulsate 20s linear infinite;
+    animation: pulsate 20s linear infinite;
+    }
+
+    @-webkit-keyframes pulsate {
+    0% {background:  gray}
+    20% {background: indigo}
+    40% {background: teal}
+    60% {background: gold}
+    80% {background: salmon}
+    100% {background:  gray}
+    }
+
+    @-moz-keyframes pulsate {
+    0% {background:  gray}
+    20% {background: indigo}
+    40% {background: teal}
+    60% {background: gold}
+    80% {background: salmon}
+    100% {background:  gray}
+
+    }
+
+    @keyframes pulsate {
+    
+    0% {background:  gray}
+    20% {background: indigo}
+    40% {background: teal}
+    60% {background: gold}
+    80% {background: salmon}
+    100% {background:  gray}
+
+}*/
+
+@import 'tailwindcss/utilities';
