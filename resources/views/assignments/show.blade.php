@@ -17,7 +17,7 @@
 
                     @foreach ( Auth::User()->activeSections as $section)  
 
-                         <a class="p-2 my-1 ml-1 rounded-lg bg-gray-200 hover:bg-gray-300 hover:text-gray-700 text-md {{active_check('sections/'.$section->id)}}"
+                         <a class="p-2 my-1 ml-1 rounded-lg bg-gray-200 hover:bg-gray-300 hover:text-gray-700 text-md {{active_check('sections/'.$section->id.'/*')}}"
                          href="{{route('show-section', $section->id)}}">
                          {{ $section->title}}</a>
 
@@ -91,8 +91,7 @@
             {{-- Assignments Title --}}
        
             <div class="flex-grow mb-0 px-2 text-left text-2xl rounded-br-lg text-gray-200">
-                ASSIGNMENT                    
-            </div>
+            {{$activeAssignment->title}}</div>
         
             {{-- Assignment Menu --}}
 
@@ -109,13 +108,16 @@
                           <x-slot name="content">
                               
                               <x-jet-dropdown-link 
-                              href="{{action('App\Http\Controllers\AssignmentController@show', ['section' => $currentSection , 'assignment' => $activeAssignment])}}">
+                              href="{{action('App\Http\Controllers\AssignmentController@edit', ['section' => $currentSection , 'assignment' => $activeAssignment])}}">
                               Edit Assignment
                               </x-jet-dropdown-link>
 
-                              <x-jet-dropdown-link 
-                              href="{{action('App\Http\Controllers\AssignmentController@show', ['section' => $currentSection , 'assignment' => $activeAssignment ])}}"> 
-                              Delete Assignment
+                              <x-jet-dropdown-link>
+                              <form id="delete_assignment" method="POST" action="{{ route('destroy-assignment', ['section' => $section, 'assignment' => $activeAssignment ]) }}">
+                              {{ csrf_field() }}
+                              <input type="hidden" name="_method" value="DELETE">
+                              <button type="submit" onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
+                              </form>
                               </x-jet-dropdown-link>
 
                           </x-slot>
@@ -134,7 +136,7 @@
             
 
         <div class="p-2 text-sm leading-tight text-gray-600">
-        <div class="font-semibold mb-1 text-gray-500">DESCRIPTION:</div>{{ $activeAssignment->description}}</div>
+        <div class="font-semibold mb-1 text-gray-500"></div>{{ $activeAssignment->description}}</div>
 
         {{-- End Assignment Content for Mobile --}}
 
@@ -227,7 +229,7 @@
                     
                                 @endforeach
 
-                                </div>                                            
+                                </div>                                    
 
                         @else
 
@@ -260,6 +262,7 @@
     
                     <x-feathericon-menu class="w-5 h-5 hover:text-red-500 text-gray-100"/>
 
+                    <div class="z-10 absolute top-0 right-0 shadow-2xl bg-gray-700 text-gray-400 rounded py-1 list-none text-left leading-normal whitespace-no-wrap">
 
                         {{-- <a href="{{action('ComponentController@edit', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ]) }}" class="hover:text-gray-200 no-underline text-sm"> --}}
                                          

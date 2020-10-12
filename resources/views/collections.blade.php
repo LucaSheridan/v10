@@ -10,7 +10,7 @@
             <div class="flex max-w-5xl mx-auto pt-3 pl-4 bg-gray-100 rounded-t-lg text-left py-1 border-b">
 
                 <!-- Contnet Menu Bar-->
-                <div class="flex flex-grow items-center font-semibold text-gray-500">
+                <div class="flex flex-grow pb-1 items-center font-semibold text-gray-500">
                 Your Collections
                 </div>
 

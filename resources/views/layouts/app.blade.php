@@ -29,8 +29,6 @@
    
     <body class="font-sans antialiased">
 
-        {{phpinfo()}}
-        
         <!-- Background -->
         <div class="min-h-screen bg-cool-gray-400">
         
@@ -179,7 +177,8 @@
     
     <!-- Begin Menu-->
 
-<div class="py-0 pt-2 pb-0 space-x-1 sm:-my-px flex justify-center uppercase bg-gray-100">
+<div class="bg-gray-100 w-full">
+<div class="max-w-5xl mx-auto pt-2 pb-0 space-x-1 sm:-my-px flex justify-center uppercase bg-gray-100">
     
  <!-- <div class="pt-6 pt-2 pb-1 space-x-1 sm:-my-px flex justify-center uppercase bg-cool-gray-400"> -->
                             
@@ -203,6 +202,7 @@
 
                                
                             </div>
+                        </div>
            
            <!-- Page Heading -->
            <!--  <header class="bg-white shadow">

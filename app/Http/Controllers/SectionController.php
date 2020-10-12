@@ -10,9 +10,8 @@ use App\Models\Component;
 use App\Models\Artifact;
 use App\Models\Section;
 use Illuminate\Support\Str;
-
 use Auth;
-//use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
 
 class SectionController extends Controller
@@ -122,7 +121,8 @@ class SectionController extends Controller
     {
         // create valiadator
         $this->validate($request, [
-        'title' => 'required'
+        'title' => 'required',
+        'registrationCode' => 'required'
         // 'label' => 'required',
 
         ]);

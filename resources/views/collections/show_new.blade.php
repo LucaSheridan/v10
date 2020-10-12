@@ -9,7 +9,7 @@
         
         <div class="flex max-w-5xl mx-auto pt-2 pl-4 bg-gray-100 rounded-t-lg text-left py-1 border-b">
 
-            <div class="flex flex-grow items-center font-normal text-5xl text-red-400 capitlize">
+            <div class="flex flex-grow items-center font-normal text-2xl text-red-400 capitlize">
             
             {{$collection->title}}
 
@@ -19,26 +19,21 @@
                 
                  <x-jet-dropdown align="right" width="48">
                           <x-slot name="trigger">
-                          
+                         <x-feathericon-menu class="w-5 h-5 hover:text-red-500 text-gray-400"/>
                           <button class="flex transition duration-150 ease-in-out" tabIndex="-2">
-                          <x-feathericon-menu class="w-5 h-5 hover:text-red-500 text-gray-400"/>
                           </button>
                          
                           </x-slot>
                           <x-slot name="content">
-                              
                               <x-jet-dropdown-link 
-                              href="{{route('edit-collection', $collection)}}" class="opacity-100 hover:opacity-75" tabIndex="-1">
-                              Edit Collection
+                              href="{{route('edit-collection', $collection)}}" class="opacity-100 hover:opacity-75" tabIndex="-1">Edit Collection
                               </x-jet-dropdown-link>
-
+                              <x-jet-dropdown-link>
                               <form id="delete_collection" method="POST" action="{{ route('delete-collection', $collection) }}">
                               {{ csrf_field() }}
-                              <input type="hidden" name="_method" value="DELETE">
-                              <x-jet-dropdown-link>
-                              <button type="submit" onclick="return confirm('Are you sure you want to delete this?')">Delete Collection
-                              </x-jet-dropdown-link>
+                              <input type="hidden" name="_method" value="DELETE"><button type="submit" onclick="return confirm('Are you sure you want to delete this?')">Delete Collection</button>
                               </form>
+                              </x-jet-dropdown-link>
 
                           </x-slot>
                     </x-jet-dropdown>
@@ -64,7 +59,7 @@
                         {{$loop->index+1}}/{{$loop->count}}
                         </a>
                     </div>
-                
+
                   <!-- Artifact Menu Trigger -->
                     <div class="pt-2 pr-1 flex">
                         <x-feathericon-more-horizontal @click="open = true" class="w-5 h-5 hover:text-red-500 text-gray-400"/>
@@ -82,12 +77,33 @@
                     class="flex absolute right-3 top-6 text-sm z-10 pb-0 bg-gray-200 bg-opacity-100 shadow-2xl rounded-md">
                     
                   <!-- Artifact Option Menu Links -->
-                    <ul class="flex-grow leading-loose pt-1 pb-2">
+                    <ul class="flex-grow pt-1 pb-2">
+
                       <li class="hover:bg-gray-100 hover:text-red-500 mt-1 px-3">
-                          <a href="{{ route('edit-collection', $artifact) }}">Edit Label</a>
+                          
+                        <form class="p-0 m-0" id="edit_label" method="get" action="{{
+                        route('edit-label',['collection' => $collection->id , 'artifact' => $artifact->id ]) }}">
+                              
+                        {{ csrf_field() }}
+
+                        <input type="hidden" name="position" value="{{$artifact->pivot->position}}">
+                        <input type="hidden" name="artist" value="{{$artifact->pivot->artist}}">
+                        <input type="hidden" name="title" value="{{$artifact->pivot->title}}">
+                        <input type="hidden" name="medium" value="{{$artifact->pivot->medium}}">
+                        <input type="hidden" name="year" value="{{$artifact->pivot->year}}">
+                        <input type="hidden" name="dimensions_height" value="{{$artifact->pivot->dimensions_height}}">
+                        <input type="hidden" name="dimensions_width" value="{{$artifact->pivot->dimensions_width}}">
+                        <input type="hidden" name="dimensions_depth" value="{{$artifact->pivot->dimensions_depth}}">
+                        <input type="hidden" name="dimensions_units" value="{{$artifact->pivot->dimensions_units}}">
+                        <input type="hidden" name="label_text" value="{{$artifact->pivot->label_text}}">
+                                      
+                        <button type="submit">Edit Label</button>
+                               
+                        </form>
                       </li>
+
                       <li class="hover:bg-gray-100 hover:text-red-500 mt-1 px-3">
-                          <a href="{{ route('remove-artifact-from-collection', ['collection' => $collection, 'artifact' => $artifact]) }}">Remove</a>
+                          <a href="{{ route('remove-artifact-from-collection', ['collection' => $collection, 'artifact' => $artifact]) }}" onclick="return confirm('Are you sure you want to remove this?')">Remove</a>
                       </li>
                     </ul>
 

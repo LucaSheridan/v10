@@ -9,7 +9,7 @@
         
         <div class="flex max-w-5xl mx-auto pt-3 pl-4 bg-gray-100 rounded-t-lg text-left py-1 border-b">
 
-            <div class="flex flex-grow items-center">
+            <div class="flex flex-grow items-center pb-1 font-semibold text-gray-500">
             
             Your Artifacts {{-- <span class="pl-3">{{ $artifacts->links() }}
             --}}

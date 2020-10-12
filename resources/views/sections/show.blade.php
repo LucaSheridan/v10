@@ -5,36 +5,40 @@
         </h2>
     </x-slot>
 
-    <!-- Class Nav -->
+    <div class="pt-4 px-3">
         
-        <div class="flex max-w-5xl mx-auto mt-4 px-3 text-sm no-underline items-center items-stretch">
+            <div class="flex max-w-5xl mx-auto pt-3 pl-2 bg-gray-100 rounded-t-lg text-left py-1 border-b">
 
-    <!-- Class Pills -->
+                <!-- Content Menu Bar-->
+                <div class="flex flex-grow pb-1 items-center font-semibold text-gray-500">
 
-            <div class="flex-grow py-3 bg-white px-1 text-gray-500 aliased rounded-l-lg space-x-1">
-                 
-                 @if (Auth::User()->activeSections()->count() > 0)
+                     <!-- Class Pills -->
 
-                    @foreach ( Auth::User()->activeSections as $section)  
+                          <div class="flex-grow text-gray-400 aliased space-x-1">
+                               
+                               @if (Auth::User()->activeSections()->count() > 0)
 
-                         <a class="p-2 my-1 ml-1 rounded-lg bg-gray-200 hover:bg-gray-300 hover:text-gray-700 text-md {{active_check('sections/'.$section->id)}}"
-                         href="{{route('show-section', $section->id)}}">
-                         {{ $section->title}}</a>
+                                  @foreach ( Auth::User()->activeSections as $section)  
 
-                    @endforeach
+                                       <a class="p-2 rounded-lg hover:text-gray-700 text-sm {{active_check('sections/'.$section->id)}}"
+                                       href="{{route('show-section', $section->id)}}">
+                                       {{ $section->title}}</a>
 
-                    @else
-                    <p>You are currently have no classes.</p>
-                    @endif
+                                  @endforeach
 
-            </div>
+                                  @else
+                                  <p>You are currently have no classes.</p>
+                                  @endif
 
-    <!-- End Class Pills -->
+                          </div>
 
-    <!-- Class Options -->
+                  <!-- End Class Pills -->
 
-            <div class="flex bg-white rounded-r-lg items-center px-3">
-                <x-jet-dropdown align="right" width="48">
+                </div>
+
+                <!-- Contnet Menu Bar-->
+                <div class="flex pr-3">
+                             <x-jet-dropdown align="right" width="48">
                       <x-slot name="trigger">
                       
                       <button class="flex transition duration-150 ease-in-out" tabIndex="-2">
@@ -68,62 +72,38 @@
 
                       </x-slot>
                 </x-jet-dropdown>
-           </div>
-        </div>
+                </div>
+            </div>
 
-        <!-- End Class Options -->
+
+
+  
         
         <!-- Begin Content -->
 
-        <div class="max-w-5xl mx-auto mt-4 w-full px-3">
+        <div class="max-w-5xl mx-auto w-full bg-white text-gray-500 ">
             
-            <!-- Roster -->
+        <div x-data="{ tab: 'assignments' }" class="pt-2 pb-3">
+
+             <button tabIndex="1"
+                  :class="{ 'active bg-white text-red-500': tab === 'assignments' }"
+                  class="pl-4 pt-1 pb-1 px-2 text-sm focus:outline-none focus:bg-gray-100 hover:text-red-500 font-semibold "
+                  @click="tab = 'assignments'">
+                  Assignments
+              </button>
+
+              <button tabIndex="2"
+                  :class="{ 'active bg-white text-red-500': tab === 'roster' }"
+                  class="pt-1 pb-1 px-2 text-sm focus:outline-none focus:bg-gray-100 hover:text-red-500 font-semibold"
+                  @click="tab = 'roster'">
+                  Roster
+              </button>
             
+            <!-- Assignments Content -->
             
-                    <div id='Roster'>
-
-            <div class="p-2 overflow-hidden shadow-xl bg-white rounded-lg">
-
-            <ul class="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-6">
-
-             @foreach ($currentSection->students as $student)
-
-    
-                <li class="col-span-1 flex flex-col text-left bg-gray-200 rounded-lg shadow">
-                
-                    <div class="flex-1 flex flex-col pt-2">
-                    
-                          <!-- <img class="w-20 h-20 border-2 border-red-400 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
- -->
-                          <!-- TailwindUI Avatar -->
-                          <div class="flex items-center justify-center w-20 h-20 border-2 border-red-400 flex-shrink-0 mx-auto text-center rounded-full bg-cool-gray-400 text-4xl font-medium leading-none uppercase text-white">
-                          {{ $student->initials }}
-                          </div>
-                         
-                          <h3 class="my-2 text-gray-900 text-center text-sm leading-5 font-medium">{{$student->fullName}}</h3>
-                   
-                    </div>
-              </li>
-
-            @endforeach
-
-          </ul>
-        </div>
-
-        Middle
-
-        <div id='Assignemnts'>
-
-      <!-- End Roster -->
-
-      <!-- Start Assignments -->
-      <div class="p-2 mt-4 overflow-hidden shadow-xl bg-white rounded-lg">
-
-      Assignments
-
-      {{-- Start Assignment Content for Desktop --}}
-
-        <div id="accordion" class="border-0 p-0"> 
+            <div x-show="tab === 'assignments'" class="-mt-px pt-2">
+            
+            <div id="accordion" class="border-0 px-3"> 
 
                 @if ($sectionAssignments->count() > 0)
 
@@ -194,18 +174,47 @@
 
                             @else
            
-                                <div class="text-gray-600 bg-gray-100 p-2 no-underline text-sm">No assignments
+                                <div class="text-gray-600 bg-gray-100 p-2 no-underline text-sm">No assignments!
                                 </div>            
                             
                             @endif
 
                     </div>
 
-                    {{-- End Assignment Wrapper --}}
+            </div>
 
+            <!-- Roster Content -->
+            <div x-show="tab === 'roster'" class="bg-white -mt-px px-3 pt-2 pb-3 overflow-hidden shadow-xl rounded-lg">
+            
+                <ul class="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-6">
 
-      </div>end
+                         @foreach ($currentSection->students as $student)
+
+                            <li class="col-span-1 flex flex-col text-left bg-gray-200 rounded-lg shadow">
+                
+                                <div class="flex-1 flex flex-col pt-2">
+                    
+                                <!-- <img class="w-20 h-20 border-2 border-red-400 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt=""> -->
+
+                                <!-- TailwindUI Avatar -->
+                                <div class="flex items-center justify-center w-20 h-20 border-2 border-red-400 flex-shrink-0 mx-auto text-center rounded-full bg-cool-gray-400 text-4xl font-medium leading-none uppercase text-white">
+                                {{ $student->initials }}
+                                </div>
+                               
+                                <h3 class="my-2 text-gray-900 text-center text-sm leading-5 font-medium">{{$student->fullName}}</h3>
+                   
+                                </div>
+                            </li>
+
+                        @endforeach
+
+                    </ul>
+            </div>
+        </div>
+      
       <!-- End Assignments -->
+
+      </div>
       <!-- End Wrapper -->
       </div>
 

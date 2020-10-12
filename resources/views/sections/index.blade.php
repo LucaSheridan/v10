@@ -7,7 +7,7 @@
 
     <!-- Class Nav -->
         
-        <div class="flex max-w-5xl mx-auto mt-4 px-3 text-sm no-underline items-center items-stretch">
+        <div class="flex max-w-5xl mx-auto mt-4 px-2 text-sm no-underline items-center items-stretch">
 
     <!-- Class Pills -->
 

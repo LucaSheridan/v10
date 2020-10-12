@@ -160,7 +160,7 @@
 
                     @if (is_null($artifact->annotation))
                     @else 
-                    <li class="my-2">
+                    <li class="my-2 pr-2">
                     <span class="text-gray-800 font-semibold">Annotation:</span> {{$artifact->annotation}}
                     </li>
                     @endif
@@ -303,7 +303,7 @@
             <div class="py-1 flex flex-row flex-grow capitalize font-semibold text-gray-400">COLLECTIONS</div>
         
             <!-- Section Menu Trigger -->
-            <div class="pt-2.5 flex ">
+            <div class="pt-1.5 flex ">
             <x-feathericon-menu @click="open = true" class="w-5 h-5 hover:text-red-500 text-gray-500"/>
             </div>
         

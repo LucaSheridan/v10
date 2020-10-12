@@ -230,40 +230,78 @@ class CollectionController extends Controller
      
   
 
-       public function editLabel(Request $request, Collection $collection, Artifact $artifact)
+    //    public function editLabel(Request $request, Collection $collection, Artifact $artifact)
+    // {
+        
+    //     $artifact = $artifact->collections()->where('collection_id', $collection->id)->first();
+
+        //dd($artifact);
+
+            public function editLabel(Request $request, Collection $collection, Artifact $artifact)
     {
         
-        //$artist = ($request->input('artist'));
-        $position = ($request->input('position'));
-        $artist = ($request->input('artist'));
-        $title = ($request->input('title'));
-        $medium = ($request->input('medium'));
-        $year = ($request->input('year'));
-        $dimensions_height = ($request->input('dimensions_height'));
-        $dimensions_width = ($request->input('dimensions_width'));
-        $dimensions_depth = ($request->input('dimensions_depth'));
-        $dimensions_units = ($request->input('dimensions_units'));  
-        $label_text = ($request->input('label_text'));
+        $position = $request->input('position');
+        $artist = $request->input('artist');
+        $title = $request->input('title');
+        $medium = $request->input('medium');
+        $year = $request->input('year');
+        $dimensions_height = $request->input('dimensions_height');
+        $dimensions_width = $request->input('dimensions_width');
+        $dimensions_depth = $request->input('dimensions_depth');
+        $dimensions_units = $request->input('dimensions_units');  
+        $label_text = $request->input('label_text');
 
         //dd($label_text);
 
-        return view('collection.editLabel')->with(compact('collection','artifact','position','artist','title','medium','year','dimensions_height','dimensions_width','dimensions_depth','dimensions_units','label_text'));
+        return view('collections.editLabel')->with(compact('position','collection','artifact','position','artist','title','medium','year','dimensions_height','dimensions_width','dimensions_depth','dimensions_units','label_text'));
 
     }
+
+
+// $position = $artifact->pivot->position;
+//         $artist = $artifact->pivot->artist;
+//         $title = $artifact->pivot->title;
+//         $medium = $artifact->pivot->medium;
+//         $year = $artifact->pivot->year;
+//         $dimensions_height = $artifact->pivot->dimensions_height;
+//         $dimensions_width = $artifact->pivot->dimensions_width;
+//         $dimensions_depth = $artifact->pivot->dimensions_depth;
+//         $dimensions_units = $artifact->pivot->dimensions_units;
+//         $label_text = $artifact->pivot->annotation;
+
+//         return view('collections.editLabel')->with(compact('collection','artifact','position','artist','title','medium','year','dimensions_height','dimensions_width','dimensions_depth','dimensions_units','label_text'));
+
+//     }
 
       public function updateLabel(Request $request, Collection $collection, Artifact $artifact)
     {
 
-        $artist = ($request->input('artist'));
-        $position = ($request->input('position'));
-        $title = ($request->input('title'));
-        $medium = ($request->input('medium'));
-        $year = ($request->input('year'));
-        $dimensions_height = ($request->input('dimensions_height'));
-        $dimensions_width = ($request->input('dimensions_width'));
-        $dimensions_depth = ($request->input('dimensions_depth'));
-        $dimensions_units = ($request->input('dimensions_units'));
-        $label_text = ($request->input('label_text'));
+        $artist = $request->input('artist');
+        //dd($request->input('artist'));
+        $position = $request->input('position');
+        //dd($request->input('position'));
+        $title = $request->input('title');
+        //dd($request->input('title'));
+        $medium = $request->input('medium');
+        //dd($request->input('medium'));
+
+        $year = $request->input('year');
+        //dd($request->input('year'));
+
+        $dimensions_height = $request->input('dimensions_height');
+        //dd($request->input('dimensions_height'));
+
+        $dimensions_width = $request->input('dimensions_width');
+        //dd($request->input('dimensions_width'));
+
+        $dimensions_depth = $request->input('dimensions_depth');
+        //dd($request->input('dimensions_depth'));
+
+        $dimensions_units = $request->input('dimensions_units');
+        //dd($request->input('dimensions_units'));
+
+        $label_text = $request->input('label_text');
+        //dd($request->input('label_text'));
         
         $artifact->collections()->updateExistingPivot($collection, 
 
@@ -280,12 +318,12 @@ class CollectionController extends Controller
          'label_text' => $label_text
 
           ]); 
-        
-        // $collection->save();
 
-        flash('Label Updated', 'success');
+          //$collection->save();
 
-        return redirect()->action('CollectionController@show', $collection);
+        //flash('Label Updated', 'success');
+
+        return redirect()->route('show-collection', $collection);
 
     }
 
