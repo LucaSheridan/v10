@@ -9,6 +9,7 @@
 
                       <!-- Class Pills -->
                       <div class="flex-grow text-gray-400 aliased space-x-0">
+                        
                                
                              @if (Auth::User()->activeSections()->count() > 0)
 
