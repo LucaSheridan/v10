@@ -23,7 +23,7 @@
                                 @endforeach
 
                               @else
-                              <p>You are currently have no classes.</p>
+                              <p>You currently have no classes.</p>
                               @endif
 
                       </div>
