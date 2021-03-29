@@ -7,7 +7,7 @@
     </x-slot>
 
     
-    @include('partials.sectionNav')
+    @include('partials.SectionNav')
 
             <!-- Begin Content -->
 
