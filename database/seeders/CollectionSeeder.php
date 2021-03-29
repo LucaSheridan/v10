@@ -16,7 +16,16 @@ class CollectionSeeder extends Seeder
     public function run()
     {
          DB::table('collections')->insert([
-             'title' => 'Surrealist Collage']);
+             'title' => 'Surrealist Collage',
+             'subtitle' => 'A Collection of Student Examples',
+             'type' => 'slideshow',
+             'showArtist' => 1,
+             'showTitle' => 1,
+             'showSubtitle' => 1,
+             'showMedium' => 1,
+             'showYear' => 1,
+             'showDimensions' => 1,
+             'showLabel' => 1]);
 
          DB::table('collection_user')->insert([
              'collection_id' => 1,

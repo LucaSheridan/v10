@@ -16,8 +16,16 @@ class CreateCollectionsTable extends Migration
          Schema::create('collections', function (Blueprint $table) {
             $table->BigIncrements('id');
             $table->string('title');
+            $table->string('subtitle')->nullable();
+            $table->string('type')->nullable();
             $table->text('description')->nullable();
-
+            $table->boolean('showArtist');
+            $table->boolean('showTitle');
+            $table->boolean('showSubtitle');
+            $table->boolean('showMedium');
+            $table->boolean('showYear');
+            $table->boolean('showDimensions');
+            $table->boolean('showLabel');
             $table->timestamps();
 
         });

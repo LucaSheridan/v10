@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <x-jet-authentication-card>
+    <x-jet-authentication-card >
        
         <x-slot name="logo">
             <!-- <x-jet-authentication-card-logo /> -->
@@ -22,6 +22,11 @@
                 {{ session('status') }}
             </div>
         @endif
+
+        <div class="text-center mb-4 bg-clip-text text-5xl font-thin text-transparent bg-gradient-to-r from-teal-400 to-blue-500 uppercase leading-none">ARTIFACTS</div>
+<!--         <div class="text-sm text-center text-indigo-500">Tools for Art Education </div>
+ -->        
+
 
         <form method="POST" action="{{ route('login') }}">
             @csrf

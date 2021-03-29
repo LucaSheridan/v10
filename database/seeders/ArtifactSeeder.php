@@ -35,6 +35,7 @@ class ArtifactSeeder extends Seeder
              'is_public' =>	'1',
              'artist' => NULL,
              'user_id' => 1,
+             'created_at' => 2020-03-28 21:17:00,
          	  ]);
 
 

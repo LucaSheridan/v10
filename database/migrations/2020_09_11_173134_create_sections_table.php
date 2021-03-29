@@ -19,10 +19,11 @@ class CreateSectionsTable extends Migration
             $table->string('title');
             $table->unsignedBigInteger('course_id')->nullable();
             $table->unsignedBigInteger('site_id')->nullable();
+            $table->tinyInteger('max_students')->nullable();
             $table->boolean('is_active');
             $table->boolean('is_open');
             $table->string('registrationCode');
-            $table->string('year');
+            $table->string('year'); 
             $table->timestamps();
             });
 

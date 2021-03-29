@@ -44,7 +44,7 @@ class CommentController extends Controller
 		$comment->user_id = $request->input('user_id');
 		$comment->save();
 
-		session()->flash('message', 'Your comment was created successfully!');
+		session()->flash('success', 'Your comment was created successfully!');
 
         return redirect()->route('show-artifact', $comment->artifact_id);
 
@@ -60,7 +60,7 @@ class CommentController extends Controller
 
         //dd($comment);
 
-        return view('comment.edit')->with(['artifact' => $artifact, 'comment' => $comment]);
+        return view('comments.edit')->with(['artifact' => $artifact, 'comment' => $comment]);
 
     }
 
@@ -85,9 +85,9 @@ class CommentController extends Controller
         $comment->user_id = $request->input('user_id');
         $comment->save();
 
-        flash('Your comment was edited successfully!', 'success');
+        session()->flash('success', 'Your comment was edited successfully!' );
 
-        return redirect()->action('ArtifactController@show', $comment->artifact_id);
+        return redirect()->route('show-artifact', $comment->artifact_id);
 
     }
 

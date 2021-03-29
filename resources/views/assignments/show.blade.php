@@ -1,319 +1,454 @@
 <x-app-layout>
+    
     <x-slot name="header">
         <h2 class="text-2xl text-gray-100 leading-tight">
-            Assignment
+            Show Assignment
         </h2>
     </x-slot>
-      
- <!-- Class Nav -->
-        
-        <div class="flex max-w-5xl mx-auto mt-4 px-3 text-sm no-underline items-center items-stretch">
 
-    <!-- Class Pills -->
+<!-- Section Menu -->
 
-            <div class="flex-grow py-3 bg-white px-1 text-gray-500 aliased rounded-l-lg space-x-1">
+@include('partials.sectionNav') 
+
+<!-- Begin Page Content -->
+
+             <div class="max-w-5xl mx-auto grid grid-cols-1 gap-y-4 sm:grid-cols-3 sm:gap-3 bg-cool-gray-400 text-sm text-gray-500" x-data="{ tab: 'assignments' }" >
+                            
+<!-- Assignments-->
+
+                <div class="bg-gray-100 rounded-lg ">
+
+                <div class="flex items-center justify-between py-1 pl-3 pr-2 bg-white rounded-t-lg">
+                  
+                ASSIGNMENTS
+                
+                    @hasrole('teacher')
+
+                      <x-jet-dropdown align="right" width="48">
+                            
+                            <x-slot name="trigger">
+                            <button class="flex transition duration-150 ease-in-out" tabIndex="-2">
+                             <x-feathericon-menu class="w-5 h-5 hover:text-red-500 text-gray-400"/>
+                            </button>
+                            </x-slot>
+                            
+                            <x-slot name="content">
+                                
+                                <x-jet-dropdown-link href="{{route('create-assignment', $currentSection)}}"> Create Assignment
+                                </x-jet-dropdown-link> 
+                            
+                             </x-slot>
+                            
+                      </x-jet-dropdown>
+
+                    @endhasrole
+
+                  </div>
+                
+                <div class="py-3 px-1 shadow-inner space-y-0 text-xs">
                  
-                 @if (Auth::User()->activeSections()->count() > 0)
+                  @if ($sectionAssignments->count() > 0)
 
-                    @foreach ( Auth::User()->activeSections as $section)  
+                    @foreach ($sectionAssignments as $assignment)
 
-                         <a class="p-2 my-1 ml-1 rounded-lg bg-gray-200 hover:bg-gray-300 hover:text-gray-700 text-md {{active_check('sections/'.$section->id.'/*')}}"
-                         href="{{route('show-section', $section->id)}}">
-                         {{ $section->title}}</a>
+                      @if ($loop->first)
+                      <div x-data="{ open: true }" class="w-full py-0 px-1 transition">
+                      @else
+                       <div x-data="{ open: false }" class="w-full pt-0 px-1 transition">
+                       @endif
+                     
+                            <!-- Dropdown and Editing Components -->
+                         
+                         <span class="" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
 
-                    @endforeach
+                          <span class="" @click="open = ! open">
+                          <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span> 
 
+                              <a href="{{route('show-assignment', ['assignment' => $assignment->id , 'section' => $currentSection->id])}}" class="text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>
+
+                         
+
+                               <!--  <span class="float-right">
+                      
+                                      <x-jet-dropdown align="right" width="48">
+                                            
+                                            <x-slot name="trigger">
+                                            <button class="flex transition duration-150 ease-in-out">
+                                            <x-feathericon-more-horizontal class="h-5 w-5 text-gray-300" />
+                                            </button>
+                                            </x-slot>
+                                            
+                                            <x-slot name="content">
+                                                
+                                                @hasrole('teacher')
+                                            
+                                                  <x-jet-dropdown-link href="{{ route('edit-assignment', ['section' => $currentSection, 'assignment' => $assignment ])}}">
+                                                Edit Assignment
+                                                </x-jet-dropdown-link> 
+
+                                                <x-jet-dropdown-link href="{{ route('create-component', ['section' => $currentSection, 'assignment' => $assignment ])}}">
+                                                Add Component
+                                                </x-jet-dropdown-link> 
+                                                @endhasrole
+
+                                            </x-slot>
+                                            
+                                      </x-jet-dropdown>
+
+                               </span>  -->
+
+
+ <div x-show="open" class="flex flex-col pl-6 pr-1.5 py-2 text-gray-500 space-y-0" @click="open = ! open">
+                                                                                          
+                                @foreach ( $assignment->components as $component )
+                
+                                        <div class="flex w-full flex-row leading-tight pt-0 pl-2 border-l-2 border-gray-200">
+
+                                    <div class="flex flex-grow">
+                                                        
+                                      <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$component->id.'/*')}}">{{ $component->title}}</a>                    
+                                    </div>
+
+
+                                <!-- <div class="flex w-full flex-row leading-tight pl-3 border-l-0 border-gray-200">
+
+                                              <div class="flex flex-grow">
+                                                <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline">{{ $component->title}}</a>
+                                              </div> -->
+
+
+                                             <!--  <div class="text-gray-500 -mr-1">
+                 
+   <a href="{{route('edit-component', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}">
+
+                                              {{ Carbon\Carbon::parse($component->date_due)->format('n/j') }}</a>
+                                              
+                                              </div> -->
+
+                                              <!-- <div class="pl-2 -mr-1">
+                                             
+                                                  <a href="{{route('edit-component', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ]) }}" class="p-0 m-0 hover:text-red-400 no-underline text-sm">
+                                                <x-feathericon-more-horizontal class="w-4 h-4 hover:text-red-500 text-gray-400"/>
+                                              </a>
+                                              </div> -->
+
+                                        </div>
+
+
+
+                              @endforeach
+
+                    </div>           
+
+                    </div>    
+
+                    <!-- Components -->
+                  
+                  @endforeach
+
+
+                    <!-- If no assignments -->
                     @else
-                    <p>You are currently have no classes.</p>
+   
+                        <div class="text-gray-600 bg-gray-100 p-2 no-underline text-sm rounded-lg">No assignments
+                        </div>
+
                     @endif
 
-            </div>
+                  </div>
 
-    <!-- End Class Pills -->
+                </div>
+                 
+<!-- Begin Assignment Content -->
+                  
+                  <div class="col-span-2 bg-white rounded-lg  p-2">
 
-    <!-- Class Options -->
-
-            <div class="flex bg-white rounded-r-lg items-center px-3">
-                <x-jet-dropdown align="right" width="48">
-                      <x-slot name="trigger">
+                   <div class="flex bg-gray-100 rounded-t-lg">
+                        
+                      <!-- Assignment Title -->
+                      <div class="flex flex-grow text-2xl px-2 text-gray-500">
+                      {{$activeAssignment->title}}
+                      </div>
                       
-                      <button class="flex transition duration-150 ease-in-out" tabIndex="-2">
-                      <x-feathericon-menu class="w-5 h-5 hover:text-red-500 text-gray-400"/>
-                      </button>
-                     
-                      </x-slot>
-                      <x-slot name="content">
-                          
-                          @hasrole('teacher')
-                          <x-jet-dropdown-link href="{{route('edit-section', $currentSection)}}">
-                          Edit Class
-                          </x-jet-dropdown-link>
-                          <x-jet-dropdown-link>
-                          <form action="{{route('destroy-section', $currentSection)}}" method="POST">
-                          {{ csrf_field() }}
-                          <input type="hidden" name="_method" value="DELETE">
+                      <!-- Assignment Menu -->
+                      @role('teacher')
+                      
+                      <div class="flex pt-2 pr-2">
+                       <x-jet-dropdown align="right" width="48">
+                                    
+                              <x-slot name="trigger">
+                              <x-feathericon-menu class="w-5 h-5 hover:text-red-500 text-gray-400"/>
+                              </x-slot>
+                                    
+                              <x-slot name="content">
+                                  
+                                   <x-jet-dropdown-link href="{{route('edit-assignment', ['section' => $currentSection, 'assignment' => $activeAssignment ]) }}">Edit Assignment
+                                   </x-jet-dropdown-link> 
 
-                          <button onclick="return confirm('Are you sure you want to delete this?')">Delete Class</button>
-                                            
-                          </form>
-                          </x-jet-dropdown-link>
-                           <x-jet-dropdown-link href="{{route('create-section')}}">
-                          Create Class
-                          </x-jet-dropdown-link>
-                          @else
-                          <x-jet-dropdown-link>
-                          Join a New Class
-                          </x-jet-dropdown-link>
-                          @endhasrole
+                                   <x-jet-dropdown-link>
+                                      <form id="delete_assignment" method="POST" action="{{ route('destroy-assignment', ['section' => $assignment->section_id, 'assignment' => $assignment->id ]) }}">
+                                      {{ csrf_field() }}
+                                      <input type="hidden" name="_method" value="DELETE">
+                                      <button type="submit" onclick="return confirm('Are you sure you want to delete this assignment?')">Delete Assignment</button>
+                                       </form>
+                                    </x-jet-dropdown-link> 
+                                    <hr class="mt-2 mb-1" />
+                                    <x-jet-dropdown-link href="{{ route('create-component', ['section' => $currentSection, 'assignment' => $assignment ])}}">
+                                       Add Component
+                                    </x-jet-dropdown-link> 
+                                    
+                                    </x-slot>
+                                    
+                              </x-jet-dropdown>
+                              </div>                      
+                            @endrole 
+                      </div>
+                      
+        <div class="bg-gray-100 px-2 pb-3 rounded-b-lg mb-2 text-sm pr-10">
+        {{$activeAssignment->description}}
 
-                      </x-slot>
-                </x-jet-dropdown>
-           </div>
         </div>
 
-        <!-- End Class Options -->
+<!-- Begin Assignment Components List  -->
 
-   {{-- Start Assignment Row --}}
-
-
-
-   <div class="flex p-0 flex-wrap px-4  mt-4 max-w-5xl mx-auto">
-         
-         {{-- Start Assignment Column One --}}
-
-            <div class="w-full md:w-2/5 border-gray-500 mb-4 sm:mb-0 sm:border-r-8 ">
-             
-          
-            {{--  Assignment Header  --}}
-
-            <div class="flex items-center mt-0 mb-1">
-           
-            {{-- Assignments Title --}}
-       
-            <div class="flex-grow mb-0 px-2 text-left text-2xl rounded-br-lg text-gray-200">
-            {{$activeAssignment->title}}</div>
-        
-            {{-- Assignment Menu --}}
-
-                   <div class="flex relative text-left">
-                    
-                    <x-jet-dropdown align="right" width="48">
-                          <x-slot name="trigger">
+         <div class="bg-gray-100 p-2 rounded-lg">
+  
+         <div class="bg-white rounded-lg p-2">
                           
-                          <button class="flex transition duration-150 ease-in-out" tabIndex="-2">
-                          <x-feathericon-menu class="w-5 h-5 hover:text-red-500 text-gray-100"/>
+<!--  Student Table Begins -->
+    @role('student')
+    <table class="w-full">
+          <tr class="text-gray-600">
+          <td class="text-center"></td>
+          <td class="">Component</td>
+          <td class="py-2">Due Date</td>
+          <td class="text-center">Options</td>
+          <td></td>
+          </tr>
+
+          @foreach ($checklist as $checklistItem)
+          <tr class="border-t-2">
+          <td> 
+
+            @php
+              
+              $duedate = Carbon\Carbon::parse($checklistItem->componentDateDue);
+              $submitted = Carbon\Carbon::parse($checklistItem->artifactCreatedAt)->subHours(5);                   
+              @endphp
+
+
+              @if (!$checklistItem->artifactCreatedAt)
+              @else
+              <a href="{{ route('show-artifact', $checklistItem->artifactID) }}">
+                <img class="flex flex-shrink-0 w-12 h-12 border-4 border-white rounded-lg" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklistItem->artifactPath}}" 
+
+                title="Due: {{$duedate->format('m/d g:i A')}} - Submitted: {{$submitted->format('m/d g:i A') }}">
+              </a>
+              @endif
+          </td>
+          <td class="">
+          <div class="flex">
+            <div class="flex">
+          
+                @if (!$checklistItem->artifactCreatedAt)
+
+                   <a href="{{action('App\Http\Controllers\ArtifactController@create', ['section' => $currentSection , 'assignment' => $checklistItem->assignmentID , 'komponent' => $checklistItem->componentID ])}}">
+                <x-feathericon-plus-circle class="w-5 h-5 text-gray-500 mr-2"/></a>
+              
+                @else
+
+                   <!-- ue: {{ $duedate }}<br/>
+                   pos: {{ $submitted }} -->
+        
+                    @if ($submitted <= $duedate)
+                        <!-- Display Green Check -->
+                        <x-feathericon-check-circle class="w-5 h-5 text-green-500 mr-2"/>
+
+                    @else 
+                        <!-- Display Yellow Check -->
+                        <x-feathericon-check-circle class="w-5 h-5 text-yellow-400 mr-2"/>
+                    @endif
+                @endif
+          
+            </div>
+            <div class="flex flex-grow">
+            {{ $checklistItem->componentTitle }}
+            </div>
+          </div>
+          </td>
+
+          <!-- Due Date -->
+          <td class="py-2">
+              @if (is_null($checklistItem->componentDateDue))
+                <div class="ml-3">
+                -
+                <div>
+              @else
+                <div class="hidden md:block">{{ Carbon\Carbon::parse($checklistItem->componentDateDue)->format('D, M jS @ g:ia')}}</div>
+                <div class="md:hidden">{{ Carbon\Carbon::parse($checklistItem->componentDateDue)->format(' n/j/y @ g:ia')}}</div>
+              @endif
+          </td>
+          
+          <!-- Options-->
+          <td class="text-center">
+
+          <div class="flex justify-center items-center">
+       
+                 <x-jet-dropdown align="right" width="48">
+                        
+                         <x-slot name="trigger">
+                         <x-feathericon-more-horizontal class="w-5 h-5 hover:text-red-500 text-gray-400"/>
+                          <button class="flex transition duration-150 ease-in-out">
                           </button>
                          
                           </x-slot>
                           <x-slot name="content">
                               
-                              <x-jet-dropdown-link 
-                              href="{{action('App\Http\Controllers\AssignmentController@edit', ['section' => $currentSection , 'assignment' => $activeAssignment])}}">
-                              Edit Assignment
-                              </x-jet-dropdown-link>
+                               <x-jet-dropdown-link href="{{action('App\Http\Controllers\ArtifactController@create', ['section' => $currentSection , 'assignment' => $checklistItem->assignmentID , 'komponent' => $checklistItem->componentID ])}}" class="text-left">
+                                  Add Artifact
+                                 </x-jet-dropdown-link>
 
-                              <x-jet-dropdown-link>
-                              <form id="delete_assignment" method="POST" action="{{ route('destroy-assignment', ['section' => $section, 'assignment' => $activeAssignment ]) }}">
-                              {{ csrf_field() }}
-                              <input type="hidden" name="_method" value="DELETE">
-                              <button type="submit" onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
-                              </form>
-                              </x-jet-dropdown-link>
+                                 @if ($checklistItem->componentClassViewable == 1 ) 
 
+                                 <x-jet-dropdown-link href="{{route('show-component-gallery', 
+
+                                 ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $checklistItem->componentID ])}}" class="text-left">
+                                 View classmates work
+                                 </x-jet-dropdown-link>
+
+                                 @endif
+
+                                 @if ($checklistItem->artifactID)                   
+
+                                 <x-jet-dropdown-link href="{{route('unsubmit-artifact', $checklistItem->artifactID)}}" class="text-left" onclick="return confirm('Are you sure you want to unsubmit this artifact?')">
+                                    Unsubmit
+                                 
+                                 </x-jet-dropdown-link> 
+
+                                 <x-jet-dropdown-link  class="text-left">
+                                 <form id="delete_artifact" method="POST" action="{{ route('destroy-artifact', $checklistItem->artifactID) }}">
+                                 {{ csrf_field() }}
+                                 <input type="hidden" name="_method" value="DELETE">
+                                 <button type="submit" onclick="return confirm('Are you sure you want to delete this artifact?')">
+                                 Delete
+                                 </button>
+                                 </form>
+                                 </x-jet-dropdown-link> 
+                                 
+                                @else
+                                @endif
+  
                           </x-slot>
                     </x-jet-dropdown>
-
-
-
-
-               
-            </div>
-
-        </div>
-
-           <div class="bg-gray-100 p-1 rounded-l-lg rounded-br-lg mb-2 sm:mb-2">
-
+        
+          </div>
             
 
-        <div class="p-2 text-sm leading-tight text-gray-600">
-        <div class="font-semibold mb-1 text-gray-500"></div>{{ $activeAssignment->description}}</div>
-
-        {{-- End Assignment Content for Mobile --}}
-
-        </div>
-
-        {{-- End Assignment Wrapper --}}
-
-        </div>
-
-        {{-- close column 1 yellow --}}   
 
 
-{{-- START Column 2 --------------------------------------------------------------------------------------------}}
 
- <div class="w-full md:w-3/5 border-red-500 mb-4">
-             
-           {{--  Assignment Header  --}}
 
-            <div class="flex items-center mt-0 mb-1">
-           
-            {{-- Assignments Title --}}
-       
-            <div class="flex-grow mb-0 px-2 text-left text-2xl rounded-br-lg text-gray-200">
-                COMPONENTS                    
-            </div>
+          </td>
+          <td>
+            @if ($checklistItem->componentClassViewable == true)
+            <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $checklistItem->componentID ])}}" class="text-left">
+            <x-feathericon-eye class="inline-block w-5 h-5 hover:text-red-500 text-green-400"/>
+            </a>
+            @else
+            @endif          
+          </td>
+          
+          </tr>
+          @endforeach
+
+          </table>
+          @endrole
+
+       <!-- Student Table ends -->
+        <!--  Teacher Table Begins -->
+        @role('teacher')
+        <table class="w-full">
+          
+          <!-- Teacher Table Column Headers -->
+          <tr class="text-gray-600">
+          <td class="">Component</td>
+          <td class="py-2">Due</td>
+          <td class="text-center">Options</td>
+          <td class="text-center"></td>
+          </tr>
         
-            {{-- Assignment Menu --}}
+                                                  
+                @foreach ( $activeAssignment->components as $komponent )
 
-                   <div class="flex relative text-left">
-                                        
-                    <x-jet-dropdown align="right" width="48">
-                          <x-slot name="trigger">
-                          
-                          <button class="flex transition duration-150 ease-in-out" tabIndex="-2">
-                          <x-feathericon-menu class="w-5 h-5 hover:text-red-500 text-gray-100"/>
-                          </button>
-                         
-                          </x-slot>
-                          <x-slot name="content">
-                              
-                              <x-jet-dropdown-link 
-                              href="{{action('App\Http\Controllers\ComponentController@create', ['section' => $currentSection , 'assignment' => $activeAssignment])}}">Create Component
-                              </x-jet-dropdown-link>
-
-                              
-
-                          </x-slot>
-                    </x-jet-dropdown>
-                                           
-                
-            </div>
-
-        </div>
-           {{-- Start Component Content --}}
-
-           <!-- Check if Assignments exist -->
-
-            <div class="bg-gray-100 p-1 rounded-l-lg rounded-br-lg mb-2 sm:mb-2">
-
-                 @if ($sectionAssignments->count() > 0)
-
-                        <!-- If they do, loop through the assignments -->    
-                
-                        @if ($activeAssignment->components->count() < 2)
-
-                                <div class="block body text-gray-600 text-sm mt-0 mb-0">
-                                                                                          
-                                    @foreach ( $activeAssignment->components as $component )
-
-                                    {{-- Components --}}
-
-                                    <div class="p-1">
-                            
-                                        {{-- <a href="{{action('ComponentController@gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="p-0 m-0 hover:text-red-400 hover:rounded no-underline text-sm"> --}}
-                                        {{ $component->title}} <!-- </a> -->
-
-                                        
-                                        {{-- <a href="{{action('ComponentController@edit', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ]) }}" class="p-0 m-0 hover:text-red-400 no-underline text-sm"> --}}
-                                        
-                                        <span class="float-right">
-                                        @if (is_null($component->date_due))
-                                        N/A
-                                        @else
-                                        {{ Carbon\Carbon::parse($component->date_due)->format('m/j/y') }}
-                                        </a>
-                                        @endif
-                                        </span>
-                                    
-                                    </div>
-                    
-                                @endforeach
-
-                                </div>                                    
-
+                    <tr class="border-t">
+                         <td class="py-2">
+                            <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>    
+                         </td>
+                         <td class="">
+                        
+                        @if (is_null($komponent->date_due))
+                        <div class="ml-3">
+                        -
+                        <div>
                         @else
-
-                            {{-- Multi Component --}}
-
-                                    <div class="text-gray-600 text-sm">
-                                                                                          
-                                        @foreach ( $activeAssignment->components as $component )
-
-                                        {{-- Components --}}
-
-                                            <div class="flex items-center leading-tight">
-                            
-                                            <div class="flex flex-grow pl-2">
-                                                {{-- <a href="{{action('ComponentController@gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="hover:text-red-400 hover:rounded no-underline text-sm"> --}}
-                                                {{ $component->title}}<!-- </a> -->
-                                            </div>
-
-                                            <div class="flex mr-2">
-                                                {{-- <a href="{{action('ComponentController@edit', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ]) }}" class="hover:text-red-400 no-underline text-sm">  --}}    
-                                                    @if (is_null($component->date_due))
-                                                    N/A
-                                                    @else
-                                                    Due {{ Carbon\Carbon::parse($component->date_due)->format('m/j') }}
-                                                     @endif
-                                              <!--   </a> -->
-                                            </div>
-                                            
-                                            <div class="flex mr-1 relative">
-    
-                    <x-feathericon-menu class="w-5 h-5 hover:text-red-500 text-gray-100"/>
-
-                    <div class="z-10 absolute top-0 right-0 shadow-2xl bg-gray-700 text-gray-400 rounded py-1 list-none text-left leading-normal whitespace-no-wrap">
-
-                        {{-- <a href="{{action('ComponentController@edit', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ]) }}" class="hover:text-gray-200 no-underline text-sm"> --}}
-                                         
-                       <!--  <div class="flex items-center">
-                        <div class="pr-2 text-gray-500">
-                        @icon('edit', ['class' => 'w-5 h-5 hover:text-gray-200'])</div>
-                         <div>Edit</div>
-                        </div>
-                        </a> --}}
--->
-
-                       <!--  <li class="hover:text-gray-300 px-3">
-                        {{-- <a class="" href="{{action('ComponentController@delete', ['section' => $currentSection , 'assignment' => $activeAssignment, 'component' => $component])}}"> 
-                        <div class="flex items-center">
-                        <div class="pr-2 text-gray-500">
-                        @icon('x-circle', ['class' => 'w-5 h-5 hover:text-gray-200'])</div>
-                         <div>Delete</div>
-                        </div>
-                        </a> --}}
-                        </li> -->
-               
-                    </div>
-                    
-                    </div>
-
-
-
-                                            </div>
-                    
-                                    @endforeach
-
-                            </div>                                            
-
+                          <div class="hidden md:block">{{ Carbon\Carbon::parse($komponent->date_due)->format('D, M jS @ g:ia')}}</div>
+                          <div class="md:hidden">{{ Carbon\Carbon::parse($komponent->date_due)->format(' n/j/y @ g:ia')}}</div>
                         @endif
-        
-                    </div>                                            
-                     </accordion>
 
-                            @else
-           
-                                <div class="text-gray-600 bg-gray-100 p-2 no-underline text-sm">No assignments
-                                </div>            
-                            
-                            @endif
-            </div>
-            </div>
-            </div>
+                        </td>
+                        
+                        <!-- Teacher Options Column -->
+                        <td class="">
+                             
+                             <div class="flex items-center justify-center">
+                              <x-jet-dropdown align="right" width="48">
+                               <x-slot name="trigger">
+                                   <x-feathericon-more-horizontal class="w-5 h-5 hover:text-red-500 text-gray-400 "/>
+                               </x-slot>
+                               <x-slot name="content">
+                                  <x-jet-dropdown-link href="{{{route('edit-component', [ 
+                                  'section' => $currentSection , 
+                                  'assignment' => $activeAssignment,
+                                  'component' => $komponent]) }}}" class="p-0 m-0 hover:text-red-400 no-underline text-sm">
+                                  Edit Component
+                                  </x-jet-dropdown-link> 
+                               
+                                  <x-jet-dropdown-link>
+                                   <form id="delete_component" method="POST" action="{{ route('destroy-component', [
+                                   'section' => $currentSection, 
+                                   'assignment' => $activeAssignment,
+                                   'component' => $komponent]) }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this component?')">Delete Component</button>
+                                    </form>
+                                   </x-jet-dropdown-link>
 
-    </body>
+                                </x-slot>
+                              </x-jet-dropdown>  
 
-    
+                            </div>
+                         </td>
 
+                         <td class="w-6 text-center">
+                          @if ($komponent->class_viewable == true)
+                          <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">
+                          <x-feathericon-eye class="inline-block w-5 h-5 text-green-300"/>
+                          </a>
+                          
+                          @endif          
+                        </td>
+                          
+                      @endforeach
+            </tr>
+          </table>
+          @endrole
+  
+   <!-- end assignment --></div>
+   <!-- end deal --></div>
+
+
+                  
+     
 </x-app-layout>
 

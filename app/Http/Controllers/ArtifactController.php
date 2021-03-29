@@ -33,7 +33,11 @@ class ArtifactController extends Controller
    
         {
 
-        $artifacts = Artifact::where('user_id', Auth::User()->id)->orderBy('created_at', 'DESC')->get();
+        $artifacts = Artifact::where('user_id', Auth::User()->id)->orderBy('created_at', 'DESC')->paginate(12);
+
+        //session()->flash('success', 'Successful Login.');
+        // session()->flash('warning', 'Please confirm your email address.');
+        // session()->flash('danger', 'Passwords do not match.');
 
     	return view('artifacts')->with('artifacts', $artifacts);
 
@@ -51,18 +55,29 @@ class ArtifactController extends Controller
         return view('artifacts.show')->with('artifact', $artifact);
     }
 
+       /**
+     * Show Artifact Detail Page
+     *
+     * @param  \App\Artifact  $artifact
+     * @return \Illuminate\Http\Response
+     */
+    public function zoom(Request $request, Artifact $artifact)
+    {
+        return view('artifacts.zoom')->with('artifact', $artifact);
+    }
+
      /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     
-    public function create(Request $request, Section $section, Assignment $assignment, Component $component)
+    public function create(Request $request, Section $section, Assignment $assignment, Component $komponent)
    
         {
 
     return view('artifacts.create')
-    ->with(['section' => $section, 'assignment' => $assignment, 'komponent' => $component]);
+    ->with(['section' => $section, 'assignment' => $assignment, 'komponent' => $komponent]);
 
         }
 
@@ -80,6 +95,7 @@ class ArtifactController extends Controller
         $this->validate($request, [
         
             'file' => 'required|image',
+            //mimes:jpeg,png,jpg,pdf|max:10000',
             'user_id' => 'required',
             //'assignment_id' => 'required',
             //'component_id' => 'required',
@@ -96,14 +112,11 @@ class ArtifactController extends Controller
 
             // get real path to file in temp directory
             $realPath = $request->file('file')->getRealPath();
-      
+            
             // set image and thumbnail filenames
             $fileName = time();
             $imageFileName = $fileName.'.'. $image->getClientOriginalExtension();
             $thumbFileName = $fileName.'.thumb.'. $image->getClientOriginalExtension();
-
-            // create a new Image/Intervention instance from file system
-            $image = Image::make($realPath)->orientate();
 
             // set storage
             $s3 = \Storage::disk('s3');
@@ -111,7 +124,13 @@ class ArtifactController extends Controller
             // set paths
             $imagePath = 'uploads/' . $imageFileName;
             $thumbPath = 'uploads/' . $thumbFileName;
+       
+        // PHOTO UPLOAD PROCESS
             
+            // create a new Image/Intervention instance from file system
+            $image = Image::make($realPath)->orientate();
+
+         
             // apply image transformations
 
                 //check for portrait or landscape orientation
@@ -127,10 +146,15 @@ class ArtifactController extends Controller
 
                 { 
                     // Initial resize to 1000 pixels
-                    $image->resize(null, 1600, function ($constraint) { 
+                    $image->resize(null, 1000, function ($constraint) { 
                     $constraint->aspectRatio();
                     $constraint->upsize();
                     })->interlace()->encode('jpg', 85);
+
+                    // Capture Resized Pixel Dimensions
+                    $resized_width = $image->width();
+                    $resized_height = $image->height();
+                    
                     // Save image to Amazon S3
                     $s3->put($imagePath, $image->__toString(), 'public');
 
@@ -148,10 +172,15 @@ class ArtifactController extends Controller
                 
                 {    
                     // Initial resize to 1000 pixels
-                    $image->resize(1600, null, function ($constraint) { 
+                    $image->resize(1800, null, function ($constraint) { 
                     $constraint->aspectRatio();
                     $constraint->upsize();
                     })->interlace()->encode('jpg', 85);
+
+                    // Capture Resized Pixel Dimensions
+                    $resized_width = $image->width();
+                    $resized_height = $image->height();
+
                     // Save image to Amazon S3
                     $s3->put($imagePath, $image->__toString(), 'public');
 
@@ -165,20 +194,24 @@ class ArtifactController extends Controller
                     $s3->put($thumbPath, $image->__toString(), 'public');
                 }
 
-            // Good for smaller files... $s3->put($path, file_get_contents($image), 'public');
-            // Better for big files...  $s3->put($path, fopen($image, 'r+'), 'public');
+            // Good for smaller files... 
+            // $s3->put($path, file_get_contents($image), 'public');
+            // Better for big files...
+            // $s3->put($path, fopen($image, 'r+'), 'public');
 
             // set and persist information to database
             $artifact = New Artifact;
         
             $artifact->user_id = $user_id;
-            $artifact->section_id = $section_id;
-            
+            $artifact->section_id = $section_id;  
             $artifact->assignment_id = $assignment_id;
             $artifact->component_id = $component_id;
 
             $artifact->artifact_path = $imagePath;
             $artifact->artifact_thumb = $thumbPath;
+
+            $artifact->dimensions_width_pixels = $resized_width;
+            $artifact->dimensions_height_pixels = $resized_height;
 
             $artifact->is_published = 0;
             $artifact->is_public = 1;
@@ -193,9 +226,10 @@ class ArtifactController extends Controller
 
             {
             
-            //flash('Your artifact was created successfully!', 'success');
+            session()->flash('success', 'Your artifact was created successfully!');
 
             return redirect()->route('artifacts');
+            // return redirect()->route('edit-artifact', $artifact);
 
             }
 
@@ -203,9 +237,7 @@ class ArtifactController extends Controller
 
             { 
 
-            //flash('An artifact has been successfully added to this assignment!', 'success');
-
-            //dd( $section_id );
+            session()->flash('success', 'Your artifact has been submitted to this assignment');
 
             return redirect()->route('show-assignment', [
                 'section' => $section_id , 
@@ -332,7 +364,7 @@ class ArtifactController extends Controller
             $artifact->is_published = 0;
             $artifact->is_public = 1;
             $artifact->from_URL = 1;
-            $artifact->artist = "Unattributed";
+            $artifact->artist = "";
 
             $artifact->save();
 
@@ -341,14 +373,14 @@ class ArtifactController extends Controller
             // return redirect()->action('ArtifactsController@show', $artifact->assignment_id);
 
             // return redirect()->action('AssignmentController@index');
-            if ($artifact->assignment_id == null )
+            if ($artifact->from_URL = 1 )
 
             {
 
+            session()->flash('success', 'Your artifact was created successfully! Record some information abnout it.');
 
-            //flash('Your artifact was created successfully!', 'success');
-
-            return redirect()->route('artifacts');
+            // return redirect()->route('artifacts');
+            return redirect()->route('edit-artifact', $artifact);
 
             }
 
@@ -356,10 +388,9 @@ class ArtifactController extends Controller
 
             { 
 
-            //flash('An artifact has been successfully submitted for this assignment!', 'success');
+            session()->flash('success', 'Your artifact has been submitted to this assignment');
 
-
-            return redirect()->action('AssignmentController@showStudent', [
+            return redirect()->route('show-assignment', [
                 'section' => $section_id , 
                 'assignment' => $assignment_id ]);
 
@@ -396,8 +427,9 @@ class ArtifactController extends Controller
         // 'dimensions_height' => 'required',
         // 'dimensions_width' => 'required',
         // 'dimensions_depth' => 'required',
-        // 'dimensions_units' => 'required',
+        //'dimensions_units' => 'required',
         'annotation' => 'max:500'
+
 
         ]);
 
@@ -406,17 +438,21 @@ class ArtifactController extends Controller
         $artifact->artist = $request->input('artist');
         $artifact->medium = $request->input('medium');
         $artifact->year = $request->input('year');
+        
         $artifact->dimensions_height = $request->input('dimensions_height');
         $artifact->dimensions_width = $request->input('dimensions_width');
         $artifact->dimensions_depth = $request->input('dimensions_depth');
         $artifact->dimensions_units = $request->input('dimensions_units');
+
         $artifact->annotation = $request->input('annotation');
 
         $artifact->save();
 
-        session()->flash('message', 'Image Successfully Uploaded!');
+        session()->flash('success', 'Artifact successfully updated!');
 
-        return redirect()->route('show-artifact', $artifact->id );
+        // return redirect()->route('artifacts');
+        return redirect()->route('show-artifact', $artifact);
+
     }
 
     /**
@@ -454,7 +490,7 @@ class ArtifactController extends Controller
 
     // Set confirmation message
 
-        //flash('Artifact deleted successfully!', 'success');
+        session()->flash('success', 'Artifact deleted!');
 
         return redirect()->route('artifacts');
 
@@ -520,9 +556,9 @@ class ArtifactController extends Controller
             File::delete($old_thumb_path);
             File::delete($old_artifact_path);
 
-            //flash('Image rotated ', 'success');
+            session()->flash('success', 'Artifact rotated');
 
-            return redirect()->route('show-artifact', $artifact->id);
+            return redirect()->back();
     }   
 
      /**
@@ -548,13 +584,12 @@ class ArtifactController extends Controller
         //create an array of the IDs of all the users collections.
         $couldBeCollectedIn = Auth::User()->collections->pluck('id');
 
-        //dd($couldBeCollectedIn);
-
         // remove all current collections from all Possible Collections.
         $diff = $couldBeCollectedIn->diff($isCollectedIn);
 
         //get all collections that the artifact could be added to.
         $addable = Collection::find($diff);
+        $addable = $addable->sortBy('title'); 
 
         $dropable = Collection::find($isCollectedIn);
 
@@ -576,6 +611,28 @@ class ArtifactController extends Controller
     {
         $artifact->collections()->detach($collection->id); 
 
+        session()->flash('success', 'Artifact removed from collection' );
+
+
         return redirect()->route('show-artifact', $artifact->id);
+    } 
+
+     /**
+     * remove artifact to the Collection
+     *
+     * @param  \App\Artifact  $artifact
+     * @return \Illuminate\Http\Response
+     */
+    public function unsubmit(Artifact $artifact)
+    
+    {
+        $artifact->section_id = NUll; 
+        $artifact->assignment_id = NUll;
+        $artifact->component_id = NUll; 
+        $artifact->save();
+
+        session()->flash('success', 'Artifact unsubmitted' );
+
+        return back();
     } 
 }

@@ -7,7 +7,7 @@
     <div class="bg-gray-300 border-2 border-gray-500 w-3/4 md:w-1/2 lg:w-1/3  p-2 pt-4 mb-4 sm:mb-4 rounded-lg">
     Select a file...
 
-    <form action="{{ action('ArtifactController@store') }}" role="form" method="POST" enctype="multipart/form-data" class="">
+    <form action="{{ route('save-artifact') }}" role="form" method="POST" enctype="multipart/form-data" class="">
 
             {!! csrf_field() !!}
       

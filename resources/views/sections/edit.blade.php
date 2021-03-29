@@ -36,6 +36,17 @@
 
                     </div>
 
+                {{-- Max Students Input--}}
+            
+                    <div class="mb-2">
+
+                        <label for="max_students" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Max Enrollment</label>
+
+                        <input id="max_students" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('max_students') ? 'border-red-500' : 'border' }}" name="max_students" value="{{$section->max_students}}">
+                        {!! $errors->first('max_students', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
+
+                    </div>
+
                 {{-- Begin Registration Code Input--}}
             
                     <div class="mb-2">

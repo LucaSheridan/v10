@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Assignment;
+use App\Models\Comment;
 use App\Models\Component;
 use App\Models\Artifact;
 use App\Models\Section;
@@ -27,7 +28,7 @@ class SectionController extends Controller
 
     {    
 
-        return view('sections.index');
+        return redirect()->route('show-section', Auth::User()->firstActiveSection->first());
 
     }
      
@@ -44,9 +45,17 @@ class SectionController extends Controller
 
         $activeSections = Auth::User()->activeSections()->get();
         
-        $sectionAssignments = Assignment::with('components')->where('section_id', $section->id)->orderBy('id','desc')->get(); 
+        $sectionAssignments = Assignment::with('components')->where('section_id', $section->id)->orderBy('created_at','desc')->get(); 
 
-        return view('sections.show', compact('currentSection','activeSections','sectionAssignments'));
+        $feedback = Comment::with('artifact')->whereHas('artifact', function ($q)
+            { $q->where('user_id', Auth::User()->id); })->where('user_id', '!=' , Auth::User()->id)->get();
+
+        // $feedback = Artifact::with('comments')->whereHas('comments', function ($q) use ($section)
+        // { $q->where('user_id', 1 );})->get();
+        
+        //dd($feedback);
+
+        return view('sections.show', compact('currentSection','activeSections','sectionAssignments','feedback'));
     }
 
     /**
@@ -86,6 +95,7 @@ class SectionController extends Controller
             $section->registrationCode = Str::random(8);
             $section->is_active = true;
             $section->is_open = true;
+            $section->max_students = $request->input('max_students');
             $section->year = date('Y');
             $section->site_id = $request->input('site');
             $section->save();
@@ -122,7 +132,8 @@ class SectionController extends Controller
         // create valiadator
         $this->validate($request, [
         'title' => 'required',
-        'registrationCode' => 'required'
+        'registrationCode' => 'required',
+        'max_students' => 'required'         
         // 'label' => 'required',
 
         ]);
@@ -130,6 +141,7 @@ class SectionController extends Controller
         // get form input data
         $section->title = $request->input('title');
         $section->registrationCode = $request->input('registrationCode');
+        $section->max_students = $request->input('max_students');
 
         // Active
         if ($request->input('active') == 'true') $section->is_active = TRUE;
@@ -191,7 +203,7 @@ class SectionController extends Controller
                                  ->where('is_active', true)
                                  ->pluck('id')->toArray();
 
-        $activeSection = $section; 
+        $currentSection = $section; 
 
         $checklist = Artifact::with('assignment')
 
@@ -206,20 +218,23 @@ class SectionController extends Controller
                 ->orderBy('assignment_id', 'desc')
                 ->orderBy('components.date_due', 'desc')
                 ->select(
-                 'artifacts.id AS artifact_id',
+                 'artifacts.id AS artifactID',
                  'components.assignment_id AS assignment_id',
-                 'components.id AS component_id', 
-                 'components.title AS component_title',
-                 'components.date_due AS component_due',
-                 'artifacts.artifact_thumb AS artifact_thumb',
-                 'artifacts.artifact_path AS artifact_path',
-                 'artifacts.annotation AS artifact_annotation',
+                 'components.id AS componentID', 
+                 'components.section_id AS sectionID', 
 
-                 'artifacts.created_at AS artifact_created')
+                 'components.title AS componentTitle',
+                 'components.date_due AS componentDateDue',
+                 'artifacts.artifact_thumb AS artifactThumb',
+                 'artifacts.artifact_path AS artifactPath',
+                 'artifacts.created_at AS artifactCreatedAt',
+                 'artifacts.annotation AS artifactAnnotation',)
                  ->get();
 
-          return view('partials.teacher.section.student.progress')
-               ->with(['activeSection' => $activeSection,
+                 // dd($checklist);
+
+          return view('sections.progress')
+               ->with(['currentSection' => $currentSection,
                       'section' => $section,
                       'assignments' => $assignments,
                       'checklist' => $checklist,
@@ -324,6 +339,7 @@ public function sectionProgress(Section $section)
         return view('partials.teacher.section.student.singleAssignment', 
                compact('user', 'section', 'assignment', 'assignmentChecklist'));
     }
+
 }
 
 

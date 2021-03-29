@@ -18,6 +18,7 @@ class CreateComponentsTable extends Migration
             $table->string('title');
             $table->integer('section_id')->nullable();
             $table->integer('assignment_id');
+            $table->boolean('class_viewable');
             $table->timestamp('date_due')->nullable();
             $table->timestamps();
         });

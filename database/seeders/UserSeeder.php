@@ -24,114 +24,114 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert([
             'id' => '2',
-            'firstName' => 'student ',
-            'lastName' => 'one',
-            'email' => 'student1@bsge.org',
+            'firstName' => 'Hannah ',
+            'lastName' => 'Abbott',
+            'email' => 'HAbbot@bsge.org',
             'password' => bcrypt('secret')]);
 
         DB::table('users')->insert([
             'id' => '3',
-            'firstName' => 'student',
-            'lastName' => 'two',
-            'email' => 'student2@bsge.org',
+            'firstName' => 'Millicent',
+            'lastName' => 'Bulstrode',
+            'email' => 'MBulstrode@bsge.org',
             'password' => bcrypt('secret')]);
 
         DB::table('users')->insert([
             'id' => '4',
-            'firstName' => 'student',
-            'lastName' => 'three',
-            'email' => 'student3@bsge.org',
+            'firstName' => 'Cho',
+            'lastName' => 'Chang',
+            'email' => 'CChang@bsge.org',
             'password' => bcrypt('secret')]);
 
         DB::table('users')->insert([
             'id' => '5',
-            'firstName' => 'student',
-            'lastName' => 'four',
-            'email' => 'student4@bsge.org',
+            'firstName' => 'Cedric',
+            'lastName' => 'Diggory',
+            'email' => 'CDiggory@bsge.org',
             'password' => bcrypt('secret')]);
 
         DB::table('users')->insert([
             'id' => '6',
-            'firstName' => 'student',
-            'lastName' => 'five',
-            'email' => 'student5@bsge.org',
+            'firstName' => 'Lily',
+            'lastName' => 'Evans',
+            'email' => 'Levans@bsge.org',
             'password' => bcrypt('secret')]);
 
         DB::table('users')->insert([
             'id' => '7',
-            'firstName' => 'student',
-            'lastName' => 'six',
-            'email' => 'student6@bsge.org',
+            'firstName' => 'Seamus',
+            'lastName' => 'Finnigan',
+            'email' => 'SFinnigan@bsge.org',
             'password' => bcrypt('secret')]);
 
          DB::table('users')->insert([
             'id' => '8',
-            'firstName' => 'student',
-            'lastName' => 'seven',
-            'email' => 'student7@bsge.org',
+            'firstName' => 'Hermoine',
+            'lastName' => 'Granger',
+            'email' => 'HGranger@bsge.org',
             'password' => bcrypt('secret')]);
 
           DB::table('users')->insert([
             'id' => '9',
-            'firstName' => 'student',
-            'lastName' => 'eight',
-            'email' => 'student8@bsge.org',
+            'firstName' => 'Helga',
+            'lastName' => 'Hufflepuff',
+            'email' => 'HHufflepuff@bsge.org',
             'password' => bcrypt('secret')]);
 
            DB::table('users')->insert([
             'id' => '10',
-            'firstName' => 'student',
-            'lastName' => 'nine',
-            'email' => 'student9@bsge.org',
+            'firstName' => 'Ron',
+            'lastName' => 'Weasley',
+            'email' => 'RWeasley@bsge.org',
             'password' => bcrypt('secret')]);
 
             DB::table('users')->insert([
             'id' => '11',
-            'firstName' => 'student',
-            'lastName' => 'ten',
-            'email' => 'student10@bsge.org',
+            'firstName' => 'Neville',
+            'lastName' => 'Longbottom',
+            'email' => 'NLongbottom@bsge.org',
             'password' => bcrypt('secret')]);
 
             DB::table('users')->insert([
             'id' => '12',
-            'firstName' => 'student',
-            'lastName' => 'eleven',
-            'email' => 'student11@bsge.org',
+            'firstName' => 'Draco',
+            'lastName' => 'Malfoy',
+            'email' => 'DMalfoy@bsge.org',
             'password' => bcrypt('secret')]);
 
              DB::table('users')->insert([
             'id' => '13',
-            'firstName' => 'student',
-            'lastName' => 'twelve',
-            'email' => 'student12@bsge.org',
+            'firstName' => 'Lavender',
+            'lastName' => 'Brown',
+            'email' => 'LBrown@bsge.org',
             'password' => bcrypt('secret')]);
 
              DB::table('users')->insert([
             'id' => '14',
-            'firstName' => 'student',
-            'lastName' => 'thirteen',
-            'email' => 'student13@bsge.org',
+            'firstName' => 'Pamda',
+            'lastName' => 'Patil',
+            'email' => 'PPatil@bsge.org',
             'password' => bcrypt('secret')]);
 
             DB::table('users')->insert([
             'id' => '15',
-            'firstName' => 'student',
-            'lastName' => 'fourteen',
-            'email' => 'student14@bsge.org',
+            'firstName' => 'Colin',
+            'lastName' => 'Creevy',
+            'email' => 'CCreevy@bsge.org',
             'password' => bcrypt('secret')]);
 
             DB::table('users')->insert([
             'id' => '16',
-            'firstName' => 'student',
-            'lastName' => 'fifteen',
-            'email' => 'student15@bsge.org',
+            'firstName' => 'Ginny',
+            'lastName' => 'Weasley',
+            'email' => 'GWeasley@bsge.org',
             'password' => bcrypt('secret')]);
 
             DB::table('users')->insert([
             'id' => '17',
-            'firstName' => 'student',
-            'lastName' => 'sixteen',
-            'email' => 'student16@bsge.org',
+            'firstName' => 'Luna',
+            'lastName' => 'Lovegood',
+            'email' => 'Lovegood@bsge.org',
             'password' => bcrypt('secret')]);
     }
 }

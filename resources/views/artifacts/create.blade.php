@@ -7,10 +7,10 @@
 
     <div class="flex flex-col items-center text-center p-4 pt-10 md:p-10">
 
-    <div class="bg-gray-300 border-2 border-gray-500 w-3/4 md:w-1/2 lg:w-1/3  p-2 pt-4 mb-4 sm:mb-4 rounded-lg">
+    <div class="bg-gray-200 border-2 border-gray-500 w-3/4 md:w-1/2 lg:w-1/3  p-2 pt-4 mb-4 sm:mb-4 rounded-lg">
     Select a file...
 
-    <form action="" role="form" method="POST" enctype="multipart/form-data" class="">
+    <form action="{{route('save-artifact')}}" role="form" method="POST" enctype="multipart/form-data" class="">
 
             {!! csrf_field() !!}
       
@@ -25,34 +25,37 @@
 
                 <label for="file" class="block mx-auto text-gray-600 mt-2 text-center p-2 rounded">
                
-     <!--        <span class="mx-auto bg-gray-300 hover:bg-gray-700 hover-text-white border-gray-500 p-0 rounded-full">
- 
- @icon('upload')
-
-</span> -->
-
-                        <div class="relative flex items-center justify-center text-gray-600">
-
+                    <div class="relative flex items-center justify-center text-gray-600">
                         <div class="p-2 bg-gray-100 hover:bg-gray-500 hover:text-gray-100 rounded-full">
                         <x-feathericon-camera/>
                         </div>
+                     </div>
 
-                        </div>
-
-               
                 </label>
                         
-                        <div class="mb-2 p-1 rounded" id="filename"></div>
+                <div class="mb-2 p-1 rounded" id="filename"></div>
 
-            @if ($errors->has('file'))
-            <div class="help-block mb-4 text-red-500">
-            {{ $errors->first('file') }}
+                @if ($errors->has('file'))
+                <div class="help-block mb-4 text-red-500">
+                {{ $errors->first('file') }}
+                </div>
+                @endif
+            
+                <div x-data="{ clicked: false }">
+            
+               <input class="inline-block btn-gray" type="submit" value="submit" @click="clicked = true">
+
+                <div  id="fileSubmitButton"><x-jet-button class="" @click="clicked = true">
+                {{ __('Upload') }}
+                </x-jet-button>
+                </div>
+
+                <!-- <div x-show.transition.duration.1000="clicked">
+                <x-feathericon-refresh-cw x-show.transition.duration.1000="clicked" class="animate-spin" />
+                </div> -->
             </div>
-            @endif
-            
-            <input class="btn-gray" type="submit" value="upload">
-            
-    </form>
+
+                </form>
 
         </div>
 
@@ -63,7 +66,7 @@
     
     <!-- <div class="bg-gray-300 flex-1 items-center sm:self-stretch border-2 rounded-lg pt-4 border-gray-500 sm:border-gray-500 p-2 mt-4 sm:mt-4"> -->
 
-    <div class="bg-gray-300 border-2 border-gray-500 w-3/4 md:w-1/2 lg:w-1/3  p-2 pt-4  mt-4 rounded-lg">
+    <div class="bg-gray-200 border-2 border-gray-500 w-3/4 md:w-1/2 lg:w-1/3  p-2 pt-4  mt-4 rounded-lg">
 
     Create from URL
 
@@ -84,8 +87,18 @@
             </div>
             @endif
 
-            <input class="inline-block btn-gray" type="submit" value="submit">
+            <div x-data="{ clicked: false }">
+            
+               <input class="inline-block btn-gray" type="submit" value="submit" @click="clicked = true">
 
+                <x-jet-button class=""  @click="clicked = true">
+                {{ __('Upload') }}
+                </x-jet-button>
+
+                <div x-show.transition.duration.1000="clicked">
+                <x-feathericon-refresh-cw x-show.transition.duration.1000="clicked" class="animate-spin" />
+                </div>
+            </div>
             
             </form>
 
@@ -93,9 +106,6 @@
 
 
 </div>
-
-<!-- <file-preview></file-preview>
- -->
  
 </div>
 </div>         

@@ -46,11 +46,11 @@ class ComponentController extends Controller
     public function edit(Section $section, Assignment $assignment, Component $component)
     {
 
-        $component = Component::findOrfail($component->id);
+        $komponent = Component::findOrfail($component->id);
 
         //dd($component);
 
-        return view('partials.teacher.component.edit')->with(compact('section','assignment','component'));
+        return view('components.edit')->with(compact('section','assignment','komponent'));
     }
 
     /**
@@ -62,13 +62,12 @@ class ComponentController extends Controller
     public function store(Request $request, Section $section, Assignment $assignment)
     {
      	
-     	//dd($request->date_due);
+     	//dd($request);
 
         $this->validate($request, [
         
         'title' => 'required',
         'date_due' => 'nullable|date_format:"m/d/y"',
-
         ]);
         
         
@@ -85,6 +84,9 @@ class ComponentController extends Controller
        
        //set assignment id 
         $component->assignment_id = $assignment->id;
+
+        // set class viewable 
+        $component->class_viewable = FALSE;
         
         //set component date due
 
@@ -93,30 +95,26 @@ class ComponentController extends Controller
                 {
 
                 $component->date_due = NULL;
-                $component->save();
 
                 }
         
             else {
-
+              
                  $date_due = Carbon::createFromFormat('m/d/y', $request->input('date_due'));
+                 $date_due->hour = $request->input('hour');
+                 $date_due->minute = $request->input('min');
+                 $date_due->second = $request->input('sec');
+                 $date_due->setTimezone('UTC');
+                 $component->date_due = $date_due;                 
+                
+                 };
 
-                 //set component time due
-                 $date_due->hour = 23;
-                 $date_due->minute = 59;
-                 $date_due->second = 59;
-
-                 //persisit component
-                 $component->date_due = $date_due;
                  $component->save();
 
-                 //dd($component);
+                 session()->flash('success', "Component created!" );
 
-                 };
-            
-        flash('Component created successfully!', 'success');
 
- 		 return redirect()->action( 'AssignmentController@show', [ 'section' => $section, 'assignment' => $assignment]);
+ 		         return redirect()->route( 'show-assignment', [ 'section' => $section, 'assignment' => $assignment]);
     }
 
     /**
@@ -133,11 +131,19 @@ class ComponentController extends Controller
     
         'title' => 'required',
         'date_due' => 'nullable|date_format:"m/d/y"',
+        'class_viewable' => 'required',
         ]);
   
         //set and title information
         
             $component->title = $request->input('title');
+
+        //set class_viewable
+                //Radio button has been set to "true"
+                if ($request->input('class_viewable') == 'true') $component->class_viewable = TRUE;
+                //Radio button has been set to "false" or a value was not selected
+                else $component->class_viewable = FALSE;
+
 
         //set component date due
 
@@ -146,7 +152,6 @@ class ComponentController extends Controller
                 {
 
                 $component->date_due = NULL;
-                $component->save();
 
                 }
         
@@ -155,32 +160,23 @@ class ComponentController extends Controller
                 $date_due = Carbon::createFromFormat('m/d/y', $request->input('date_due'));
 
                  //set component time due
-                 $date_due->hour = 23;
-                 $date_due->minute = 59;
-                 $date_due->second = 59;
-
-                 //persisit component
+                 $date_due = Carbon::createFromFormat('m/d/y', $request->input('date_due'));
+                 $date_due->hour = $request->input('hour');
+                 $date_due->minute = $request->input('min');
+                 $date_due->second = $request->input('sec');
+                 $date_due->setTimezone('UTC');
+                         
                  $component->date_due = $date_due;
-                 $component->save();
 
                  };
 
-        flash('Component updated successfully!', 'success');
+                 //persist component 
+                 $component->save();
 
-        return redirect()->action( 'AssignmentController@show', [ 'section' => $section, 'assignment' => $assignment]);
-    }
+                 session()->flash('success', "Component updated successfully" );
+                 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Section  $section
-     * @return \Illuminate\Http\Response
-     */
-    public function delete(Request $request, Section $section, Assignment $assignment, Component $component)
-
-    {
-
-    return view( 'partials.teacher.component.delete', [ 'section' => $section, 'assignment' => $assignment, 'component' => $component]);
+        return redirect()->route( 'show-assignment', [ 'section' => $section, 'assignment' => $assignment]);
     }
 
     /**
@@ -200,48 +196,49 @@ class ComponentController extends Controller
 
             $component->delete();
 
-            flash('Component deleted successfully!', 'success');
+            session()->flash('success', "Component deleted!" );
 
-        return redirect()->action( 'AssignmentController@show', [ 'section' => $section, 'assignment' => $assignment]);
+            return redirect()->route( 'show-assignment', [ 'section' => $section, 'assignment' => $assignment]);
 
+            }
 
-        }
+            else {
 
-        else {
+            //dd($assignment->components);
 
-        echo 'Cant delete component';
+            session()->flash('warning', "Can't delete an assignment's only component");
 
-        }
+            return redirect()->route( 'show-assignment', [ 'section' => $section, 'assignment' => $assignment]);
+
+            }
 
     }
 
-         public function gallery(Section $section, Assignment $assignment, Component $component)
+     public function gallery(Section $section, Assignment $assignment, Component $component)
+    
     {
-        
-        $sections =  Auth::User()->sections()->get()->pluck('label','id');
-
-        $activeSection = $section;
+        $currentSection = $section;
         $activeAssignment = $assignment;
         $activeComponent = $component;
 
-        //dd($activeComponent);
-        //dd($activeAssignment);
+        $sections =  Auth::User()->sections()->get()->pluck('label','id');
 
-        $sectionAssignments = Assignment::where('section_id', $section->id)->get();
+        $sectionAssignments = Assignment::with('components')->where('section_id', $section->id)->orderBy('created_at','desc')->get(); 
 
         $components = Component::where('assignment_id', $assignment->id)->get()->pluck('title','id');
-    
+        
+        // Can we simplify by using scope?
         $students = User::with(['artifacts' => function ($query) use($component) {
         $query->where('component_id', '=', $component->id);
         }])->whereHas('roles', function ($query) { 
         $query->where('name', 'like', 'student');
             })->whereHas('sections', function ( $query ) use($section) {
         $query->where('id', $section->id );
-        })->get()->sortBy('firstName');
+         })->get()->sortBy('lastName');
 
-        //dd($students);
+            //dd($students);
 
-        return view('partials.teacher.component.gallery')
-               ->with(compact('sections', 'activeSection', 'sectionAssignments', 'activeAssignment', 'components', 'activeComponent', 'students'));
+        return view('components.gallery')->with(compact('sections', 'currentSection', 'sectionAssignments', 'activeAssignment', 'components', 'activeComponent', 'students'));
+
      }
 }

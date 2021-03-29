@@ -76,6 +76,6 @@ class Section extends Model
 
     public function assignments()
     {
-        return $this->hasMany('App\Models\Assignment');
+        return $this->hasMany('App\Models\Assignment')->orderBy('created_at', 'asc');
     }
  }

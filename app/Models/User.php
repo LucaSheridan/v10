@@ -122,6 +122,16 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Section')->where('is_active', 1 )->orderby('created_at', 'DESC');
     }
 
+       /**
+     * A user may belong to multiple active sections.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function firstActiveSection()
+    {
+        return $this->belongsToMany('App\Models\Section')->where('is_active', 1 )->orderby('title', 'DESC')->limit(1);
+    }
+
     /**
      * A user may belong to multiple active sections.
      *
@@ -151,6 +161,28 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Collection')->withPivot('position')
         ->orderBy('position');
+    }
+
+    // public function feedback()
+    // {
+
+    //     $comments = App\Models\Comment::whereHas('artifact', function ($q){$q->where('user_id', Auth::User()->id); })->orderBy('created_at')->get();
+    // }
+
+    public function feedback()
+    {
+
+        return $this->hasManyThrough('App\Models\Comment', 'App\Models\Artifact');
+    }
+
+    /*
+     * A user may post multiple artifacts.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function artifacts()
+    {
+        return $this->hasMany('App\Models\Artifact')->orderBy('created_at', 'ASC');
     }
 
 }

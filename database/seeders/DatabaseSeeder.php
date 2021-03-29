@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
 			UserRoleSeeder::class,
             //CoursesTableSeeder::class,
             SectionSeeder::class,
-            ArtifactSeeder::class,
-            CollectionSeeder::class,
+            //ArtifactSeeder::class,
+            //CollectionSeeder::class,
             //PostsTablesSeeder::class,
             AssignmentSeeder::class
 

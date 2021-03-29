@@ -7,6 +7,7 @@ use App\Models\Artifact;
 use App\Models\Collection;
 use App\Models\Section;
 use App\Models\User;
+use App\Models\Comment;
 
 use Auth;
 
@@ -19,7 +20,10 @@ class CollectionController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
+        $this->middleware('auth', ['except' => [
+            'showPublic'
+        ]]);
     }
       /**
      * Show all of a Users Collections.
@@ -29,9 +33,9 @@ class CollectionController extends Controller
         public function index(Request $request, User $user)
     {
         
-        $collections = $user->collections()->with('artifacts')->get();
+        $collections = $user->collections()->with('artifacts')->paginate(12);
 
-        return view('collections', ['collections' => $collections]);
+        return view('collections.index', ['collections' => $collections ]);
 
     }
 
@@ -46,7 +50,7 @@ class CollectionController extends Controller
     }
 
        /**
-     * Show the a new collection.
+     * Show a collection.
      *
      * @return \Illuminate\Http\Response
      */
@@ -55,8 +59,22 @@ class CollectionController extends Controller
         
         // dd($collection);
 
-        return view('collections.show_new')->with( 'collection', $collection );
+        return view('collections.show')->with( 'collection', $collection );
     }
+
+       /**
+     * Show a collection publicly
+     *
+     * @return \Illuminate\Http\Response
+     */
+        public function showPublic (Request $request, Collection $collection)
+    {
+        
+        // dd($collection);
+
+        return view('public')->with( 'collection', $collection );
+    }
+
 
     /**
      * Store a newly created collection  to the database.
@@ -76,19 +94,31 @@ class CollectionController extends Controller
 
             ]);
 
-            //
-            $collections = Collection::all()->count();
-            //
-            // $artifact = $request->input('artifact');
-            
+            // get artifact information if supplied
             $artifact = Artifact::find($request->input('artifact'));
             
             $collection = New Collection;
             $collection->title = $request->input('title');
-            $collection->description = $request->input('description');
+            $collection->subtitle = $request->input('subtitle');
+            $collection->description = $request->input('description');   
+            $collection->showArtist = 1;
+            $collection->showTitle = 1;
+            $collection->showSubtitle = 1;
+            $collection->showMedium = 1;
+            $collection->showYear = 1;
+            $collection->showDimensions = 1;
+            $collection->showLabel = 1;
+
             $collection->save();
-            $collection->curators()->attach(Auth::User()->id);
-            
+
+            // Attach User
+
+            // Find and increment position of new collection 
+            $maxPosition = Auth::User()->collections()->max('position') +1 ;
+
+            $collection->curators()->attach(Auth::User()->id, ['position' => $maxPosition]);
+
+            // Attatch Artifact
             if ( !is_null($artifact)) {
 
                 $collection->artifacts()->attach($artifact, [
@@ -114,7 +144,7 @@ class CollectionController extends Controller
 
             //flash('You created a collection called '.$collection->title.'!', 'success');
 
-            //dd($collection);
+        
 
             return redirect()->route('collections', ['user' => Auth::User()]);
      }
@@ -227,12 +257,9 @@ class CollectionController extends Controller
         return redirect()->action('CollectionController@show', $collection->id);
 
     }
-     
-  
 
     //    public function editLabel(Request $request, Collection $collection, Artifact $artifact)
     // {
-        
     //     $artifact = $artifact->collections()->where('collection_id', $collection->id)->first();
 
         //dd($artifact);
@@ -389,6 +416,56 @@ class CollectionController extends Controller
 
         return redirect()->route('show-collection', $collection->id);
 
+    }
+
+       /**
+     * Show the a new collection.
+     *
+     * @return \Illuminate\Http\Response
+     */
+        public function addCurator(Request $request, Collection $collection)
+    {
+            
+        $users = User::all();
+        //dd($users);
+
+        return view('collections.addCurator')->with(['collection' => $collection, 'users' => $users]);
+    }
+
+     /**
+     * Persist new curator to the database.
+     *
+     * @return \Illuminate\Http\Response
+     */
+        public function saveCurator(Request $request, Collection $collection)
+    {
+        
+        $curator = $request->input('add_curator');     
+       
+            // Find and increment position of new collection 
+        $maxPosition = User::find($curator)->collections()->max('position') +1 ;
+        //dd($maxPosition);
+
+        $collection->curators()->attach($curator, ['position' => $maxPosition]);
+
+        $collection->save();
+
+        return redirect()->route('show-collection', $collection);
+    }
+
+    /**
+     * Persist new curator to the database.
+     *
+     * @return \Illuminate\Http\Response
+     */
+        public function removeCurator(Request $request, Collection $collection)
+    {
+        
+        $curator = $request->input('remove_curator');     
+        $collection->curators()->detatch($curator);
+        $collection->save();
+
+        return redirect()->route('show-collection', $collection);
     }
 
 

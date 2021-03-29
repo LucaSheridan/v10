@@ -32,31 +32,44 @@ class AssignmentSeeder extends Seeder
          DB::table('components')->insert([
              'title' => 'Visual Research',
              'assignment_id' =>'1',
-             'date_due' => Carbon::now()->addWeeks(1)            
+             'section_id' => '1',
+             'date_due' => Carbon::now()->addWeeks(1),          
+             'class_viewable' => false            
              ]);
 
          DB::table('components')->insert([
              'title' => 'Artwork Analysis',
              'assignment_id' =>'1',
-             'date_due' => Carbon::now()->addWeeks(3)             
+             'section_id' => '1',
+             'date_due' => Carbon::now()->addWeeks(3),
+             'class_viewable' => false          
+            
              ]);
 
          DB::table('components')->insert([
              'title' => 'Ideation',
              'assignment_id' =>'1',
-             'date_due' => Carbon::now()->addWeeks(2)            
+             'section_id' => '1',             'date_due' => Carbon::now()->addWeeks(2),
+             'class_viewable' => false          
+            
              ]);
 
          DB::table('components')->insert([
              'title' => 'Documentation & Reflection',
              'assignment_id' =>'1',
-             'date_due' => Carbon::now()->addWeeks(4)            
+             'section_id' => '1',
+             'date_due' => Carbon::now()->addWeeks(4),
+             'class_viewable' => false          
+           
              ]);
 
          DB::table('components')->insert([
              'title' => 'Final Artwork',
              'assignment_id' =>'1',
-             'date_due' => Carbon::now()->addWeeks(4)            
+             'section_id' => '1',
+             'date_due' => Carbon::now()->addWeeks(4),
+             'class_viewable' => true          
+            
              ]);
 
 
@@ -74,31 +87,46 @@ class AssignmentSeeder extends Seeder
          DB::table('components')->insert([
              'title' => 'Visual Research',
              'assignment_id' =>'2',
-             'date_due' => Carbon::now()->addWeeks(1)            
+             'section_id' => '1',
+             'date_due' => Carbon::now()->addWeeks(1),
+             'class_viewable' => false          
+           
              ]);
 
          DB::table('components')->insert([
              'title' => 'Artwork Analysis',
              'assignment_id' =>'2',
-             'date_due' => Carbon::now()->addWeeks(3)            
+             'section_id' => '1',
+             'date_due' => Carbon::now()->addWeeks(3),
+             'class_viewable' => false          
+            
              ]);
 
          DB::table('components')->insert([
              'title' => 'Ideation',
              'assignment_id' =>'2',
-             'date_due' => Carbon::now()->addWeeks(2)            
+             'section_id' => '1',
+             'date_due' => Carbon::now()->addWeeks(2),
+             'class_viewable' => false          
+            
              ]);
 
           DB::table('components')->insert([
              'title' => 'Documentation & Reflection',
              'assignment_id' =>'2',
-             'date_due' => Carbon::now()->addWeeks(4)            
+             'section_id' => '1',
+             'date_due' => Carbon::now()->addWeeks(4),
+             'class_viewable' => false          
+           
              ]);
 
          DB::table('components')->insert([
              'title' => 'Final Artwork',
              'assignment_id' =>'2',
-             'date_due' => Carbon::now()->addWeeks(4)            
+             'section_id' => '1',
+             'date_due' => Carbon::now()->addWeeks(4),
+             'class_viewable' => true          
+            
              ]);
     }
 }

@@ -17,7 +17,7 @@ class CreateCollectionUserTable extends Migration
             
         $table->bigInteger('collection_id')->unsigned();
         $table->bigInteger('user_id')->unsigned();
-        $table->bigIncrements('position')->unsigned();
+        $table->bigInteger('position')->unsigned();
 
             $table->foreign('collection_id')
                   ->references('id')

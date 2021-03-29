@@ -25,6 +25,10 @@ class CreateArtifactsTable extends Migration
             $table->string('title')->nullable();
             $table->string('medium')->nullable();
             $table->string('year')->nullable();
+            
+            $table->string('dimensions_height_pixels')->nullable();
+            $table->string('dimensions_width_pixels')->nullable();
+
             $table->string('dimensions_height')->nullable();
             $table->string('dimensions_width')->nullable();
             $table->string('dimensions_depth')->nullable();

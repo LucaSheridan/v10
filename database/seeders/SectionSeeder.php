@@ -21,6 +21,7 @@ class SectionSeeder extends Seeder
          	 'site_id' => 1,
          	 'is_active' => 1,
              'is_open' => 1,
+             'max_students' => 34,
          	 'registrationCode' => 'art12/CD',         	 
              'year' => '2018-19'            
 
@@ -32,6 +33,7 @@ class SectionSeeder extends Seeder
          	 'site_id' => 1,
              'is_active' => 1,
              'is_open' => 1,
+             'max_students' => 34,
          	 'registrationCode' => 'art12/CE',
              'year' => '2019-20'            
          	 

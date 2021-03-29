@@ -5,244 +5,201 @@
         </h2>
     </x-slot>
 
-    <div class="container mx-auto">
-        <div class="flex flex-wrap justify-center">
-            <div class="w-full max-w-lg">
+    <div class="container mx-auto ">
+        <div class="flex flex-wrap justify-center mx-3">
+            <div class="w-full max-w-xl ">
                 
-                <div class="flex flex-col break-words bg-gray-100 border border-2 rounded shadow-md mt-8">
+                <div class="flex flex-col break-words bg-white rounded-lg shadow-md mt-8">
 
-                    <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
-                        Edit Artifact Info
+                    <div class="font-semibold text-gray-700 py-3 px-4 mb-0 rounded-t-lg bg-gray-100 border-b">
+                        Add/Edit Artifact Info
                     </div>
 
-                {{-- Begin Form --}} 
-
-                    <form id="edit_artifact" method="POST" action="{{ route('update-artifact', ['artifact' => $artifact->id]) }}">
+                    <div class="px-4 py-3 w-full flex flex-wrap">
                     
-                    {{ csrf_field() }}
-                    
-                    <input type="hidden" name="_method" value="PATCH">
+                    <!-- Start Artifact Info Column -->
+                        <div class="w-1/2 pr-4 text-sm">
 
-                    <div class="p-3 border-l-2 border-b-0 border-r-2">
-            
-                {{-- Begin Title Input--}}
-            
-                    <div class="mb-2">
+                        {{-- Begin Form --}} 
 
-                        <label for="title" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Title</label>
+                        <form id="edit_artifact" method="POST" action="{{ route('update-artifact', ['artifact' => $artifact->id]) }}">
+                        
+                        {{ csrf_field() }}
+                        
+                        <input type="hidden" name="_method" value="PATCH">
 
-                        <input id="title" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('title') ? 'border-red-500' : 'border' }}" name="title" value="{{ $artifact->title}}" autofocus tabIndex="1">
+                
+                       {{-- Begin Artist Input--}}
+                
+                        <div class="mb-2">
 
-                        {!! $errors->first('title', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
+                            <label for="artist" class="w-full md:mb-0 font-semibold text-gray-400 text-sm pt-2 pr-3 align-middle">Artist</label>
+
+                            <input id="artist" type="text" class="w-full mt-2 rounded h-8 py-1 px-2 border text-gray-600 text-sm {{ $errors->has('artist') ? 'border-red-500' : 'border' }}" name="artist" value="{{ $artifact->artist}}" tabIndex="1">
+                            {!! $errors->first('artist', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
+
+                        </div>
+
+                        {{-- Begin Title Input--}}
+                
+                        <div class="mb-2">
+
+                            <label for="title" class="w-full md:mb-0 font-semibold text-gray-400 pt-2 pr-3 align-middle">Title</label>
+
+                            <input id="title" type="text" class="w-full mt-2 rounded h-8 py-1 px-2 border text-gray-600 text-sm {{ $errors->has('title') ? 'border-red-500' : 'border' }}" name="title" value="{{ $artifact->title}}" autofocus tabIndex="2">
+
+                            {!! $errors->first('title', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
+
+                        </div>
+
+                    {{-- Begin Medium Input--}}
+                
+                        <div class="mb-2">
+
+                            <label for="medium" class="w-full md:mb-0 font-semibold text-gray-400 text-sm pt-2 pr-3 align-middle">Medium</label>
+
+                            <input id="medium" type="text" class="w-full mt-2 rounded h-8 py-1 px-2 border text-gray-600 text-sm {{ $errors->has('medium') ? 'border-red-500' : 'border' }}" name="medium" value="{{ $artifact->medium }}" tabIndex="3">
+                            {!! $errors->first('medium', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
+
+                        </div>
+
+                     {{-- Begin Year Input--}}
+                
+                        <div class="mb-2">
+
+                            <label for="year" class="w-full md:mb-0 font-semibold text-gray-400 text-sm pt-2 pr-3 align-middle">Year</label>
+
+                            <input id="year" type="text" class="w-full mt-2 rounded h-8 py-1 px-2 border text-gray-600 text-sm {{ $errors->has('year') ? 'border-red-500' : 'border' }}" name="year" value="{{ $artifact->year}}" tabIndex="4">
+                            {!! $errors->first('year', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
+
+                        </div>
+
+                <div class="mt-5 grid gap-y-6 gap-x-1 grid-cols-10"> 
+                
+                    {{-- Dimensions Height Input--}}
+                    <div class="col-span-2">    
+                    <label for="dimensions_height" class="block font-medium leading-5 text-gray-400">
+                          Height
+                        </label>
+                        <div class="mt-1 rounded-md shadow-sm">
+                          <input id="dimensions_height"  type="text" class="form-input block w-full transition duration-150 ease-in-out text-sm text-gray-600 py-1 px-2 sm:leading-5 {{ $errors->has('dimensions_height') ? 'border-red-500' : 'border' }}"  name="dimensions_height" value="{{ $artifact->dimensions_height}}" tabIndex="5">
+                        </div>
+                    </div>
+
+                    {{-- Dimensions Width Input--}}
+                    <div class="col-span-2">
+                        <label for="dimensions_width" class="block text-sm font-medium leading-5 text-gray-400">
+                          Width
+                        </label>
+                        <div class="mt-1 rounded-md shadow-sm">
+                          <input id="dimensions_width"  type="text" class="form-input block w-full transition duration-150 py-1 px-2 text-sm text-gray-600 ease-in-out sm:leading-5 {{ $errors->has('dimensions_width') ? 'border-red-500' : 'border' }}" name="dimensions_width" value="{{ $artifact->dimensions_width}}" tabIndex="6">
+                        </div>
+                    </div>
+
+                    {{-- Dimensions Depth Input--}}
+                   <div class="col-span-2">
+                        <label for="dimensions_depth" class="block font-medium leading-5 text-gray-400">
+                          Depth
+                        </label>
+                        <div class="mt-1 rounded-md shadow-sm">
+                          <input id="dimensions_depth"  type="text" class="form-input block w-full transition duration-150 ease-in-out py-1 px-2 text-sm text-gray-600 sm:leading-5 {{ $errors->has('dimensions_depth') ? 'border-red-500' : 'border' }} " name="dimensions_depth" value="{{ $artifact->dimensions_depth}}" tabIndex="7">
+                        </div>
+                    </div>
+
+                    {{-- Dimension Measuring Units --}}
+               <!--     <div class="col-span-2">
+                        <label for="dimensions_units" class="block font-medium leading-5 text-gray-400">
+                        Units
+                        </label>
+                        <div class="mt-1 rounded-md shadow-sm">
+                          <input id="dimensions_units"  type="text" class="form-input block w-full transition duration-150 ease-in-out py-1 px-2  text-sm text-gray-600 sm:leading-5 {{ $errors->has('dimensions_units') ? 'border-red-500' : 'border' }} " name="dimensions_units" value="{{ $artifact->dimensions_units}}" tabIndex="8">
+                        </div>
+                    </div> -->
+
+                    <div class="col-span-4 mt-0 rounded-md shadow-sm">
+                      
+                      <label for="dimensions_units" class="text-sm font-medium text-gray-400">Units</label>
+                     
+                      <select id="dimensions_units" name="dimensions_units" form="edit_artifact" class="form-select block w-full transition duration-150 ease-in-out mt-1 py-1 px-2 text-sm text-gray-600 sm:leading-5 $errors->has('dimensions_units') ? 'border-red-500' : 'border' }}" name="dimensions_units" tabIndex="8" type="select" value="{{$artifact->dimensions_units}}">
+
+                      <option value="inches"
+                      @if ($artifact->dimensions_units  == "inches")
+                      {{'selected="selected"'}}
+                      @endif
+                      >
+                      inches</option>
+
+                      <option value="cm"
+                      @if ($artifact->dimensions_units  == "cm")
+                      {{'selected="selected"'}}
+                      @endif
+                      >
+                      cm
+                  </option>
+
+                      <option value=""
+                      @if ($artifact->dimensions_units  == "")
+                      {{'selected="selected"'}}
+                      @endif
+                      >none</option>
+                      
+                     </select>
+
+                        <!--  <select id="location" name="location" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option selected>inches</option>
+                        <option>cm</option>
+                    </select> -->
 
                     </div>
 
-                {{-- Begin Artist Input--}}
+                   
+                </div>
+
+                 <!-- End Artifact Info Column -->
+
+                 </div>
+
+                <!-- End Annotation Column -->
+
+                <div class="w-1/2">
+
+                 {{-- Annotation Input--}}
             
-                    <div class="mb-2">
+                        <label for="description" class="w-full font-semibold text-gray-400 text-sm pt-2 pr-3 align-middle">Annotation</label>
 
-                        <label for="artist" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Artist</label>
+                        <!-- Alpine.js character counter soyrced from
+                             https://ryangjchandler.co.uk/articles/build-a-remaining-character-count-component-with-alpinejs -->
 
-                        <input id="artist" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('artist') ? 'border-red-500' : 'border' }}" name="artist" value="{{ $artifact->artist}}" autofocus tabIndex="2">
-                        {!! $errors->first('artist', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
+                         <div x-data="{ annotation: $el.dataset.annotation,
+                                        limit: $el.dataset.limit,
+                                        get remaining() {
+                                            return this.limit - this.annotation.length}
+                                        }"
+                               data-limit="500" 
+                               data-annotation="{{$artifact->annotation }}">
 
-                    </div>
+                        <textarea id="annotation" x-model="annotation" class="w-full h-80 mt-2 rounded p-2 border text-gray-400 leading-snug text-sm {{ $errors->has('annotation') ? 'border-red-500' : 'border' }}" name="annotation" tabIndex="9">{{ $artifact->annotation}}</textarea>
 
+                        {!! $errors->first('annotation', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
 
-                {{-- Begin Medium Input--}}
-            
-                    <div class="mb-2">
+                        <p id="remaining" class="text-gray-400 text-xs">
+                        You have <span x-text="remaining"></span> characters remaining.
+                        </p>
 
-                        <label for="medium" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Medium</label>
+                        </div>
+                        <!-- End Annotation Column -->
 
-                        <input id="medium" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('medium') ? 'border-red-500' : 'border' }}" name="medium" value="{{ $artifact->medium }}" autofocus tabIndex="2">
-                        {!! $errors->first('medium', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
-
-                    </div>
-
-                 {{-- Begin Year Input--}}
-            
-                    <div class="mb-2">
-
-                        <label for="year" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Year</label>
-
-                        <input id="year" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('year') ? 'border-red-500' : 'border' }}" name="year" value="{{ $artifact->year}}" autofocus tabIndex="3">
-                        {!! $errors->first('year', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
-
-                    </div>
-
-                {{-- Annotation Input--}}
-            
-                    <div class="mb-2">
-
-                        <label for="description" class="w-full font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Annotation</label>
-
-                        <textarea id="annotation" class="w-full mt-2 rounded p-2 border text-gray-600 leading-snug text-sm {{ $errors->has('annotation') ? 'border-red-500' : 'border' }}" name="annotation" value="" tabIndex="4">{{ $artifact->annotation}}</textarea>
-
-                    </div>
-
-                {{-- Dimensions Height Input--}}
-            
-                    <div class="mb-2">
-
-                        <label for="dimensions_height" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Dimensions Height</label>
-
-                        <input id="dimensions_height" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('dimensions_height') ? 'border-red-500' : 'border' }}" name="dimensions_height" value="{{ $artifact->dimensions_height}}" autofocus tabIndex="3">
-                        {!! $errors->first('dimensions_height', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
-
-                    </div>
-
-                {{-- Dimensions Width Input--}}
-            
-                    <div class="mb-2">
-
-                        <label for="dimensions_width" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Dimensions Width</label>
-
-                        <input id="dimensions_width" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('dimensions_width') ? 'border-red-500' : 'border' }}" name="dimensions_width" value="{{ $artifact->dimensions_width}}" autofocus tabIndex="3">
-                        {!! $errors->first('dimensions_width', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
-
-                    </div>
-
-                {{-- Dimensions Depth Input--}}
-            
-                    <div class="mb-2">
-
-                        <label for="dimensions_depth" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Dimensions Depth</label>
-
-                        <input id="dimensions_depth" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('dimensions_depth') ? 'border-red-500' : 'border' }}" name="dimensions_depth" value="{{ $artifact->dimensions_depth}}" autofocus tabIndex="3">
-                        {!! $errors->first('dimensions_depth', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
-
-                    </div>
-
-                {{-- Dimensions Units--}}
-            
-                    <div class="mb-2">
-
-                        <label for="dimensions_units" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Measuring Units</label>
-
-                        <input id="dimensions_units" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('dimensions_units') ? 'border-red-500' : 'border' }}" name="dimensions_units" value="{{ $artifact->dimensions_units}}" autofocus tabIndex="3">
-                        {!! $errors->first('dimensions_units', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
-
-                    </div>
-
-                     <div class="my-1 text-center">
+                        <div class="w-full mt-6 mb-4 text-right">
 
                           <a href="{{ url()->previous() }}" class="inline-block mb-1 md:mb-0 bg-gray-400 hover:bg-red-500 text-gray-700 hover:text-white px-4 py-2 text-sm uppercase tracking-wide font-semibold rounded">Cancel</a>
 
-                          <button type="submit" class="mb-1 md:mb-0 bg-gray-400 hover:bg-green-500 text-gray-700 hover:text-green-100 px-4 py-2 text-sm uppercase tracking-wide font-semibold rounded" tabIndex="5">Save</button>
+                          <button type="submit" class="mb-1 md:mb-0 bg-gray-400 hover:bg-green-500 text-gray-700 hover:text-green-100 px-4 py-2 text-sm uppercase tracking-wide font-semibold rounded" tabIndex="10">Save</button>
 
                     </div>
 
                 </div>
                 
                 </form>
-
-   <!--  <div class="w-full p-4">
-
-    <form id="edit_artifact" method="POST" action="{{ route('update-artifact', ['artifact' => $artifact->id]) }}">
-                    
-    {{ csrf_field() }}
-                    
-    <input type="hidden" name="_method" value="PATCH">
-  
-    <div>
-
-    <div class="mt-8 bg-gray-100 border-t border-gray-200 pt-8">
-    
-         <div class="sm:col-span-6">
-          <label for="annotation" class="block text-sm font-medium leading-5 text-gray-700">
-          Annotation
-          </label>
-          <div class="mt-1 rounded-md shadow-sm">
-            <textarea id="annotation" rows="3" class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">{{ $artifact->annotation}} </textarea>
-          </div>
-          <p class="mt-2 text-sm text-gray-500">Write a few sentences about your work.</p>
-        </div>
-
-        <div class="sm:col-span-6">
-          <label for="title" class="block text-sm font-medium leading-5 text-gray-700">
-          Title
-          </label>
-          <div class="mt-1 rounded-md shadow-sm">
-            <input id="Title" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          </div>
-        </div>
-
-        <div class="sm:col-span-6">
-          <label for="title" class="block text-sm font-medium leading-5 text-gray-700">
-          Artist
-          </label>
-          <div class="mt-1 rounded-md shadow-sm">
-            <input id="artist" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          </div>
-        </div>
-
-         <div class="sm:col-span-6">
-          <label for="medium" class="block text-sm font-medium leading-5 text-gray-700">
-          Medium
-          </label>
-          <div class="mt-1 rounded-md shadow-sm">
-            <input id="medium" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          </div>
-        </div>
-
-        <div class="sm:col-span-2">
-          <label for="dimensions_height" class="block text-sm font-medium leading-5 text-gray-700">
-          Height
-          </label>
-          <div class="mt-1 rounded-md shadow-sm">
-            <input id="dimensions_height" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          </div>
-        </div>
-
-        <div class="sm:col-span-2">
-          <label for="dimensions_width" class="block text-sm font-medium leading-5 text-gray-700">
-          Width
-          </label>
-          <div class="mt-1 rounded-md shadow-sm">
-            <input id="dimensions_width" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          </div>
-        </div>
-
-        <div class="sm:col-span-2">
-          <label for="dimensions_depth" class="block text-sm font-medium leading-5 text-gray-700">
-          Depth
-          </label>
-          <div class="mt-1 rounded-md shadow-sm">
-            <input id="dimensions_depth" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          </div>
-        </div>
-      </div>
-    </div>
-
-     <div class="sm:col-span-3">
-          <label for="dimensions_units" class="block text-sm font-medium leading-5 text-gray-700">
-          Dimension Units
-          </label>
-          <div class="mt-1 rounded-md shadow-sm">
-            <select id="dimensions_units" class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-              <option>cm</option>
-              <option>inches</option>
-            </select>
-          </div>
-        </div>
-   
-  </div>
-  <div class="mt-8 border-t border-gray-200 pt-5">
-    <div class="flex justify-end">
-      <span class="inline-flex rounded-md shadow-sm">
-        <button type="button" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
-          Cancel
-        </button>
-      </span>
-      <span class="ml-3 inline-flex rounded-md shadow-sm">
-        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
-          Save
-        </button>
-      </span>
-    </div>
-  </div>
-</form> -->
 
 {{-- End Form --}}
 

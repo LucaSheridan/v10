@@ -1,7 +1,4 @@
-
-
 <!DOCTYPE html>
-
 
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -13,78 +10,67 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-
         <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">
-
-<!--         <link href="https://unpkg.com/tailwindcss@^1.7/dist/tailwind.min.css" rel="stylesheet">
- -->
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         @livewireStyles
 
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.js" defer></script>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.js" defer></script>
+
+        <style>
+
+          [x-cloak] {
+            display: none;
+          }
+
+        </style>
+
+<!--         @bukStyles
+ -->
     </head>
    
-    <body class="font-sans antialiased">
-
-        <!-- Background -->
-        <div class="min-h-screen bg-cool-gray-400">
-        
-        <nav x-data="{ open: false }" class="bg-cool-gray-200 border-b-0 border-red-500">
+    <body x-data="{ showModal : false } x-cloak" class="font-sans antialiased">
+     
+       <div class="relative min-h-screen bg-cool-gray-400">
                 
-                <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-3 py-1">
-                    <div class="flex justify-between h-16">
-                            <div class='flex items-center pl-0'>
-                                
+       <nav class="bg-cool-gray-100 border-b-0 border-red-500">
+                
+        <!-- HEADER / TITLE / MESSAGES  -->
         
-        <a href="{{action('App\Http\Controllers\ArtifactController@create')}}" class="opacity-100 hover:opacity-75" tabIndex="-1">
+        <div class="max-w-5xl mx-auto relative">
 
-
-        <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-cool-gray-400">
-                                    <span class="inline-flex text-xl leading-none text-white">
-                                <x-feathericon-camera/>
-                                    
-                                    </span>
-        </a>
-
-
-                            </div>
-
-                        <div class="flex ml-1.5">
-                            
-                            <!-- Logo -->
-                            
-                            <div class="flex-shrink-0 h-12 flex items-center text-5xl font-thin text-center text-gray-600 bg-opacity-50 border-cool-gray px-3 pt-3 rounded-lg">
-
-                            <a href="/artifacts" class="outline-none" tabIndex="-1">
+            <div class="flex absolute top-2 right-0 mx-3 xl:right-0 z-10">
                                 
-                            <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500">
-                            ARTIFACTS  </span>
+                     <x-jet-dropdown align="right" width="48" class="flex align-start">
+                     <x-slot name="trigger">
+          
+                         <button class="flex transition duration-150 ease-in-out">
 
-                            </a>
-                            </div>
+                            @if ( !empty(Auth::User()->profile_photo_path))
 
-                        </div>
+                               <img src="{{ Auth::User()->profile_photo_path }}" class="rounded-full h-10 w-10 border border-cool-gray-200">
+                                           
+                             @else
+                                            
+                                <!-- TailwindUI Avatar -->
+                                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-cool-gray-200">
+                                <span class="text-sm sm:text-md font-medium leading-none text-gray-500">{{ Auth::User()->initials }}
+                                </span>
+                                </span>
+                                
+                               @endif
 
-                        <!-- Settings Dropdown -->
-                        <div class="hidden sm:flex sm:items-center sm:ml-0">
+                            </button>
                             
-                             <x-jet-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                      
-                                    <button class="flex transition duration-150 ease-in-out" tabIndex="-2">
-
-                                            <!-- TailwindUI Avatar -->
-                                            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-cool-gray-400">
-                                            <span class="text-sm font-medium leading-none text-white">{{ Auth::User()->initials }}</span>
-                                            </span>
-                                    </button>
-                                </x-slot>
-                                <x-slot name="content">
-                                    
+                        </x-slot>
+                        <x-slot name="content">
+                                
                                     <x-jet-dropdown-link href="/user/profile">
                                     View Profile
                                     </x-jet-dropdown-link>
@@ -100,126 +86,122 @@
 
                                 </x-slot>
                             </x-jet-dropdown>
-
-                        </div>
-
+                                </div>
 
 
-                        <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden">
-                            <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                    <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Responsive Navigation Menu -->
-                <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-                   
-                    <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
-                        <div class="flex items-center px-4">
-                            <div class="flex-shrink-0">
-                                
-                                <!-- JetStream Avatar 
-                                <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="" /> -->
+        <div class="flex justify-center relative ">
 
-                                <!-- TailwindUI Avatar -->
-                                <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-cool-gray-400">
-                                <span class="text-sm font-medium leading-none text-white">{{ Auth::User()->initials }}</span>
-                                </span>
+            <!-- Begin Alerts -->
+
+                            <div  x-data="{ alertOpen: true }" class="z-10 absolute space-y-2 z-20 top-3 text-left">
+                    
+                            <x-alert x-show="alertOpen" id="message" class="bg-green-400 text-green-900 pl-2 pr-1 py-1 z-30 opacity-75 shadow-lg rounded"
+
+                            x-transition:enter="opacity-0 transition transform ease-in duration-1000 origin-right scale-y-0"
+                            x-transition:enter-start="transition ease-in transform opacity-100 scale-100 duration-1000"
+                            x-transition:enter-end="transition ease-in transform opacity-100 scale-100 duration-1000 top-10"
                             
+                            x-transition:leave="transition ease-in transform transition duration-300"
+                            x-transition:leave-start="opacity-100 transform transition"
+                            x-transition:leave-end="opacity-0 transform transition"
+                            type="success" @click="alertOpen = false"
+
+                            >
+                            <div class="flex items-center">
+                            
+                            <div class="flex-grow pr-1">
+                            {{ $component->message() }}
                             </div>
 
-                            <div class="ml-3">
-                                <div class="font-medium text-base text-gray-800">{{ Auth::user()->fullName }}</div>
-                                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                                <!-- <div class="font-medium text-sm text-gray-500">
-                                @foreach ( Auth::User()->sites as $site )
-                                {{ $site->name }}
-                                @endforeach</div> -->
-                            </div>
+                            <div class="flex">
+<!--                             <x-feathericon-x-circle class="float-right h-4 w-4" />
+ -->                        </div></div>
+   
+                            </x-alert>
                             
-                        </div>
+                            <x-alert x-show.transition.duration.1000="alertOpen" type="warning" @click="alertOpen = false" class="bg-yellow-400 text-yellow-100 px-2 py-1 z-30" />
 
-                        <div class="mt-3 space-y-1">
-                            <!-- Account Management -->
-                            <x-jet-responsive-nav-link href="/user/profile" :active="request()->routeIs('profile.show')">
-                                Profile
-                            </x-jet-responsive-nav-link>
+                            <x-alert x-show.transition.duration.1000="alertOpen" type="danger" @click="alertOpen = false" class="bg-red-400 text-red-100 px-2 py-1 z-30" />
+                      
+                            </div>
 
-                           <!--  @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                <x-jet-responsive-nav-link href="/user/api-tokens" :active="request()->routeIs('api-tokens.index')">
-                                    API Tokens
-                                </x-jet-responsive-nav-link>
-                            @endif -->
+                        <!-- End Alerts -->
+        
+                          <div class="flex text-4xl font-thin Justify-center text-gray-600 bg-gray-100 border-cool-gray pt-0 pb-1 rounded-lg">
+                            
+                          <a href="/artifacts" class="outline-none" tabIndex="-1">                               
+                          <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500 uppercase pl-1">ARTIFACTS</span>
+                          </a>
+                                             
+                          </div>
 
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-
-                                <x-jet-responsive-nav-link href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();
-                                                         this.closest('form').submit();">
-                                    Logout
-                                </x-jet-responsive-nav-link>
-                            </form>
-
-                        </div>
                     </div>
                 </div>
             </nav>
-
     
     <!-- Begin Menu-->
 
-<div class="bg-gray-100 w-full">
-<div class="max-w-5xl mx-auto pt-2 pb-0 space-x-1 sm:-my-px flex justify-center uppercase bg-gray-100">
-    
- <!-- <div class="pt-6 pt-2 pb-1 space-x-1 sm:-my-px flex justify-center uppercase bg-cool-gray-400"> -->
-                            
+<!-- New Navigation -->
+
+                            <div class="max-w-5xl mx-auto">
                                 
+                                <div class="relative max-w-5xl mx-auto flex  pl-2">
+                            
+                                <div class="flex">
+                                    <x-jet-nav-link href="{{route('sections')}}" :active="request()->is('sections*')" tabIndex="-3">
+                                    @if (Auth::User()->activeSections->count() != 1) Classes
+                                    @else
+                                    Class
+                                    @endif
+                                    </x-jet-nav-link>
+                                    <x-jet-nav-link href="{{route('collections', Auth::User())}}" :active="request()->is('collections*')" tabIndex="-2">Collections</x-jet-nav-link>
+                                     
+                                     <x-jet-nav-link href="{{route('artifacts')}}" :active="request()->is('artifacts*')" tabIndex="-1">Artifacts</x-jet-nav-link>
 
-                                <x-jet-nav-link href="{{route('artifacts')}}" :active="request()->is('artifacts*')" tabIndex="-1">
-                                    Artifacts
-                                </x-jet-nav-link>
-
-                                 <x-jet-nav-link href="{{route('collections', Auth::User())}}" :active="request()->is('collections*')" tabIndex="-2">
-                                    Collections
-                                </x-jet-nav-link>
-
-                                 <x-jet-nav-link href="{{route('sections')}}" :active="request()->is('sections*')" tabIndex="-3">
-                                @if (Auth::User()->activeSections->count() != 1) Classes
-                                @else
-                                Class
-                                @endif
-                                </x-jet-nav-link>
-
-
-                               
+                                </div>
+                                
                             </div>
-                        </div>
+
+                            <!-- End New Navigation -->
+
+                            <div class="w-full bg-cool-gray-400">
            
-           <!-- Page Heading -->
-           <!--  <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-2 px-4 lg:px-8 bg-cool-gray-400 text-gray-100 uppercase">
-                    {{ $header }}
-                </div>
-            </header> -->
-
-            <!-- Page Content -->
-
-            <main class="bg-cool-gray-400">
+             <main>
                 {{ $slot }}
             </main>
-        </div>
-
-        @stack('modals')
-
+            
         @livewireScripts
+        
+        {{--  close flash message div after 3 seconds --}}
+        
+            <script type="text/javascript">
+            window.setTimeout("hideMessage();", 2000);
+
+            function hideMessage(){
+            document.getElementById("message").style.display="none";
+            }
+
+            </script>
+
+         {{--  show uploaded file name before submission --}}
+
+            <script type="text/javascript">
+            // show selected file when selected for file upload
+            document.getElementById('file').onchange = uploadOnChange;
+
+            function uploadOnChange() {
+              var filename = this.value;
+              var lastIndex = filename.lastIndexOf("\\");
+              if (lastIndex >= 0) {
+                filename = filename.substring(lastIndex + 1);
+              }
+              document.getElementById('filename').innerHTML = filename;
+              }
+
+             </script>
+
+<!--              @bukScripts
+ -->    
     </body>
 </html>

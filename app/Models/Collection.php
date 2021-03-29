@@ -24,7 +24,7 @@ class Collection extends Model
      public function curators()
     
     {
-         return $this->belongsToMany('App\Models\User')->withPivot('position');
+         return $this->belongsToMany('App\Models\User')->withPivot('position')->orderBy('lastName', 'asc');
     }
 
     public function artifacts()

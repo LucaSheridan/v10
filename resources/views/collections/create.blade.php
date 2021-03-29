@@ -18,10 +18,12 @@
                 {{-- Begin Form --}} 
 
                 <form id="create_collection" method="POST" action="{{ route('save-collection') }}">
-                {{ csrf_field() }}
 
-                    <div class="p-3 border-l-2 border-b-0 border-r-2">
-            
+                @csrf
+
+                <div class="p-3 border-l-2 border-b-0 border-r-2">
+
+
                     {{-- Pass Artifact if variable is set --}}
 
                     <input id="artifact" type="hidden" name="artifact" value="{{ $artifact->id }}">
@@ -34,6 +36,17 @@
 
                         <input id="title" type="text" class="w-full mt-2 rounded h-8 px-2 border text-gray-600 text-md p-1 {{ $errors->has('title') ? 'border-red-500' : 'border' }}" name="title" value="{{ old('title') }}" autofocus tabIndex="1">
                         {!! $errors->first('title', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
+
+                    </div>
+
+                    {{-- Begin Subtitle Input--}}
+            
+                    <div class="mb-2">
+
+                        <label for="subtitle" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Subtitle</label>
+
+                        <input id="subtitle" type="text" class="w-full mt-2 rounded h-8 px-2 border text-gray-600 text-md p-1 {{ $errors->has('subtitle') ? 'border-red-500' : 'border' }}" name="subtitle" value="{{ old('subtitle') }}" tabIndex="1">
+                        {!! $errors->first('subtitle', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
 
                     </div>
 

@@ -44,7 +44,7 @@
                       <x-slot name="content">
                           
                           <x-jet-dropdown-link href="{{route('create-section')}}">
-                          Create Class
+                          Create Classes
                           </x-jet-dropdown-link>
 
                       </x-slot>

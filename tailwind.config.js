@@ -15,5 +15,14 @@ module.exports = {
         opacity: ['responsive', 'hover', 'focus', 'disabled'],
     },
 
+    height: {
+     '0': '0',
+     '1/4': '25vh',
+     '1/2': '50vh',
+     '3/4': '75vh',
+     '4/5': '80vh',
+     'full': '100vh',
+    },
+
     plugins: [require('@tailwindcss/ui')],
 };

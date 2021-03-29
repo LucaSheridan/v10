@@ -22,10 +22,114 @@ class AssignmentController extends Controller
      */
     public function show(Section $section, Assignment $assignment)
     {
-        $sectionAssignments = Assignment::where('section_id', $section->id)->get();
+        $sectionAssignments = Assignment::where('section_id', $section->id)->orderBy('created_at', 'desc')->get();
+
+        // Start L6 Student Checklist
+        $checklist = DB::table('components')
+
+            ->leftjoin('artifacts', function ($join) use ($assignment) {
+           
+            $join->on('components.id', '=', 'artifacts.component_id')
+            ->where('artifacts.user_id', '=', Auth::User()->id); 
+            // This eliminates matches, not records
+            })
+            ->where('components.assignment_id', '=', $assignment->id)
+            ->orderBy('components.date_due', 'ASC')
+            ->select(
+                      'artifacts.id AS artifactID',
+                      'components.section_id AS sectionID',
+                      'components.assignment_id AS assignmentID',
+                      'components.id AS componentID', 
+                      'components.title AS componentTitle',
+                      'components.class_viewable AS componentClassViewable',
+                      'components.date_due AS componentDateDue',
+                      'artifacts.artifact_thumb AS artifactThumb',
+                      'artifacts.artifact_path AS artifactPath',
+                      'artifacts.created_at AS artifactCreatedAt')->get();                           
+
+        // End L6 Student Checklist
         
-        return view('assignments.show')->with(['sectionAssignments' => $sectionAssignments,'activeAssignment' => $assignment, 'currentSection' => $section ]);
+        // return view('assignments.show')->with(['sectionAssignments' => $sectionAssignments,'activeAssignment' => $assignment, 'currentSection' => $section ]);
+
+            return view('assignments.show')->with(['sectionAssignments' => $sectionAssignments,'activeAssignment' => $assignment, 'currentSection' => $section, 'checklist' => $checklist]);
                         
+    }
+
+    /**
+     * Show the form for creating a new assignment.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request, Section $section)
+    {
+       return view('assignments.create')->with('section', $section);
+    }
+
+    /**
+     * Save a newly created Assignment to the Database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, Section $section)
+    {
+
+        //validate form
+        $this->validate($request, [
+        
+        'title' => 'required',
+        'date_due' => 'nullable|date_format:"m/d/y"'
+        ]);
+
+        //set and persist assignment information to database
+
+        $assignment = New Assignment;
+        $assignment->title = $request->input('title');
+        $assignment->description = $request->input('description');
+        $assignment->section_id = $section->id;
+        $assignment->site_id = $section->site_id;
+        $assignment->course_id = NULL;
+        $assignment->is_active = true;
+        $assignment->save();
+
+        $component = New Component;
+        
+        $component->title = 'Final';
+        
+        $component->section_id = $section->id;
+        $component->assignment_id = $assignment->id;
+        $component->class_viewable = false;
+
+           
+            //check if due date is set for simple component 
+
+                if (is_null($request->input('date_due'))){
+
+                    $component->date_due = NULL;
+                    $component->save();
+
+                    }
+            
+                else {
+
+                     $date_due = Carbon::createFromFormat('m/d/y', $request->input('date_due'));
+
+                     //set component time due
+                     $date_due->hour = 23;
+                     $date_due->minute = 59;
+                     $date_due->second = 59;
+
+                     //persisit component
+                     $component->date_due = $date_due;
+                     $component->save();
+
+                     };
+        
+        session()->flash('success', "Assignment created");
+
+        return redirect()->route( 'show-section', $section->id);
+
+        // return view('/home');
     }
 
      /**
@@ -68,7 +172,8 @@ class AssignmentController extends Controller
 
         $assignment->save();
 
-        //flash('Your assignment was updated successfully!', 'success');
+        session()->flash('success', "Assignment updated");
+        
         return redirect()->route('show-assignment', ['section' => $section, 'assignment' => $assignment]);
     }
 
@@ -79,9 +184,14 @@ class AssignmentController extends Controller
      */
         public function destroy (Section $section, Assignment $assignment)
     {
+                
+        foreach ($assignment->components as $component)
+        {$component->delete();}
+        
         $assignment->delete();
 
-        //flash('Assignment deleted successfully!', 'success');
+        session()->flash('success', "Assignment deleted");
+
         return redirect()->route( 'show-section', $section);
     }
 }

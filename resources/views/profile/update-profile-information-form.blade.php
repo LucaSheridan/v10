@@ -24,26 +24,29 @@
                                     reader.readAsDataURL($refs.photo.files[0]);
                             " />
 
-<!--                 <x-jet-label for="photo" value="Photo" />
- -->
-                <!-- Current Profile Photo -->
-                <!-- <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" class="rounded-full h-20 w-20">
-                </div> -->
+              <x-jet-label for="photo" value="Photo" />
 
+                <!-- Current Profile Photo -->
+                <div class="mt-2" x-show="! photoPreview">
+                    <img src="{{ $this->user->profile_photo_url }}" class="rounded-full h-20 w-20">
+                </div>
+                    
+<!--                 <img src="{{$this->user->profile_photo_url}}"/>
+ -->
                 <!-- New Profile Photo Preview -->
-               <!--  <div class="mt-2" x-show="photoPreview">
+               <div class="mt-2" x-show="photoPreview">
                     <span class="block rounded-full w-20 h-20"
                           x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
                     </span>
                 </div>
- -->
-                <!-- <x-jet-secondary-button class="mt-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                    Select A New Photo
-                </x-jet-secondary-button> -->
 
-<!--                 <x-jet-input-error for="photo" class="mt-2" />
- -->            </div>
+ 
+                <x-jet-secondary-button class="mt-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                    Select A New Photo
+                </x-jet-secondary-button>
+
+              <x-jet-input-error for="photo" class="mt-2" />
+            </div>
         @endif
 
         <!-- First Name -->
