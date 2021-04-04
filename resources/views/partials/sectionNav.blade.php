@@ -18,7 +18,7 @@
                                 <a class="px-2 py-1 bg-cool-gray-200 rounded-lg hover:text-gray-700 text-sm {{active_check('sections/'.$section->id.'*')}}"
                                 href="{{route('show-section', $section->id)}}">
 
-                                {{ $section->title}}-</a>
+                                {{ $section->title}}</a>
 
                                 @endforeach
 
