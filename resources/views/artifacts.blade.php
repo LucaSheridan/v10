@@ -75,11 +75,12 @@
                         <div id="fileSubmitButton" class="block" x-data="{ clicked: false }">
 
                             <x-jet-button class="" type="submit"  @click="clicked = true">
-                            {{ __('Upload') }}
+                            {{ __('Upload') }} <x-feathericon-refresh-cw class="bg-green-300 text-gray-900" x-show.transition.duration.1000="clicked"
+                            class="animate-spin" />
                             </x-jet-button>
 
-                            <x-feathericon-refresh-cw class="bg-green-300 text-gray-900" x-show.transition.duration.1000="clicked"
-                            class="animate-spin" />
+                           
+
                         </div>
 
                         </form>
@@ -265,7 +266,10 @@
 
       @endforeach
 
-      @else                    
+      @else   
+      <div class="col-start-2 text-center col-span-2 text-gray-500 m-2 rounded text-lg px-3 py-2">
+        <img src=""/>
+      Upload some images to Artifacts to begin documenting your artistic journey! </div>                 
       @endif
         
   </div>
