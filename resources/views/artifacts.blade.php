@@ -82,8 +82,13 @@
                                                             
                               </x-jet-button>
 
-                               Processing
-                              <x-feathericon-refresh-cw class="rounded-full bg-green-300 animate-spin text-gray-900"/>   
+
+                              <div x-show="clicked">
+                              
+                              Processing
+                              <x-feathericon-refresh-cw class="rounded-full bg-green-300 animate-spin text-gray-900"/>
+                           
+                              </div>
 
                         </div>
 
