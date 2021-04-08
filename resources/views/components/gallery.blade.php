@@ -141,11 +141,11 @@
         <li class="col-span-1 bg-white rounded-lg shadow">
   
              <div class="flex p-1 rounded-lg">
-                 <div class="flex-shrink-0">
+                 <!-- <div class="flex-shrink-0">
                  
                   <img class="w-8 sm:w-10 h-8 sm:h-10 bg-gray-300 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
                   
-                  </div>
+                  </div> -->
             
                   <div class="flex px-1 items-start leading-tight">
                   <span class="text-gray-900 text-sm font-medium">
