@@ -72,17 +72,18 @@
             
                       <x-slot name="footer">
 
-                        <div id="fileSubmitButton" class="block" x-data="{ clicked: false }">
+                        <div id="fileSubmitButton"  x-data="{ clicked: false }" class="block">
 
-                            <x-jet-button class="" type="submit"  @click="clicked = true">
-                            {{ __('Upload') }} 
+                              <x-jet-button type="submit"  @click="clicked = true">
+                              
+                              <span x-show="!clicked">{{ __('Upload') }}</span>
+                              
+                              </x-jet-button>
 
-                            
-                            </x-jet-button>
-
-                            <x-feathericon-refresh-cw class="bg-green-300 animate-spin text-gray-900" x-show="clicked"/>
-
-                           
+                              <span x-show="clicked" class="animate-spin">
+                              {{ __('Processing') }}
+                              <x-feathericon-refresh-cw class="bg-green-300 animate-spin text-gray-900" x-show="clicked"/>
+                              </span>
 
                         </div>
 
