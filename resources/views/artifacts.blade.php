@@ -74,7 +74,7 @@
 
                         <div id="fileSubmitButton"  x-data="{ clicked: false }" class="block">
 
-                              <x-jet-button type="submit"  @click="clicked = true">
+                              <x-jet-button type="submit"  @click="clicked = true" x-show="!clicked">
                               
                               <span>{{ __('Upload') }}</span>
 
@@ -83,7 +83,7 @@
                               </x-jet-button>
 
 
-                              <div class="flex bg-gray-300 rounded-lg px-2 py-1 mt-2 items-center justify-center" x-show="clicked">
+                              <div class="flex bg-gray-300 items-center justify-center" x-show="clicked">
                               
                               <p>Processing</p>
                               <x-feathericon-refresh-cw class="rounded-full bg-green-300 animate-spin text-gray-900"/>
