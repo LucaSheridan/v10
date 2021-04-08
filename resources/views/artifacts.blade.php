@@ -75,9 +75,12 @@
                         <div id="fileSubmitButton" class="block" x-data="{ clicked: false }">
 
                             <x-jet-button class="" type="submit"  @click="clicked = true">
-                            {{ __('Upload') }} <x-feathericon-refresh-cw class="bg-green-300 text-gray-900" x-show.transition.duration.1000="clicked"
-                            class="animate-spin" />
+                            {{ __('Upload') }} 
+
+                            
                             </x-jet-button>
+
+                            <x-feathericon-refresh-cw class="bg-green-300 animate-spin text-gray-900" x-show="clicked"/>
 
                            
 
