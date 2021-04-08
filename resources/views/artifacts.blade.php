@@ -76,11 +76,13 @@
 
                               <x-jet-button type="submit"  @click="clicked = true">
                               
-                              <span x-show="!clicked">{{ __('Upload') }}</span>
+                              <span>{{ __('Upload') }}</span>
 
-                              <span x-show="clicked" class="animate-spin">
-                              {{ __('Processing') }}
-                              <x-feathericon-refresh-cw class="rounded-full bg-green-300 animate-spin text-gray-900" x-show="clicked"/>
+                              <span x-show="clicked">
+
+                              Processing
+                              <x-feathericon-refresh-cw class="rounded-full bg-green-300 animate-spin text-gray-900"/>
+                              
                               </span>
                               
                               </x-jet-button>
