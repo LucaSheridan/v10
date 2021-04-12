@@ -37,66 +37,13 @@
    
     <body x-data="{ showModal : false } x-cloak" class="font-sans antialiased">
      
-       <div class="relative min-h-screen bg-cool-gray-400">
-                
-       <nav class="bg-cool-gray-100 border-b-0 border-red-500">
-                
-        <!-- HEADER / TITLE / MESSAGES  -->
-        
-        <div class="max-w-5xl mx-auto relative">
+    <div class="relative min-h-screen bg-cool-gray-400">
 
-            <div class="flex absolute top-2 right-0 mx-3 xl:right-0 z-10">
-                                
-                     <x-jet-dropdown align="right" width="48" class="flex align-start">
-                     <x-slot name="trigger">
-          
-                         <button class="flex transition duration-150 ease-in-out">
+      <!-- Begin Alerts -->
 
-                            @if ( !empty(Auth::User()->profile_photo_path))
-
-                               <img src="{{ Auth::User()->profile_photo_path }}" class="rounded-full h-10 w-10 border border-cool-gray-200">
-                                           
-                             @else
-                                            
-                                <!-- TailwindUI Avatar -->
-                                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-cool-gray-200">
-                                <span class="text-sm sm:text-md font-medium leading-none text-gray-500">{{ Auth::User()->initials }}
-                                </span>
-                                </span>
-                                
-                               @endif
-
-                            </button>
-                            
-                        </x-slot>
-                        <x-slot name="content">
-                                
-                                    <x-jet-dropdown-link href="/user/profile">
-                                    View Profile
-                                    </x-jet-dropdown-link>
-                                    
-                                    <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                     <x-jet-dropdown-link href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();
-                                                         this.closest('form').submit();">
-                                    Logout
-                                    </x-jet-dropdown-link>
-                                    </form>
-
-                                </x-slot>
-                            </x-jet-dropdown>
-                                </div>
-
-
-
-        <div class="flex justify-center relative ">
-
-            <!-- Begin Alerts -->
-
-                            <div  x-data="{ alertOpen: true }" class="z-10 absolute space-y-2 z-20 top-3 text-left">
+                            <div  x-data="{ alertOpen: true }" class="absolute space-y-2 top-3 left-3 z-10 text-left">
                     
-                            <x-alert x-show="alertOpen" id="message" class="bg-green-400 text-green-900 pl-2 pr-1 py-1 z-30 opacity-75 shadow-lg rounded"
+                            <x-alert x-show="alertOpen" id="message" class="bg-green-50 text-green-900 border-l-2 border-green-400 px-2 py-1 shadow-lg"
 
                             x-transition:enter="opacity-0 transition transform ease-in duration-1000 origin-right scale-y-0"
                             x-transition:enter-start="transition ease-in transform opacity-100 scale-100 duration-1000"
@@ -127,17 +74,70 @@
                             </div>
 
                         <!-- End Alerts -->
+                
+       <nav class="bg-cool-gray-100">
+                
+        <!-- HEADER / TITLE / MESSAGES  -->
+        <div class="max-w-5xl mx-auto flex text-gray-600 bg-gray-100 relative">
         
-                          <div class="flex text-4xl font-thin Justify-center text-gray-600 bg-gray-100 border-cool-gray pt-0 pb-1 rounded-lg">
-                            
-                          <a href="/artifacts" class="outline-none" tabIndex="-1">                               
-                          <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500 uppercase pl-1">ARTIFACTS</span>
-                          </a>
-                                             
-                          </div>
+        <div class="flex w-16"></div>
+        
+        <div class="flex flex-grow justify-center items-center text-4xl font-thin">
+          
+            <a href="/artifacts" class="outline-none">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500 uppercase pl-1">ARTIFACTS</span>
+            </a>
 
-                    </div>
-                </div>
+        </div>
+
+        <div class="flex w-16 justify-end items-center bg-red-400 pr-3">
+
+            <x-jet-dropdown align="right" width="48" class="flex align-start">
+                     
+                     <x-slot name="trigger">
+          
+                         <button class="flex transition duration-150 ease-in-out">
+
+                            @if ( !empty(Auth::User()->profile_photo_path))
+
+                               <img src="{{ Auth::User()->profile_photo_path }}" class="rounded-full h-10 w-10 border border-cool-gray-200">
+                                           
+                             @else
+                                            
+                                <!-- TailwindUI Avatar -->
+                                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-cool-gray-200">
+                                <span class="text-sm sm:text-md font-medium leading-none text-gray-500">{{ Auth::User()->initials }}
+                                </span>
+                                </span>
+                                
+                               @endif
+
+                            </button>
+                            
+                        </x-slot>
+                       
+                        <x-slot name="content">
+                                
+                                    <x-jet-dropdown-link href="/user/profile">
+                                    View Profile
+                                    </x-jet-dropdown-link>
+                                    
+                                    <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                     <x-jet-dropdown-link href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                                         this.closest('form').submit();">
+                                    Logout
+                                    </x-jet-dropdown-link>
+                                    </form>
+
+                                </x-slot>
+                            </x-jet-dropdown>
+
+        </div>  
+        </div>      
+        
+        
             </nav>
     
     <!-- Begin Menu-->

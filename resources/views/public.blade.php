@@ -114,7 +114,19 @@
 
         <x-slot name="body">
                           
+            <div class="flex flex-col">
+            
+            <div class="flex pb-2">
             <img class="object-scale-down" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
+            </div>
+            
+            <div class="flex justify-center space-x-1 text-gray-600 text-sm">
+            <span class="font-semibold">{{$artifact->artist}}</span>
+            <span class="italic"> {{$artifact->title}}</span>
+            <span class="">{{$artifact->year}}</span>
+            </div>
+
+            </div>
                            
         </x-slot>
 
