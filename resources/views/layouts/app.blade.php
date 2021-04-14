@@ -121,7 +121,15 @@
                                     <x-jet-dropdown-link href="/user/profile">
                                     View Profile
                                     </x-jet-dropdown-link>
-                                    
+
+                                    @role('teacher')
+                                    {{-- hidden for teachers--}}
+                                    @else
+                                    <x-jet-dropdown-link href="{{route('select-class')}}">
+                                    Join New Class
+                                    </x-jet-dropdown-link>
+                                    @endrole
+
                                     <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                      <x-jet-dropdown-link href="{{ route('logout') }}"

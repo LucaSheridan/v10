@@ -23,7 +23,9 @@
                 <x-feathericon-camera class="w-5 h-5 hover:text-red-500 "/>
                 </a>
 
-                      <x-v10_confirmation-modal name="create-artifact" height="h-60" >
+                <!-- Create Modal-->
+
+                    <x-v10_confirmation-modal name="create-artifact" height="h-60" >
               
                       <x-slot name="title">
                       Create New Artifact
@@ -34,19 +36,17 @@
 
                       {!! csrf_field() !!}
       
-                    <!--   <input name="file" type="file" style="display:none" value="{{ old('file') }}" id="file"> -->
-
-                    <input name="file" type="file" style="display:none" value="{{ old('file') }}" id="file" >
+                      <input name="file" type="file" style="display:none" value="{{ old('file') }}" id="file" >
 
                       {{-- Pass Artifact if variable is set --}}
 
                        <input type="hidden" name="user_id" value="{{ Auth::User()->id }}">
                      
-                       {{-- 
-                       <input type="hidden" name="section_id" value="{{$section->id}}">
-                       <input type="hidden" name="assignment_id" value="{{$assignment->id}}">
-                       <input type="hidden" name="component_id" value="{{$komponent->id}}">
-                       --}}
+                          {{-- 
+                          <input type="hidden" name="section_id" value="{{$section->id}}">
+                          <input type="hidden" name="assignment_id" value="{{$assignment->id}}">
+                          <input type="hidden" name="component_id" value="{{$komponent->id}}">
+                           --}}
 
                        <label for="file" class="block mx-auto text-gray-600 mt-2 text-center p-2 rounded">
                        
@@ -68,26 +68,78 @@
 
             </x-slot>
 
-            
-            
-                      <x-slot name="footer">
+            <x-slot name="footer">
 
                         <div id="fileSubmitButton"  x-data="{ clicked: false }" class="block">
 
-                              <x-jet-button type="submit"  @click="clicked = true" x-show="!clicked">
-                              
+                              <x-jet-button type="submit"  @click="clicked = true">
                               <span>{{ __('Upload') }}</span>
-
-                             
-                                                            
                               </x-jet-button>
-
 
                               <div class="flex bg-gray-300 items-center justify-center" x-show="clicked">
                               
                               <p>Processing</p>
                               <x-feathericon-refresh-cw class="rounded-full bg-green-300 animate-spin text-gray-900"/>
-                           
+                              </div>
+
+                        </div>
+
+                        </form>
+
+                        <hr/>
+                         <a class=
+                         "text-xs" href="#create-artifact-from-url"> Click here to upload from URL
+                         </a>
+
+                      </x-slot>
+            
+            </x-v10_confirmation-modal>
+
+<!--End Create Modal  -->
+
+<!-- Create from URL Modal-->
+
+<x-v10_confirmation-modal name="create-artifact-from-url" height="h-60" >
+              
+                      <x-slot name="title">
+                      Create New Artifact from URL
+                      </x-slot>
+
+                      <x-slot name="body">
+                      
+                      <form action="{{route('save-artifact-from-url')}}" role="form" method="POST" enctype="multipart/form-data">
+
+                      {!! csrf_field() !!}
+
+                      <div class="flex flex-col text-center justify-center">
+
+                      <p class="text-center text-sm p-2 mx-2">Type or paste the location of an image on the internet in order to save a copy as an artifact.</p>
+                    
+                      <input type="text" name="url" class="mx-6 bg-white p-2 rounded" value="{{ old('url') }}" id="url" placeholder="http://www.site.com/image.jpg">
+            
+                      <input type="hidden" name="user_id" value="{{ Auth::User()->id }}">
+                     
+                      @if ($errors->has('url'))
+                      <div class="help-block mb-4 text-red-500">
+                      {{ $errors->first('url') }}
+                      </div>
+                      @endif
+
+                      </div>
+    
+                      </x-slot>
+
+                      <x-slot name="footer">
+
+                        <div id="urlSubmitButton"  x-data="{ clicked: false }" class="block">
+
+                              <x-jet-button type="submit"  @click="clicked = true">
+                              <span>{{ __('Upload') }}</span>
+                              </x-jet-button>
+
+                              <div class="flex bg-gray-300 items-center justify-center" x-show="clicked">
+                              <p>Processing</p>
+                              <x-feathericon-refresh-cw class="rounded-full bg-green-300 animate-spin text-gray-900"/>
                               </div>
 
                         </div>
@@ -95,10 +147,11 @@
                         </form>
 
                       </x-slot>
+            
+            </x-v10_confirmation-modal>
 
-               
-                     </x-v10_confirmation-modal>
-               
+
+<!-- End Create from URL Modal -->
 
                 <!-- <x-jet-dropdown align="right" width="48">
                               
@@ -128,7 +181,7 @@
 
         <!-- Show Artifacts -->
         @foreach ($artifacts as $artifact) 
-      
+
         <x-lightbox-modal name="{{ $loop->index }}" >
         
         <x-slot name="title">
@@ -137,7 +190,19 @@
 
         <x-slot name="body">
                           
-        <a href="{{route('show-artifact', $artifact)}}"><img class="object-scale-down" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}"></a>
+            <div class="flex flex-col">
+            
+            <div class="flex pb-2">
+            <img class="object-scale-down" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
+            </div>
+            
+            <div class="flex justify-center space-x-1 text-gray-600 text-sm">
+            <span class="font-semibold">{{$artifact->artist}}</span>
+            <span class="italic"> {{$artifact->title}}</span>
+            <span class="">{{$artifact->year}}</span>
+            </div>
+
+            </div>
                            
         </x-slot>
 
@@ -176,13 +241,12 @@
                 <x-slot name="exit">
                 
                 <a href="#">
-                <x-feathericon-x class="w-10 h-10 m-4 bg-white rounded-full text-gray-400" />
+                <x-feathericon-x class="w-6 h-6 m-4 bg-white rounded-full text-gray-400" />
                 </a>
 
                 </x-slot>
 
         </x-lightbox-modal>
-
 
      <div id="ArtifactCard" class="px-2 pt-2 pb-1 bg-white rounded-lg w-full shadow-xl">
         
@@ -276,9 +340,19 @@
       @endforeach
 
       @else   
-      <div class="col-start-2 text-center col-span-2 text-gray-500 m-2 rounded text-lg px-3 py-2">
+      <div class="text-center bg-red-200 text-gray-500 m-2 rounded text-lg px-3 py-2">
         <img src=""/>
-      Upload some images to Artifacts to begin documenting your artistic journey! </div>                 
+      Upload images of your work as <b>Artifacts</b> to begin documenting your artistic journey!<br>>></div>
+
+<div class="text-center bg-purple-200 text-gray-500 m-2 rounded text-lg px-3 py-2">
+        <img src=""/>
+      Organize <b>Collections</b> of images to build personal portfolios!<br>>></div>
+
+<div class="text-center bg-teal-200 text-gray-500 m-2 rounded text-lg px-3 py-2">
+        <img src=""/>
+      Join <b>Courses</b> receive assignemnts, submit work, and get feedback on your work.<br>>></div>
+
+
       @endif
         
   </div>

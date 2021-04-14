@@ -28,7 +28,10 @@ class SectionController extends Controller
 
     {    
 
-        return redirect()->route('show-section', Auth::User()->firstActiveSection->first());
+                       return redirect()->route('show-section', Auth::User()->firstActiveSection->first());
+
+
+
 
     }
      

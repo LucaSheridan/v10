@@ -106,7 +106,13 @@
 
                                     <div class="flex flex-grow">
                                                         
-                                      <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$component->id.'/*')}}">{{ $component->title}}</a>                    
+                                      @role('teacher')
+                                      <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$component->id.'/*')}}">
+                                      @endrole
+                                      {{ $component->title}}
+                                      @role('teacher')
+                                      </a>             
+                                      @endrole     
                                     </div>
 
 

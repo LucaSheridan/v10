@@ -41,7 +41,7 @@ class EnrollmentController extends Controller
 
                 $code = $request['registrationCode'];
 
-                // Use code to look up section
+                // Use registration code to find class
                 $section = Section::where('registrationCode', $code)->first();
                 
                 // Get array of section's registered students 
@@ -57,17 +57,34 @@ class EnrollmentController extends Controller
 
                 // Check enrolled students against class seats
                 if ($section->students->count() < $section->max_students) {
+                
+                    // Assign user 'student' role
+                    if ( Auth::User()->hasRole(1))
+                    {}
+                    else 
+                    { Auth::User()->roles()->attach(1);
+                      }
+                       
+                        // Enroll student at site
+                        // Get Auth User Sites as an Array
+                        $sites = Auth::User()->sites()->pluck('id')->toArray();
 
-                    // Enroll student in section
-                    Auth::User()->sections()->attach($section->id);
-                    // Enroll student at site
-                    Auth::User()->sites()->sync($section->site_id);
-                    // Flash Success Message
-                    session()->flash('success', 'You have enrolled in '.$section->title.'.');
+                        if (in_array($section->site_id, $sites))
+                        {}
+                        else 
+                        {
+                        Auth::User()->sites()->attach($section->site_id);
+                        }
 
-                    return redirect()->route('show-section', $section);
+                        // Enroll student in class
+                        Auth::User()->sections()->attach($section);
+                        
+                        // Flash Success Message
+                        session()->flash('success', 'You have enrolled in '.$section->title.'.');
 
-                } 
+                        return redirect()->route('show-section', $section);
+
+                    } 
 
                 else {
 

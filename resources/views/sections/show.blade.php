@@ -5,10 +5,8 @@
             Classes
         </h2>
     </x-slot>
-
     
-    @include('partials.sectionNav')
-
+            @include('partials.sectionNav')
             <!-- Begin Content -->
 
             @hasrole('teacher')
