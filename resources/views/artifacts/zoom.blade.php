@@ -17,19 +17,19 @@
  -->
     <!-- <div class="object-scale-down"> -->
       
-<div class="h-full w-full flex items-center justify-center bg-white">
+<div class="h-full w-full flex items-start justify-center bg-white">
 
 <img class="max-w-full max-h-full object-scale-down" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
-       <!--  <ul class="pl-10 pt-4 sm:pl-20 leading-tight text-sm">
-        <li>{{$artifact->artist}}</li>
+       
+        <ul class="text-gray-600 pl-4 pt-4 sm:pl-20 leading-tight text-sm">
+        <li class="font-semibold">{{$artifact->artist}}</li>
         <li class="italic">{{$artifact->title}}</li>
         <li>{{$artifact->medium}}</li>
-        <li>{{$artifact->year}}</li>
-        </ul>
+        <li>{{$artifact->}}</li>
+
+        <li class="pt-4  leading-tight text-sm">{{$artifact->annotation}}</li>
         
-        <ul class="pl-10 pt-4 sm:pl-20 leading-tight text-sm">
-        <li>{{$artifact->annotation}}</li>
-        </ul>-->
+        </ul>
 
     </div>
 
