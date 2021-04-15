@@ -7,15 +7,15 @@
 
 <div id="wrapper" class="flex h-screen w-screen items-center justify-center p-10 bg-white">
 
-   <!--  <div class="absolute top-0 right-0 p-2 z-10">
+<div class="absolute top-0 right-0 p-2 z-10">
 
     <a href="{{route('show-artifact', $artifact)}}">
         <x-feathericon-x class="w-8 h-8 hover:text-red-400 text-gray-400"/>
     </a>
 
-    </div>
- -->
-    <!-- <div class="object-scale-down"> -->
+</div>
+
+<div class="object-scale-down">
       
 <div class="h-full w-full flex items-start justify-center bg-white">
 
@@ -25,9 +25,9 @@
         <li class="font-semibold">{{$artifact->artist}}</li>
         <li class="italic">{{$artifact->title}}</li>
         <li>{{$artifact->medium}}</li>
-        <li>{{$artifact->}}</li>
+        <li>{{$artifact->year}}</li>
 
-        <li class="pt-4  leading-tight text-sm">{{$artifact->annotation}}</li>
+        <li class="pt-4 leading-tight text-sm">{{$artifact->annotation}}</li>
         
         </ul>
 
