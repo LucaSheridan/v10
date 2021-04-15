@@ -252,7 +252,9 @@
         
            <!-- Begiin Artifact Image --> 
 
-                <a class="" href="#{{$loop->index}}">
+                <!-- <a class="" href="#{{$loop->index}}"> -->
+                <a class="" href="{{route('show-artifact', $artifact)}}">
+                  
                   <img  class="object-cover h-48 w-full opacity-100 hover:opacity-75 rounded-lg" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
                 </a>
 

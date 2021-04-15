@@ -11,13 +11,22 @@
 <div class="max-w-5xl mx-auto flex items-stretch flex-wrap w-full bg-white lg:rounded-lg px-4 pb-4">
     
 <!-- Landscape / Portrait Logic for Column 1-->
-   
-    @if ($artifact->dimensions_height_pixels > $artifact->dimensions_width_pixels) 
-    <div id="column1" class="bg-white flex flex-col w-full sm:w-1/2 rounded-l-lg">
+
+    @if (isset($artifact->dimensions_height_pixels))
+    
+
+        @if ($artifact->dimensions_height_pixels > $artifact->dimensions_width_pixels) 
+        <div id="column1" class="bg-white flex flex-col w-full sm:w-1/2 rounded-l-lg">
+        @else
+        <div id="column1" class="bg-white flex flex-col w-full sm:w-1/2 md:w-2/3 rounded-l-lg">
+        @endif
+
     @else
-    <div id="column1" class="bg-white flex flex-col w-full sm:w-1/2 md:w-2/3 rounded-l-lg">
+
+
+        <div id="column1" class="bg-white flex flex-col w-full sm:w-1/2 rounded-l-lg">
+
     @endif
-    <!-- End Logic -->
     
     <div id="artifactTitleMenu" x-data="{open: false}" class="flex items-center relative">
 
@@ -75,7 +84,7 @@
     <div class="flex justify-center">
 
                 <a class="cursor-zoom-in" tabindex="0" href="{{route('zoom-artifact', ['artifact' => $artifact->id])}}">
-                <img class="object" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
+                <img class="object border" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
                 </a> 
     </div>
 
@@ -85,12 +94,21 @@
 
 <!-- Column 2: Wrapper -->
 
-<!-- Landscape / Portrait Logic for Column 2-->
-    @if ($artifact->dimensions_height_pixels < $artifact->dimensions_width_pixels) 
-    <div class="flex flex-col w-full sm:w-1/2 md:w-1/3 pl-0 mt-4 sm:mt-0">
+    <!-- Landscape / Portrait Logic for Column 2-->
+    @if (isset($artifact->dimensions_height_pixels))
+    
+        @if ($artifact->dimensions_height_pixels < $artifact->dimensions_width_pixels) 
+        <div class="flex flex-col w-full sm:w-1/2 md:w-1/3 pl-0 mt-4 sm:mt-0">
+        @else
+        <div class="flex flex-col w-full sm:w-1/2  pl-0  mt-4 sm:mt-0">
+        @endif
+
     @else
-    <div class="flex flex-col w-full sm:w-1/2  pl-0  mt-4 sm:mt-0">
+
+        <div class="flex flex-col w-full sm:w-1/2  pl-0  mt-4 sm:mt-0">
+
     @endif
+
     <!-- End Logic -->
     
     <div id="column2" class="flex flex-col sm:pl-4 pb-2 rounded-r-lg">
@@ -225,7 +243,7 @@
 
                 </div>
 
-           <div class="" x-data="{openCommentForm: false}">
+           <div class="" x-data="{openCommentForm: true}">
 
                <div class="flex items-center pb-2 ">
             
@@ -246,7 +264,8 @@
                         </button>
 
                         <!-- Comment Trigger -->
-                        <button x-show="!openCommentForm" @click="openCommentForm = true"><
+                        <button class="inline-flex items-center" x-show="!openCommentForm" @click="openCommentForm = true">
+                        <span class="hover:text-red-500 text-gray-500 mr-1 text-sm"></span><
                         x-feathericon-plus-circle class="w-5 h-5 hover:text-red-500 text-gray-400"/> 
                         </button>
 
@@ -265,7 +284,7 @@
                     <div class="flex flex-1 mt-0 bg-white border rounded-l-lg rounded-r pl-1">
 
                     <!-- Begin Create Comment Form Input-->
-                            <input id="body" class="w-full resize-y px-1 py-1 rounded outline-none border-none text-gray-500 text-sm leading-snug text-sm {{ $errors->has('body') ? 'border-red-500' : 'border' }}" name="body" placeholder="Add Feedback"
+                            <input id="body" class="w-full resize-y px-1 py-1 rounded outline-none border-none text-gray-500 text-sm leading-snug text-sm {{ $errors->has('body') ? 'border-red-500' : 'border' }}" name="body" placeholder="Add Comment"
                             value="{{ old('body') }}" autofocus>{{ old('body') }}</input>
                             
                             {!! $errors->first('body', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
@@ -293,7 +312,7 @@
 
                     @if ($artifact->comments)
 
-                    <div class="text-left overflow-y-scroll space-y-0 mt-0 text-sm border rounded-lg">
+                    <div class="text-left overflow-y-scroll space-y-0 mt-0 text-sm rounded-lg">
 
                         @foreach ($artifact->comments as $comment)
             
