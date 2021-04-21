@@ -85,8 +85,8 @@
                         </div>
 
                         </form>
-
-                        <hr/>
+e
+                        <hr class="mt-2" />
                          <a class=
                          "text-xs" href="#create-artifact-from-url"> Click here to upload from URL
                          </a>

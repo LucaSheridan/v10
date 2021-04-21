@@ -97,9 +97,10 @@ class ArtifactController extends Controller
             'file' => 'required|image',
             //mimes:jpeg,png,jpg,pdf|max:10000',
             'user_id' => 'required',
-            //'assignment_id' => 'required',
-            //'component_id' => 'required',
+            'assignment_id' => 'required',
+            'component_id' => 'required',
             ]);
+
 
             // get form input data
             $user_id = $request->input('user_id');
@@ -109,6 +110,9 @@ class ArtifactController extends Controller
             
             // get file input data as object
             $image = $request->file('file');
+
+            // dd($image);
+
 
             // get real path to file in temp directory
             $realPath = $request->file('file')->getRealPath();
