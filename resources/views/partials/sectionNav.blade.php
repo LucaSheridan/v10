@@ -6,7 +6,7 @@
 
 <div class="hidden sm:block flex flex-grow flex-wrap pl-1 mb-1">
 
-    {{-- Start Class Selection on larger displays --}}
+    {{-- Start our Class Selection on larger displays --}}
 
                                 @if (Auth::User()->activeSections()->count() > 0)
 
