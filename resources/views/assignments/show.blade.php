@@ -12,7 +12,7 @@
 
 <!-- Begin Page Content -->
 
-             <div class="max-w-5xl mx-auto grid grid-cols-1 gap-y-4 sm:grid-cols-3 sm:gap-3 bg-cool-gray-400 text-sm text-gray-500" x-data="{ tab: 'assignments' }" >
+             <div class="max-w-5xl mx-auto grid grid-cols-1 gap-y-4 sm:grid-cols-3 sm:gap-3 bg-cool-gray-400 text-sm text-gray-500" >
                             
 <!-- Assignments-->
 
@@ -64,87 +64,7 @@
                           <span class="" @click="open = ! open">
                           <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span> 
 
-                              <a href="{{route('show-assignment', ['assignment' => $assignment->id , 'section' => $currentSection->id])}}" class="text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>
-
-                         
-
-                               <!--  <span class="float-right">
-                      
-                                      <x-jet-dropdown align="right" width="48">
-                                            
-                                            <x-slot name="trigger">
-                                            <button class="flex transition duration-150 ease-in-out">
-                                            <x-feathericon-more-horizontal class="h-5 w-5 text-gray-300" />
-                                            </button>
-                                            </x-slot>
-                                            
-                                            <x-slot name="content">
-                                                
-                                                @hasrole('teacher')
-                                            
-                                                  <x-jet-dropdown-link href="{{ route('edit-assignment', ['section' => $currentSection, 'assignment' => $assignment ])}}">
-                                                Edit Assignment
-                                                </x-jet-dropdown-link> 
-
-                                                <x-jet-dropdown-link href="{{ route('create-component', ['section' => $currentSection, 'assignment' => $assignment ])}}">
-                                                Add Component
-                                                </x-jet-dropdown-link> 
-                                                @endhasrole
-
-                                            </x-slot>
-                                            
-                                      </x-jet-dropdown>
-
-                               </span>  -->
-
-
- <div x-show="open" class="flex flex-col pl-6 pr-1.5 py-2 text-gray-500 space-y-0" @click="open = ! open">
-                                                                                          
-                                @foreach ( $assignment->components as $component )
-                
-                                        <div class="flex w-full flex-row leading-tight pt-0 pl-2 border-l-2 border-gray-200">
-
-                                    <div class="flex flex-grow">
-                                                        
-                                      @role('teacher')
-                                      <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$component->id.'/*')}}">
-                                      @endrole
-                                      {{ $component->title}}
-                                      @role('teacher')
-                                      </a>             
-                                      @endrole     
-                                    </div>
-
-
-                                <!-- <div class="flex w-full flex-row leading-tight pl-3 border-l-0 border-gray-200">
-
-                                              <div class="flex flex-grow">
-                                                <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline">{{ $component->title}}</a>
-                                              </div> -->
-
-
-                                             <!--  <div class="text-gray-500 -mr-1">
-                 
-   <a href="{{route('edit-component', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}">
-
-                                              {{ Carbon\Carbon::parse($component->date_due)->format('n/j') }}</a>
-                                              
-                                              </div> -->
-
-                                              <!-- <div class="pl-2 -mr-1">
-                                             
-                                                  <a href="{{route('edit-component', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ]) }}" class="p-0 m-0 hover:text-red-400 no-underline text-sm">
-                                                <x-feathericon-more-horizontal class="w-4 h-4 hover:text-red-500 text-gray-400"/>
-                                              </a>
-                                              </div> -->
-
-                                        </div>
-
-
-
-                              @endforeach
-
-                    </div>           
+                              <a href="{{route('show-assignment', ['assignment' => $assignment->id , 'section' => $currentSection->id])}}" class="text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>          
 
                     </div>    
 
@@ -258,9 +178,87 @@
           
                 @if (!$checklistItem->artifactCreatedAt)
 
-                   <a href="{{action('App\Http\Controllers\ArtifactController@create', ['section' => $currentSection , 'assignment' => $checklistItem->assignmentID , 'komponent' => $checklistItem->componentID ])}}">
+                <a href="{{action('App\Http\Controllers\ArtifactController@create', ['section' => $currentSection , 'assignment' => $checklistItem->assignmentID , 'komponent' => $checklistItem->componentID ])}}">
                 <x-feathericon-plus-circle class="w-5 h-5 text-gray-500 mr-2"/></a>
+                
+                
+                <a href="#create-artifact">
+                <x-feathericon-camera class="w-5 h-5 hover:text-red-500 "/>
+                </a>
+
+                <!-- Create Modal-->
+
+                    <x-v10_confirmation-modal name="create-artifact" height="h-60" >
               
+                      <x-slot name="title">
+                      Create New Artifact
+                      </x-slot>
+
+                      <x-slot name="body">
+                      
+                      <form action="{{route('save-artifact')}}" role="form" method="POST" enctype="multipart/form-data"class="">
+
+                      {!! csrf_field() !!}
+
+                      <input type="hidden" name="user_id" value="{{ Auth::User()->id }}"><br/>
+
+                       {{-- Pass Artifact if variable is set --}}
+                     
+                      <input type="hidden" name="section_id" value="{{$checklistItem->sectionID}}">
+                      <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
+                      <input type="hidden" name="component_id" value="{{$checklistItem->componentID}}">
+                      
+                      <label for="file" class="block mx-auto text-gray-600 mt-2 text-center p-2 rounded">
+                       
+                       <div class="relative flex items-center justify-center text-gray-600">
+                          <div class="p-2 bg-cool-gray-400 text-white hover:bg-gray-500 hover:text-gray-100 rounded-full">
+                          <x-feathericon-camera class="h-8 w-8" />
+                          </div>
+                       </div>
+
+                      </label>
+
+                      <input name="file" type="file" value="{{ old('file') }}" id="file" >
+                        
+                      <div class="w-full text-center mb-2 p-1 rounded" id="filename"></div>
+
+                @if ($errors->has('file'))
+                <div class="help-block mb-4 text-red-500">
+                {{ $errors->first('file') }}
+                </div>
+                @endif
+
+            </x-slot>
+
+            <x-slot name="footer">
+
+                        <div id="fileSubmitButton"  x-data="{ clicked: false }" class="block">
+
+                              <x-jet-button type="submit"  @click="clicked = true">
+                              <span>{{ __('Upload') }}</span>
+                              </x-jet-button>
+
+                              <div class="flex bg-gray-300 items-center justify-center" x-show="clicked">
+                              
+                              <p>Processing</p>
+                              <x-feathericon-refresh-cw class="rounded-full bg-green-300 animate-spin text-gray-900"/>
+                              </div>
+
+                        </div>
+
+                        </form>
+
+                        <hr/>
+                         <a class=
+                         "text-xs" href="#create-artifact-from-url"> Click here to upload from URL
+                         </a>
+
+                      </x-slot>
+            
+            </x-v10_confirmation-modal>
+
+<!--End Create Modal  -->
+
                 @else
 
                    <!-- ue: {{ $duedate }}<br/>
@@ -387,18 +385,31 @@
                 @foreach ( $activeAssignment->components as $komponent )
 
                     <tr class="border-t">
-                         <td class="py-2">
-                            <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>    
+                         <td class="py-2" x-data="{ open: false }" class="transition">
+                          
+                          <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>                          
+                          <!-- Instructions Dropdown  -->
+                         
+                          <span class="" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
+
+                          <span class="" @click="open = ! open">
+                          <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span>
+
+                          <br/>
+                          
+                          <p x-show="open" class="bg-gray-100 rounded my-2 mr-2 p-1 pr-2 text-xs">{{ $komponent->description}}</p>
+
                          </td>
+
                          <td class="">
                         
                         @if (is_null($komponent->date_due))
-                        <div class="ml-3">
+                        <div class="">
                         -
-                        <div>
+                        </div>
                         @else
-                          <div class="hidden md:block">{{ Carbon\Carbon::parse($komponent->date_due)->format('D, M jS @ g:ia')}}</div>
-                          <div class="md:hidden">{{ Carbon\Carbon::parse($komponent->date_due)->format(' n/j/y @ g:ia')}}</div>
+                          <div class="hidden md:block text-xs">{{ Carbon\Carbon::parse($komponent->date_due)->format('D, M jS @ g:ia')}}</div>
+                          <div class="md:hidden text-xs">{{ Carbon\Carbon::parse($komponent->date_due)->format(' n/j/y @ g:ia')}}</div>
                         @endif
 
                         </td>

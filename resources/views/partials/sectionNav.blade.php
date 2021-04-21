@@ -1,21 +1,20 @@
-<!-- Section Menu -->
 
-   <div class="pt-0 px-3 mb-2">
 
-      <div class="flex items-center max-w-5xl mx-auto mb-3 pl-1 bg-white rounded-lg text-left py-1 ">
+<div class="pt-0 px-3 mb-2">
 
-                <!-- Content Menu Bar-->
-                <div class="flex flex-grow items-center text-gray-500">
+<div class="flex rounded-lg bg-gray-50 text-gray-400 mb-3">
 
-                      <!-- Class Pills -->
-                      <div class="flex-grow text-gray-400 aliased space-x-0">
-                        
-                               
-                             @if (Auth::User()->activeSections()->count() > 0)
+<div class="hidden sm:block flex flex-grow flex-wrap pl-1 mb-1">
+
+    {{-- Start Class Selection on larger displays --}}
+
+                                @if (Auth::User()->activeSections()->count() > 0)
 
                                 @foreach ( Auth::User()->activeSections as $section)  
 
-                                <a class="px-2 py-1 bg-cool-gray-200 rounded-lg hover:text-gray-700 text-sm {{active_check('sections/'.$section->id.'*')}}"
+                              <!--  <span class="inline-flex items-center mt-1 px-3 py-0.5 rounded-full text-sm font-medium bg-cool-gray-200 text-gray-800"> -->
+  
+  <a class="inline-flex items-center mt-1 px-2 py-1 bg-cool-gray-200 rounded-lg hover:text-gray-700 text-sm {{active_check('sections/'.$section->id.'*')}}"
                                 href="{{route('show-section', $section->id)}}">
 
                                 {{ $section->title}}</a>
@@ -24,14 +23,46 @@
 
                               @else
                               <p>You currently have no classes.</p>
-                              @endif
+                    @endif
 
-                      </div>
-                      <!-- End Class Pills -->
 
-                </div>
-                <!-- Content Menu Bar-->
+    {{-- End Class Selection on larger displays --}}
 
+</div>
+
+
+  {{-- Begin Class Dropdown on small displays --}}
+
+<div class="sm:hidden flex flex-grow items-center">                
+                        
+                        <div class="px-0 py-0 flex flex-wrap w-full">
+                    
+                            <select class="pl-2 py-1 my-1 ml-1 pr-8 m-0 form-select w-full bg-cool-gray-200 border-none text-sm text-red-500
+
+                            " onchange="location = this.value;">
+      
+                                 <option class="" value="{{route('show-section', $currentSection->id) }}">{{$currentSection->title}}</option>
+                
+                                    @foreach ( Auth::User()->activeSections as $section)                         
+                                                   
+                                        @if ( $section->id == $currentSection->id ) 
+                                        @else
+                                            <option value="{{route('show-section', $section->id) }}">{{ $section->title}}</option>
+                                        @endif
+                                    
+                                    @endforeach
+
+                            </select>
+
+                        </div> 
+
+                    </div>
+                    
+                    {{-- End Class Dropdown on small displays --}}
+
+<div class="flex bg-white rounded-r-lg items-start mt-2 ml-2">
+  
+<!-- Content Menu -->
 
                 <div class="flex pr-2">
                       
@@ -85,4 +116,10 @@
                 </x-jet-dropdown>
                 <a href="{{route('select-class')}}"></a>
                 </div>
+
+
+
+                </div>
+                
+                
             </div>

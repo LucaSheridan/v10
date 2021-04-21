@@ -40,6 +40,17 @@
 
                     </div>
 
+                    {{-- Begin Description Input--}}
+            
+                    <div class="mb-2">
+
+                        <label for="description" class="w-full md:mb-0 font-semibold text-gray-600 text-sm pt-2 pr-3 align-middle">Instructions</label>
+
+                        <input id="description" type="text" class="w-full mt-2 rounded h-8 p-1 border text-gray-600 text-sm {{ $errors->has('description') ? 'border-red-500' : 'border' }}" name="description" value="{{ $komponent->description }}" autofocus>
+                        {!! $errors->first('description', '<span class="text-red-500 text-sm mt-2">:message</span>') !!}
+
+                    </div>
+
                   {{-- Begin Due Date Input --}}
                     
                     <div class="mb-2">

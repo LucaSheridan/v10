@@ -1,6 +1,6 @@
 <!-- Show Content -->
 
-          <div class="max-w-5xl mx-auto grid grid-cols-1 gap-y-3 sm:grid-cols-3 sm:gap-3 bg-cool-gray-400 text-sm text-gray-500 mb-2" x-data="{ view: 'gallery' }" >
+          <div class="max-w-5xl mx-auto grid grid-cols-1 gap-y-3 sm:grid-cols-3 sm:gap-3 bg-cool-gray-400 text-sm text-gray-500 mb-2" x-data="{ view: 'list' }" >
                   
               <!-- Assignments-->
 
@@ -157,10 +157,10 @@
                           STUDENTS ({{$currentSection->students->count()}})
                           
                          
-                          <span x-show="view === 'list'" @click="view = 'gallery'">View<x-feathericon-grid class="inline-flex w-5 h-5 mr-0 hover:text-red-500 text-gray-400 mr-2"/>
+                          <span x-show="view === 'list'" @click="view = 'gallery'">View <x-feathericon-grid class="inline-flex w-5 h-5 mr-0 hover:text-red-500 text-gray-400 mr-2"/>
                           </span>
 
-                          <span x-show="view === 'gallery'" @click="view = 'list'">View<x-feathericon-list class="inline-flex w-5 h-5 mr-0 hover:text-red-500 text-gray-400 mr-2"/>
+                          <span x-show="view === 'gallery'" @click="view = 'list'">View <x-feathericon-list class="inline-flex w-5 h-5 mr-0 hover:text-red-500 text-gray-400 mr-2"/>
                           </span> 
                          
                           </div>
@@ -260,11 +260,14 @@
                     <div id="roster-list" x-show="view === 'list'" class="bg-gray-100 mb-2 shadow-inner" >
                                    
                        
-                      <div class="rounded-l-lg rounded-br-lg bg-gray-100 no-underline text-sm shadow-inner" >
+                      <div class="rounded-br-lg no-underline text-sm shadow-inner p-2" >
 
  @if ($currentSection->students->count() > 0)
 
-                                    <ul class="leading-snug text-sm no-underline pt-3 space-y-4">
+                                   <!-- <ul class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 rounded-lg gap-2"> -->
+
+<ul class="grid rounded-lg grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:text-xs rounded-lg gap-2 mt-3">
+
                                     
                                     @foreach ($currentSection->students as $student)                                    
                                    
@@ -272,7 +275,7 @@
 
                                     
                                     
-                                    <li class="mx-1 p-1 bg-white rounded-sm text-gray-600 text-sm hover:bg-gray-200 hover:text-red-500">
+                                    <li class="mx-1 rounded-sm text-gray-600 text-sm hover:text-red-500">
                                     {{ $student->fullName}}</li>
                                    
 
@@ -296,6 +299,9 @@
              </div>
      
      </div>
+
+
+     
 
       <!-- End Content -->
   </div>
