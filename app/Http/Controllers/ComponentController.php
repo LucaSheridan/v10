@@ -78,6 +78,7 @@ class ComponentController extends Controller
 
         //set and title information
         $component->title = $request->input('title');
+        $component->description = $request->input('description');
 
         //set section id 
         $component->section_id = $section->id;
@@ -137,6 +138,7 @@ class ComponentController extends Controller
         //set and title information
         
             $component->title = $request->input('title');
+            $component->description = $request->input('description');
 
         //set class_viewable
                 //Radio button has been set to "true"
