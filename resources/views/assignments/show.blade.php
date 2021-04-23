@@ -353,6 +353,7 @@
 
 
           </td>
+          
           <td>
             @if ($checklistItem->componentClassViewable == true)
             <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $checklistItem->componentID ])}}" class="text-left">
@@ -371,6 +372,58 @@
        <!-- Student Table ends -->
         <!--  Teacher Table Begins -->
         @role('teacher')
+       
+        <!-- Begin Table -->
+        <div class="flex flex-col w-full bg-teal-200 p-2">
+
+        <!-- Begin Table Headder -->
+        <div class="flex flex-row bg-teal-100 text-gray-600 p-2">
+
+            <div class="flex">Component</div>
+            <div class="flexl">Due</div>
+            <div class="flex">Options</div>
+            <div class="flex"></div>
+
+        </div>
+
+        @foreach ( $activeAssignment->components as $komponent )
+
+        <div  x-data="{ open: false }" class="p-2 bg-red-200 flex flex-col">
+        
+        <div class="w-full bg-purple-100 text-gray-600 flex">
+
+            <div class="">
+                 <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>                          
+                    <!-- Instructions Dropdown  -->
+                   
+                    <span class="" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
+
+                    <span class="" @click="open = ! open">
+                    <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span>
+            
+            </div>
+           
+            <div class="table-cell">Due</div>
+            <div class="table-cell">Options</div>
+            <div class="table-cell"></div>
+
+      </div>
+
+
+
+    <div x-show="open" class="flex bg-yellow-200 text-xs">{{ $komponent->description}}</div>
+      </div> 
+
+     
+
+                              @endforeach
+
+      </div>
+        <!-- End Table -->   
+
+
+        </div>
+
         <table class="w-full">
           
           <!-- Teacher Table Column Headers -->
@@ -384,8 +437,8 @@
                                                   
                 @foreach ( $activeAssignment->components as $komponent )
 
-                    <tr class="border-t">
-                         <td class="py-2" x-data="{ open: false }" class="transition">
+                    <tr class="border-t" x-data="{ open: false }">
+                         <td class="py-2" class="transition">
                           
                           <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>                          
                           <!-- Instructions Dropdown  -->
@@ -395,9 +448,7 @@
                           <span class="" @click="open = ! open">
                           <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span>
 
-                          <br/>
-                          
-                          <p x-show="open" class="bg-gray-100 rounded my-2 mr-2 p-1 pr-2 text-xs">{{ $komponent->description}}</p>
+                          <span x-show="open" colspan="4" class="bg-gray-100 rounded my-2 mr-2 p-1 pr-2 text-xs">{{ $komponent->description}}</span>
 
                          </td>
 
@@ -457,7 +508,8 @@
                         </td>
                           
                       @endforeach
-            </tr>
+                    </tr>
+
           </table>
           @endrole
   
