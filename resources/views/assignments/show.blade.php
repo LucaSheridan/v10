@@ -372,15 +372,15 @@
        <!-- Student Table ends -->
         <!--  Teacher Table Begins -->
         @role('teacher')
-       
+       </div>
         <!-- Begin Table -->
-        <div class="flex flex-col w-full bg-teal-200 p-2">
+        <div class="flex flex-col w-full">
 
         <!-- Begin Table Headder -->
-        <div class="flex flex-row bg-teal-100 text-gray-600 p-2">
+        <div class="flex flex-row text-gray-600 py-2 font-semibold space-x-2 w-full rounded-lg ">
 
-            <div class="flex">Component</div>
-            <div class="flexl">Due</div>
+            <div class="flex flex-grow ">Component</div>
+            <div class="flex w-28">Due</div>
             <div class="flex">Options</div>
             <div class="flex"></div>
 
@@ -388,11 +388,11 @@
 
         @foreach ( $activeAssignment->components as $komponent )
 
-        <div  x-data="{ open: false }" class="p-2 bg-red-200 flex flex-col">
+        <div  x-data="{ open: false }" class="flex flex-col border-b">
         
-        <div class="w-full bg-purple-100 text-gray-600 flex">
+        <div class="w-full bg-gray-100 text-gray-600 flex items-center">
 
-            <div class="">
+            <div class="flex bg-red-200 flex-grow py-1 items-center">
                  <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>                          
                     <!-- Instructions Dropdown  -->
                    
@@ -403,15 +403,54 @@
             
             </div>
            
-            <div class="table-cell">Due</div>
-            <div class="table-cell">Options</div>
+            <div class="flex w-36">
+             @if (is_null($komponent->date_due))
+                        <div class="">
+                        -
+                        </div>
+                        @else
+                          <div class="hidden md:block text-xs">{{ Carbon\Carbon::parse($komponent->date_due)->format('D, M jS @ g:ia')}}</div>
+                          <div class="md:hidden text-xs">{{ Carbon\Carbon::parse($komponent->date_due)->format(' n/j/y @ g:ia')}}</div>
+                        @endif  
+            </div>
+
+
+            <div class="flex items-center justify-center w-16 ">
+                              <x-jet-dropdown align="right" width="48">
+                               <x-slot name="trigger">
+                                   <x-feathericon-more-horizontal class="w-5 h-5 hover:text-red-500 text-gray-400 "/>
+                               </x-slot>
+                               <x-slot name="content">
+                                  <x-jet-dropdown-link href="{{{route('edit-component', [ 
+                                  'section' => $currentSection , 
+                                  'assignment' => $activeAssignment,
+                                  'component' => $komponent]) }}}" class="p-0 m-0 hover:text-red-400 no-underline text-sm">
+                                  Edit Component
+                                  </x-jet-dropdown-link> 
+                               
+                                  <x-jet-dropdown-link>
+                                   <form id="delete_component" method="POST" action="{{ route('destroy-component', [
+                                   'section' => $currentSection, 
+                                   'assignment' => $activeAssignment,
+                                   'component' => $komponent]) }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this component?')">Delete Component</button>
+                                    </form>
+                                   </x-jet-dropdown-link>
+
+                                </x-slot>
+                              </x-jet-dropdown>  
+
+                            </div>
+
             <div class="table-cell"></div>
 
       </div>
 
 
 
-    <div x-show="open" class="flex bg-yellow-200 text-xs">{{ $komponent->description}}</div>
+    <div x-show="open" class="flex bg-white rounded px-2 py-1 m-1 text-xs">{{ $komponent->description}}</div>
       </div> 
 
      
