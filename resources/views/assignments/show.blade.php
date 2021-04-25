@@ -388,15 +388,16 @@
 
         @foreach ( $activeAssignment->components as $komponent )
 
-        <div  x-data="{ open: false }" class="flex flex-col border-b">
+        <div  x-data="{ open: false }" class="flex flex-col border-t">
         
-        <div class="w-full bg-gray-100 text-gray-600 flex items-center">
+        <div class="w-full text-gray-600 flex items-center">
 
-            <div class="flex bg-red-200 flex-grow py-1 items-center">
-                 <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>                          
+            <div class="flex py-2 flex-grow items-center">
+
+                 <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>                          
                     <!-- Instructions Dropdown  -->
                    
-                    <span class="" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
+                    <span class="inline-flex" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-400"/></span>
 
                     <span class="" @click="open = ! open">
                     <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span>
