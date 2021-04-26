@@ -20,7 +20,6 @@ class Collection extends Model
         'created_at','updated_at',
     ];
 
-	//protected $dateFormat = 'U';
      public function curators()
     
     {

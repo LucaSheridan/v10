@@ -221,5 +221,36 @@
 
             
             @endforeach
+            <br/>
+            Containing artworks by:
+
+             @foreach ($collection->artifacts as $artifact)
+          
+              @if ($loop->count > 1 && $loop->last)
+
+                  and 
+                  <span class="font-semibold">
+                  {{$artifact->pivot->artist}}
+                  </span>
+             
+              <!-- COMMA Check for loop count > 2 and not last-->
+              @elseif ($loop->count > 2 && $loop->index != 0),
+              <span class="font-semibold">
+              {{$artifact->pivot->artist}}
+              </span>
+
+              @else
+
+              <span class="font-semibold">
+              {{$artifact->pivot->artist}}
+              </span>
+
+              @endif
+
+             @endforeach
+
+                  
           </div>
+
+
 </x-app-layout>

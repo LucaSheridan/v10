@@ -45,7 +45,7 @@
 
                   </div>
                 
-                <div class="py-3 px-1 shadow-inner space-y-0 text-xs">
+                <div class="py-3 pl-3 shadow-inner space-y-1 text-xs">
                  
                   @if ($sectionAssignments->count() > 0)
 
@@ -59,10 +59,10 @@
                      
                             <!-- Dropdown and Editing Components -->
                          
-                         <span class="" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
+                        <!--  <span class="" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
 
                           <span class="" @click="open = ! open">
-                          <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span> 
+                          <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span>  -->
 
                               <a href="{{route('show-assignment', ['assignment' => $assignment->id , 'section' => $currentSection->id])}}" class="text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>          
 
@@ -87,19 +87,19 @@
                  
 <!-- Begin Assignment Content -->
                   
-                  <div class="col-span-2 bg-white rounded-lg  p-2">
+                  <div class="col-span-2 bg-gray-100 rounded-lg ">
 
-                   <div class="flex bg-gray-100 rounded-t-lg">
+                   <div class="flex bg-white rounded-t-lg">
                         
                       <!-- Assignment Title -->
-                      <div class="flex flex-grow text-2xl px-2 text-gray-500">
+                      <div class="flex flex-grow px-2 text-gray-500 items-center uppercase">
                       {{$activeAssignment->title}}
                       </div>
                       
                       <!-- Assignment Menu -->
                       @role('teacher')
                       
-                      <div class="flex pt-2 pr-2">
+                      <div class="flex py-1 px-2 items-center">
                        <x-jet-dropdown align="right" width="48">
                                     
                               <x-slot name="trigger">
@@ -130,16 +130,21 @@
                             @endrole 
                       </div>
                       
-        <div class="bg-gray-100 px-2 pb-3 rounded-b-lg mb-2 text-sm pr-10">
-        {{$activeAssignment->description}}
+        <div class="bg-gray-100 shadow-inner px-2 py-2 text-sm"> 
+        
+        <div class="font-semibold border-t border-r border-l  rounded-t-lg bg-white px-2 py-1">
+        Rationale</div>
+        <p class="border-b border-r border-l rounded-b-lg bg-white px-2 pb-2 text-xs leading-snug">
+ 
+        {{$activeAssignment->description}}</p>
 
         </div>
 
 <!-- Begin Assignment Components List  -->
 
-         <div class="bg-gray-100 p-2 rounded-lg">
+         <div class="bg-gray-100 rounded-lg px-2 ">
   
-         <div class="bg-white rounded-lg p-2">
+         <div class="rounded-lg">
                           
 <!--  Student Table Begins -->
     @role('student')
@@ -367,22 +372,26 @@
           @endforeach
 
           </table>
+
           @endrole
 
        <!-- Student Table ends -->
         <!--  Teacher Table Begins -->
         @role('teacher')
-       </div>
-        <!-- Begin Table -->
-        <div class="flex flex-col w-full">
+<!--        </div>
+ -->        <!-- Begin Table -->
+       
+
+        <div class="flex flex-col w-full px-2 mb-2 rounded-lg border bg-white">
 
         <!-- Begin Table Headder -->
         <div class="flex flex-row text-gray-600 py-2 font-semibold space-x-2 w-full rounded-lg ">
 
-            <div class="flex flex-grow ">Component</div>
-            <div class="flex w-28">Due</div>
+            <div class="flex flex-grow ">Components</div>
+            <div class="flex flex-row w-28 md:w-48 pl-1">Due</div>
+
             <div class="flex">Options</div>
-            <div class="flex"></div>
+            <div class="flex w-6"></div>
 
         </div>
 
@@ -397,14 +406,15 @@
                  <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>                          
                     <!-- Instructions Dropdown  -->
                    
-                    <span class="inline-flex" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-400"/></span>
+                    <span class="inline-flex" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
 
-                    <span class="" @click="open = ! open">
-                    <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span>
+                    <span class="inline-flex" @click="open = ! open">
+                    <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/>
+                    </span>
             
             </div>
            
-            <div class="flex w-36">
+            <div class="flex w-28 md:w-48 justify-start">
              @if (is_null($komponent->date_due))
                         <div class="">
                         -
@@ -445,112 +455,35 @@
 
                             </div>
 
-            <div class="table-cell"></div>
-
-      </div>
-
-
-
-    <div x-show="open" class="flex bg-white rounded px-2 py-1 m-1 text-xs">{{ $komponent->description}}</div>
-      </div> 
-
-     
-
-                              @endforeach
-
-      </div>
-        <!-- End Table -->   
-
-
-        </div>
-
-        <table class="w-full">
-          
-          <!-- Teacher Table Column Headers -->
-          <tr class="text-gray-600">
-          <td class="">Component</td>
-          <td class="py-2">Due</td>
-          <td class="text-center">Options</td>
-          <td class="text-center"></td>
-          </tr>
-        
-                                                  
-                @foreach ( $activeAssignment->components as $komponent )
-
-                    <tr class="border-t" x-data="{ open: false }">
-                         <td class="py-2" class="transition">
-                          
-                          <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">{{ $komponent->title}}</a>                          
-                          <!-- Instructions Dropdown  -->
-                         
-                          <span class="" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
-
-                          <span class="" @click="open = ! open">
-                          <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span>
-
-                          <span x-show="open" colspan="4" class="bg-gray-100 rounded my-2 mr-2 p-1 pr-2 text-xs">{{ $komponent->description}}</span>
-
-                         </td>
-
-                         <td class="">
-                        
-                        @if (is_null($komponent->date_due))
-                        <div class="">
-                        -
-                        </div>
-                        @else
-                          <div class="hidden md:block text-xs">{{ Carbon\Carbon::parse($komponent->date_due)->format('D, M jS @ g:ia')}}</div>
-                          <div class="md:hidden text-xs">{{ Carbon\Carbon::parse($komponent->date_due)->format(' n/j/y @ g:ia')}}</div>
-                        @endif
-
-                        </td>
-                        
-                        <!-- Teacher Options Column -->
-                        <td class="">
-                             
-                             <div class="flex items-center justify-center">
-                              <x-jet-dropdown align="right" width="48">
-                               <x-slot name="trigger">
-                                   <x-feathericon-more-horizontal class="w-5 h-5 hover:text-red-500 text-gray-400 "/>
-                               </x-slot>
-                               <x-slot name="content">
-                                  <x-jet-dropdown-link href="{{{route('edit-component', [ 
-                                  'section' => $currentSection , 
-                                  'assignment' => $activeAssignment,
-                                  'component' => $komponent]) }}}" class="p-0 m-0 hover:text-red-400 no-underline text-sm">
-                                  Edit Component
-                                  </x-jet-dropdown-link> 
-                               
-                                  <x-jet-dropdown-link>
-                                   <form id="delete_component" method="POST" action="{{ route('destroy-component', [
-                                   'section' => $currentSection, 
-                                   'assignment' => $activeAssignment,
-                                   'component' => $komponent]) }}">
-                                    {{ csrf_field() }}
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this component?')">Delete Component</button>
-                                    </form>
-                                   </x-jet-dropdown-link>
-
-                                </x-slot>
-                              </x-jet-dropdown>  
-
-                            </div>
-                         </td>
-
-                         <td class="w-6 text-center">
-                          @if ($komponent->class_viewable == true)
+            <div class="w-6">
+              
+                            @if ($komponent->class_viewable == true)
                           <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $komponent])}}" class="text-xs pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$komponent->id.'/*')}}">
                           <x-feathericon-eye class="inline-block w-5 h-5 text-green-300"/>
                           </a>
                           
-                          @endif          
-                        </td>
-                          
-                      @endforeach
-                    </tr>
+                          @endif   
+            </div>
 
-          </table>
+      </div>
+
+    <div x-show="open" class="border-t px-2 flex bg-gray-100 py-2 text-xs">
+    @if ($komponent->description) 
+    {{ $komponent->description}}
+    @else
+    No further instructions.
+    @endif
+    </div>
+    </div> 
+
+      @endforeach
+
+      </div>
+      <!-- End Table -->   
+
+        </div>
+
+     
           @endrole
   
    <!-- end assignment --></div>

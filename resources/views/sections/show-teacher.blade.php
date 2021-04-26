@@ -33,30 +33,29 @@
 
                   </div>
                 
-                <div class="py-3 px-1 shadow-inner space-y-0 text-xs">
+                <div class="py-3 pl-3 pr-1 shadow-inner space-y-1 text-xs">
                  
                   @if ($sectionAssignments->count() > 0)
 
                     @foreach ($sectionAssignments as $assignment)
 
                       @if ($loop->first)
-                      <div x-data="{ open: true }" class="w-full py-0 px-1 transition">
+                      <div x-data="{ open: true }" class="w-full px-1 transition">
                       @else
-                       <div x-data="{ open: false }" class="w-full pt-0 px-1 transition">
+                       <div x-data="{ open: false }" class="w-full px-1 transition">
                        @endif
                      
-                            <!-- Dropdown and Editing Components -->
+                       <span class="inline-flex items-center">
+
+                        <a href="{{route('show-assignment', ['assignment' =>  $assignment->id , 'section' => $currentSection->id])}}" class="inline-flex text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>
                          
-                         <span class="" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
-
-                          <span class="" @click="open = ! open">
-                          <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span> 
-
-                              <a href="{{route('show-assignment', ['assignment' => $assignment->id , 'section' => $currentSection->id])}}" class="text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>
-
+                        <x-feathericon-chevron-right x-show="!open" @click="open = ! open" class="inline-block h-4 w-4 text-gray-300"/>
                          
+                        <x-feathericon-chevron-down x-show="open" @click="open = ! open" class="inline-block h-4 w-4 text-gray-400"/>
+                        
+                        </span> 
 
-                               <!--  <span class="float-right">
+                      <!--  <span class="float-right">
                       
                                       <x-jet-dropdown align="right" width="48">
                                             
@@ -86,7 +85,7 @@
                                </span>  -->
 
 
- <div x-show="open" class="flex flex-col pl-6 pr-1.5 py-2 text-gray-500 space-y-0" @click="open = ! open">
+ <div x-show="open" class="flex flex-col pl-0 pr-1.5 py-2 text-gray-500 space-y-0" @click="open = ! open">
                                                                                           
                                 @foreach ( $assignment->components as $component )
                 
