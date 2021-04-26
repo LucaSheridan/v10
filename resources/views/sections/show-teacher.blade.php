@@ -55,71 +55,26 @@
                         
                         </span> 
 
-                      <!--  <span class="float-right">
-                      
-                                      <x-jet-dropdown align="right" width="48">
-                                            
-                                            <x-slot name="trigger">
-                                            <button class="flex transition duration-150 ease-in-out">
-                                            <x-feathericon-more-horizontal class="h-5 w-5 text-gray-300" />
-                                            </button>
-                                            </x-slot>
-                                            
-                                            <x-slot name="content">
-                                                
-                                                @hasrole('teacher')
-                                            
-                                                  <x-jet-dropdown-link href="{{ route('edit-assignment', ['section' => $currentSection, 'assignment' => $assignment ])}}">
-                                                Edit Assignment
-                                                </x-jet-dropdown-link> 
-
-                                                <x-jet-dropdown-link href="{{ route('create-component', ['section' => $currentSection, 'assignment' => $assignment ])}}">
-                                                Add Component
-                                                </x-jet-dropdown-link> 
-                                                @endhasrole
-
-                                            </x-slot>
-                                            
-                                      </x-jet-dropdown>
-
-                               </span>  -->
-
-
- <div x-show="open" class="flex flex-col pl-0 pr-1.5 py-2 text-gray-500 space-y-0" @click="open = ! open">
+                        <div x-show="open" class="flex flex-col pl-0 pr-1.5 py-2 text-gray-500 space-y-0" @click="open = ! open">
                                                                                           
                                 @foreach ( $assignment->components as $component )
                 
-                                        <div class="flex w-full flex-row leading-tight pt-0 pl-2 border-l-2 border-gray-200">
+                                    <div class="flex w-full flex-row leading-tight pt-0 pl-2 border-l-2 border-gray-200">
 
                                     <div class="flex flex-grow">
                                                         
                                       <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$component->id.'/*')}} pr-4">{{ $component->title}}</a>                    
                                     </div>
 
-
-                                <!-- <div class="flex w-full flex-row leading-tight pl-3 border-l-0 border-gray-200">
-
-                                              <div class="flex flex-grow">
-                                                <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline">{{ $component->title}}</a>
-                                              </div> -->
-
-
-                                              <div class="text-gray-500 -mr-1">
+                                    <div class="text-gray-500 -mr-1">
                  
-   <a href="{{route('edit-component', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}">
+                                    <a href="{{route('edit-component', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}">
 
-                                              {{ Carbon\Carbon::parse($component->date_due)->format('n/j') }}</a>
+                                    {{ Carbon\Carbon::parse($component->date_due)->format('n/j') }}</a>
                                               
-                                              </div>
+                                    </div>
 
-                                              <!-- <div class="pl-2 -mr-1">
-                                             
-                                                  <a href="{{route('edit-component', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ]) }}" class="p-0 m-0 hover:text-red-400 no-underline text-sm">
-                                                <x-feathericon-more-horizontal class="w-4 h-4 hover:text-red-500 text-gray-400"/>
-                                              </a>
-                                              </div> -->
-
-                                        </div>
+                                    </div>
 
 
 

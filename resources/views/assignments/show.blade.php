@@ -385,9 +385,9 @@
         <div class="flex flex-col w-full px-2 mb-2 rounded-lg border bg-white">
 
         <!-- Begin Table Headder -->
-        <div class="flex flex-row text-gray-600 py-2 font-semibold space-x-2 w-full rounded-lg ">
+        <div class="flex flex-row py-2 font-semibold space-x-2 w-full rounded-lg ">
 
-            <div class="flex flex-grow ">Components</div>
+            <div class="flex flex-grow">Components</div>
             <div class="flex flex-row w-28 md:w-48 pl-1">Due</div>
 
             <div class="flex">Options</div>

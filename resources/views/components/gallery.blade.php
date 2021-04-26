@@ -25,63 +25,76 @@
                       </div>
                     </div>
                                   
-                    <div class="px-2 pt-3 mb-2 shadow-inner">
+                             <div class="py-3 pl-3 pr-1 shadow-inner space-y-1 text-xs">
+                 
+                  @if ($sectionAssignments->count() > 0)
 
                     @foreach ($sectionAssignments as $assignment)
 
-                      @if ( $assignment->id == $activeAssignment->id)
-                      <div x-data="{ open: true }" class="w-full mb-0 rounded-lg transition">
+                       @if ( $assignment->id == $activeAssignment->id)
+                      <div x-data="{ open: true }" class="w-full px-1 transition">
                       @else
-                       <div x-data="{ open: false }" class="w-full mb-0 rounded-lg transition">
+                       <div x-data="{ open: false }" class="w-full px-1 transition">
                       @endif
-                            
-                      <span class="" @click="open = ! open">
-                      <x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
 
-                      <span class="" @click="open = ! open"><x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span>
 
-                      <a href="{{route('show-assignment', ['assignment' => $assignment->id , 'section' => $currentSection->id])}}" class="text-gray-500 font-semibold no-underline hover:text-red-500 pl-0">
-                                                           
-                      {{$assignment->title}}
-                      
-                      </a>
-                            
-                      <div x-show="open" class="flex flex-col pl-6 pr-1.5 py-2 text-gray-500 text-xs space-y-0">
+                     
+                       <span class="inline-flex items-center">
+
+                        <a href="{{route('show-assignment', ['assignment' =>  $assignment->id , 'section' => $currentSection->id])}}" class="inline-flex text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>
+                         
+                        <x-feathericon-chevron-right x-show="!open" @click="open = ! open" class="inline-block h-4 w-4 text-gray-300"/>
+                         
+                        <x-feathericon-chevron-down x-show="open" @click="open = ! open" class="inline-block h-4 w-4 text-gray-400"/>
+                        
+                        </span> 
+
+                        <div x-show="open" class="flex flex-col pl-0 pr-1.5 py-2 text-gray-500 space-y-0" @click="open = ! open">
                                                                                           
                                 @foreach ( $assignment->components as $component )
                 
-                                        <div class="flex w-full flex-row leading-tight pl-2 border-l-2 border-gray-200 ">
+                                    <div class="flex w-full flex-row leading-tight pt-0 pl-2 border-l-2 border-gray-200">
 
-                                              <div class="flex flex-grow max-w-10">
+                                    <div class="flex flex-grow">
+                                                        
+                                      <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$component->id.'/*')}} pr-4">{{ $component->title}}</a>                    
+                                    </div>
+
+                                    <div class="text-gray-500 -mr-1">
+                 
+                                    <a href="{{route('edit-component', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}">
+
+                                    {{ Carbon\Carbon::parse($component->date_due)->format('n/j') }}</a>
                                               
-    <a href="{{route('show-component-gallery', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ])}}" class="pb-1 m-0 hover:text-red-400 hover:rounded no-underline {{active_check('sections/'.$currentSection->id.'/assignment/'.$assignment->id.'/component/'.$component->id.'/*')}}">
+                                    </div>
 
-                                              {{ $component->title}}</a>
-                                              
-                                              </div>
-
-                                              <div class="px-2 -mr-1">
-                                             
-                                                 <a href="{{route('edit-component', ['section' => $assignment->section_id , 'assignment' => $component->assignment_id , 'component' => $component->id ]) }}" class="p-0 m-0 hover:text-red-400 no-underline">
-                                                
-                                                 {{ Carbon\Carbon::parse($component->date_due)->format('n/j') }}
-                                              </a>
-                                              </div>
-
-                                        </div>
+                                    </div>
 
 
 
                               @endforeach
 
-                    </div>                         
+                    </div>           
+
                     </div>    
 
                     <!-- Components -->
                   
                   @endforeach
-                  
+
+
+                    <!-- If no assignments -->
+                    @else
+   
+                        <div class="text-gray-600 bg-gray-100 p-2 no-underline text-sm rounded-lg">No assignments
+                        </div>
+
+                    @endif
+
                   </div>
+
+
+
                 </div>
 
                  @endrole
