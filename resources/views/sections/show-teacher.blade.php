@@ -220,7 +220,7 @@
 
                                    <!-- <ul class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 rounded-lg gap-2"> -->
 
-<ul class="grid rounded-lg grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:text-xs rounded-lg gap-2 mt-3">
+<ul class="grid rounded-lg grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:text-xs rounded-lg gap-2 mt-3">
 
                                     
                                     @foreach ($currentSection->students as $student)                                    
@@ -229,7 +229,7 @@
 
                                     
                                     
-                                    <li class="mx-1 rounded-sm text-gray-600 text-sm hover:text-red-500">
+                                    <li class="bg-white px-2 py-1 rounded-lg border text-gray-600 text-sm hover:text-red-500">
                                     {{ $student->fullName}}</li>
                                    
 

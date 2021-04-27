@@ -58,15 +58,16 @@
 
             <div class="bg-white w-1/2 sm:w-1/3 lg:w-1/4 rounded-l-lg text-gray-400">
             
-            <div class="mt-3 mx-3 py-1 text-white border-blue-300 font-semibold bg-red-200 text-gray-500 px-2 leading-tight leading-none md:text-2xl">
+            <div class="mt-3 mx-3 text-white border-blue-300 font-semibold text-gray-500 leading-tight leading-none text-4xl">
             {{$collection->title}}</div>
             <div class="">
             
-            <span class="mx-3 bg-blue-200 px-2 text-sm font-regular py-1 block leading-5">
+            <span class="mx-3 bg-blue-200 px-2 text-sm font-regular py-0 block leading-5">
             {{$collection->subtitle}}</span>
 
+            <span class="mx-3 mb-3 text-sm font-regular text-gray-600 block leading-5"> 
+            Curated by
 
-            <span class="mx-3 bg-yellow-200 px-2 text-sm font-regular py-1 block leading-5"> 
             @foreach ($collection->curators as $curator)
             
               <!-- AND Check for more than 1 curator and not last loop -->
@@ -86,8 +87,8 @@
 
             </div>
 
-            <div class="text-gray-500 text-sm py-3 px-4">
-            {{$collection->description}}
+            <div class="mx-3 text-sm font-regular py-1 block leading-5"> 
+             {{$collection->description}}
             </div>
 
 
