@@ -115,7 +115,7 @@
 
         <x-slot name="body">
                           
-            <div class="flex flex-col">
+            <div class="flex flex-col justify-center">
             
             <div class="flex pb-2">
             <img class="object-scale-down" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">

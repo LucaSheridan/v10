@@ -16,14 +16,14 @@
     
     {{--  Begin Student Header  --}}
 
-                    <div class="bg-white rounded-lg">
-                         <div class="flex items-center pl-3 py-1 ">
+                    <div class="bg-gray-100 rounded-lg">
+                         <div class="flex items-center pl-3 py-1 bg-white rounded-t-lg">
                               <div class="flex flex-grow text-sm text-gray-500">STUDENTS ({{$currentSection->students->count()}})</div>
                               <div class="flex">
                               <!--  <x-feathericon-menu class="w-5 h-5 hover:text-red-500"/> -->
                           </div>
                     </div>
-                    <div class="py-2 pl-1 bg-gray-100 rounded-b-lg shadow-inner">
+                    <div class="py-2 pl-1 rounded-b-lg shadow-inner">
 
 
     {{-- End Students Header --}}
@@ -69,9 +69,9 @@
 
           <!-- Begin Page Content -->
 
-          <div class=" col-span-2 bg-white rounded-lg px-2 pb-2">
+          <div class=" col-span-2 bg-white rounded-lg px-0 pb-2">
                          <div class="flex items-center p-1">
-                              <div class="flex flex-grow text-sm text-gray-500">PROGRESS VIEW</div>
+                              <div class="flex flex-grow text-sm text-gray-500 px-2">STUDENT DETAIL</div>
                               <div class="flex">
                               <!--  <x-feathericon-menu class="w-5 h-5 hover:text-red-500"/> -->
                           </div>
@@ -81,7 +81,7 @@
 
           {{--  Student Info --}}
           
-                  <div class="flex bg-gray-100 rounded-lg mb-2">
+                  <div class="flex bg-gray-100">
                       
                       <div class="flex-shrink-0 py-2 pl-2">
 
@@ -124,7 +124,7 @@
                                     
                               <x-slot name="content">
                                   
-                                   <x-jet-dropdown-link href="mailto:{{$user->fullName}}">Email
+                                   <x-jet-dropdown-link Navhref="mailto:{{$user->fullName}}">Email
                                    </x-jet-dropdown-link>
                                     </x-slot>
                                     
@@ -136,10 +136,11 @@
                                    
 {{-- Start Collections --}}
 
-                              <div class="text-sm">COLLECTIONS</div>                              
-                               @if ($user->collections->count() < 1)
+                              <div class="text-sm px-2 py-1">COLLECTIONS</div>                              
+                              
+                              @if ($user->collections->count() < 1)
 
-                               <div class="bg-gray-100 rounded-lg mb-2 w-full leading-tight px-2 pt-1 pb-1 text-gray-400 text-sm">
+                               <div class="bg-gray-100 w-full leading-tight p-2 text-gray-400 text-sm">
 
                                <p>No collections</p>
                                 
@@ -147,7 +148,7 @@
 
                                @else
 
-                               <div class="bg-gray-100 rounded-lg mb-2 w-full leading-tight px-2 pt-2 pb-1 text-gray-400 text-sm">
+                               <div class="bg-gray-100 shadow-inner mb-2 w-full leading-tight px-2 pt-2 pb-1 text-gray-400 text-sm">
                                   
                                           @foreach ( $user->collections as $collection )
                                           
@@ -170,9 +171,8 @@
 
 
 {{-- Student Progress --}}
-     <div class="text-sm">PROGRESS</div>
-     
-     <div class="bg-gray-100 rounded-lg flex w-full mb-3 px-2 pb-2">
+ <div class="text-sm px-2 py-1">PROGRESS</div>        
+     <div class="bg-gray-100 shadow-inner flex w-full mb-3 px-2 pb-2">
 
      <div class="rounded-lg w-full">
 

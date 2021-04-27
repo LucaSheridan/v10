@@ -145,9 +145,96 @@
          <div class="bg-gray-100 rounded-lg px-2 ">
   
          <div class="rounded-lg">
-                          
+
 <!--  Student Table Begins -->
     @role('student')
+
+             <!-- Begin Table -->
+  
+        <div class="flex flex-col w-full px-2 mb-2 rounded-lg border bg-white">
+        <!-- Begin Table Headder -->
+        <div class="flex flex-row py-2 font-semibold space-x-2 w-full rounded-lg ">
+
+            <div class="flex w-32">IMage</div>
+            <div class="flex flex-grow">Components</div>
+            <div class="flex flex-row w-28 md:w-48 pl-1">Due</div>
+
+            <div class="flex">Options</div>
+            <div class="flex w-6"></div>
+
+        </div>
+
+        @foreach ($checklist as $checklistItem)
+
+             @php
+              
+              $duedate = Carbon\Carbon::parse($checklistItem->componentDateDue);
+              $submitted = Carbon\Carbon::parse($checklistItem->artifactCreatedAt)->subHours(5);                   
+              @endphp
+
+        <div  x-data="{ open: false }" class="flex flex-col border-t">
+        
+        <div class="w-full text-gray-600 flex items-center">
+
+              @if (!$checklistItem->artifactCreatedAt)
+              @else
+              <a href="{{ route('show-artifact', $checklistItem->artifactID) }}">
+                <img class="flex flex-shrink-0 w-12 h-12 border-4 border-white rounded-lg" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklistItem->artifactPath}}" 
+
+                title="Due: {{$duedate->format('m/d g:i A')}} - Submitted: {{$submitted->format('m/d g:i A') }}">
+              </a>
+              @endif
+
+            <div class="flex py-2 flex-grow items-center">
+
+                 title                         
+                    <!-- Instructions Dropdown  -->
+                   
+                    <span class="inline-flex" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
+
+                    <span class="inline-flex" @click="open = ! open">
+                    <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/>
+                    </span>
+            
+            </div>
+           
+            <div class="flex w-28 md:w-48 justify-start">
+             date
+            </div>
+
+
+            <div class="flex items-center justify-center w-16 ">
+                              <x-jet-dropdown align="right" width="48">
+                               <x-slot name="trigger">
+                                   <x-feathericon-more-horizontal class="w-5 h-5 hover:text-red-500 text-gray-400 "/>
+                               </x-slot>
+                               <x-slot name="content">
+                                  links
+
+                                </x-slot>
+                              </x-jet-dropdown>  
+
+                            </div>
+
+            <div class="w-6">
+              
+                          eyeba;l  
+            </div>
+
+      </div>
+
+    <div x-show="open" class="border-t px-2 flex bg-gray-100 py-2 text-xs">
+    description
+    </div>
+    </div> 
+
+      @endforeach
+
+      </div>
+      <!-- End Table -->   
+
+        </div>
+
     <table class="w-full">
           <tr class="text-gray-600">
           <td class="text-center"></td>
@@ -379,11 +466,11 @@
         <!--  Teacher Table Begins -->
         @role('teacher')
 <!--        </div>
- -->        <!-- Begin Table -->
-       
+ -->       
 
+         <!-- Begin Table -->
+  
         <div class="flex flex-col w-full px-2 mb-2 rounded-lg border bg-white">
-
         <!-- Begin Table Headder -->
         <div class="flex flex-row py-2 font-semibold space-x-2 w-full rounded-lg ">
 
