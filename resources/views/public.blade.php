@@ -87,7 +87,7 @@
 
             </div>
 
-            <div class="mx-3 text-sm font-regular py-1 block leading-5"> 
+            <div class="mx-3 pb-3 text-sm font-regular py-1 block leading-5"> 
              {{$collection->description}}
             </div>
 
