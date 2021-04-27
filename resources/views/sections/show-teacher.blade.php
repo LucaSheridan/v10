@@ -214,34 +214,32 @@
                     <div id="roster-list" x-show="view === 'list'" class="bg-gray-100 mb-2 shadow-inner" >
                                    
                        
-                      <div class="rounded-br-lg no-underline text-sm shadow-inner p-2" >
+                      <div class="rounded-br-lg no-underline text-sm shadow-inner px-2 py-3" >
 
  @if ($currentSection->students->count() > 0)
 
-                                   <!-- <ul class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 rounded-lg gap-2"> -->
-
-<ul class="grid rounded-lg grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:text-xs rounded-lg gap-2 mt-3">
-
+                                    <ul class="flex flex-wrap flex-col hidden sm:inline-block  h-80 md:h-40 lg:h-28 leading-snug text-sm no-underline text-gray-700  ">
                                     
                                     @foreach ($currentSection->students as $student)                                    
                                    
                                     <a href="{{route('student-progress', ['section'=> $currentSection, 'user' => $student])}}">
-
                                     
-                                    
-                                    <li class="bg-white px-2 py-1 rounded-lg border text-gray-600 text-sm hover:text-red-500">
+                                    <li class="inline-flex w-full px-2 rounded-sm text-gray-600 text-sm bg-gray-100 hover:bg-gray-200 hover:text-red-500">
                                     {{ $student->fullName}}</li>
                                    
-
                                     </a>
                                     
                                     @endforeach
                                     </ul>
 
+                                </div>
 
                         @else
            
+                                <div class="text-gray-600 rounded-l-lg rounded-br-lg bg-gray-100 p-3 no-underline text-sm">
+
                                 No students are currently enrolled in this class.
+                                </div>            
                             
                         @endif
                       </div>

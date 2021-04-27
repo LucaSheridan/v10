@@ -29,29 +29,7 @@
     <body class="relative font-sans antialiased">
     
        <div class=" min-h-screen bg-cool-gray-400">
-                
-       <nav class="bg-cool-gray-100 border-b-0 border-red-500">
-                
-        <!-- HEADER / TITLE / MESSAGES  -->
-        
-        <div class="max-w-5xl mx-auto">
-
-        <div class="flex justify-center h-16 ">
-    
-                          <div class="h-12 flex items-center text-4xl font-thin text-center text-gray-600 bg-opacity-50 border-cool-gray px-3 pt-3 rounded-lg">
-                            
-                          <a href="/artifacts" class="outline-none" tabIndex="-1">                               
-                          <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500 uppercase pl-0">ARTIFACTS</span>
-                          </a>
-                                             
-                          </div>
-
-            
-                    </div>
-                </div>
-            </nav>
-
-
+              
     <div class="p-4">
         
         <div class="flex max-w-5xl mx-auto pt-0 rounded-lg bg-white border-b">
@@ -243,3 +221,4 @@
       
 
       @endforeach
+

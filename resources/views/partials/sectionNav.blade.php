@@ -92,7 +92,7 @@
 
                           </x-jet-dropdown-link>
 
-                          <x-jet-dropdown-link href="#">Email Class</a>
+                          <x-jet-dropdown-link href="mailto:">Email Class</a>
                           </x-jet-dropdown-link> 
 
                            <x-jet-dropdown-link href="{{route('create-section')}}">

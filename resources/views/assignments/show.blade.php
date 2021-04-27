@@ -64,7 +64,17 @@
                           <span class="" @click="open = ! open">
                           <x-feathericon-chevron-down x-show="open" class="inline-block h-4 w-4 text-gray-400"/></span>  -->
 
-                              <a href="{{route('show-assignment', ['assignment' => $assignment->id , 'section' => $currentSection->id])}}" class="text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>          
+                              @if ( $assignment->id  === $activeAssignment->id)
+
+                              <a class="font-semibold text-sm text-red-500" href="{{route('show-assignment', ['assignment' => $assignment->id , 'section' => $currentSection->id])}}" class="text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>
+
+                              @else
+
+                               <a href="{{route('show-assignment', ['assignment' => $assignment->id , 'section' => $currentSection->id])}}" class="text-gray-500 no-underline text-sm font-semibold hover:text-red-500">{{$assignment->title}}</a>
+
+                               @endif
+
+
 
                     </div>    
 
