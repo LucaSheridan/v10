@@ -14,7 +14,10 @@
 
 <div class="max-w-5xl mx-auto grid grid-cols-1 gap-y-4 sm:grid-cols-3 sm:gap-3 bg-cool-gray-400 text-sm text-gray-500" >
     
-    {{--  Begin Student Header  --}}
+
+@role('teacher')
+
+{{--  Begin Student Header  --}}
 
                     <div class="bg-gray-100 rounded-lg">
                          <div class="flex items-center pl-3 py-1 bg-white rounded-t-lg">
@@ -64,7 +67,7 @@
                                 </div>            
                             
                         @endif
-
+                        @endrole
                 </div>
 
           <!-- Begin Page Content -->
@@ -76,6 +79,8 @@
                               <!--  <x-feathericon-menu class="w-5 h-5 hover:text-red-500"/> -->
                           </div>
                         </div>
+
+
 
            {{-- End Students Header --}}
 

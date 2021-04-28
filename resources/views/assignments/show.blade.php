@@ -161,12 +161,13 @@
 
              <!-- Begin Table -->
   
-        <div class="flex flex-col w-full px-2 mb-2 rounded-lg border bg-white">
+        <div class="flex flex-col w-full px-2 pb-2 rounded-lg border bg-white">
         <!-- Begin Table Headder -->
         <div class="flex flex-row py-2 font-semibold space-x-2 w-full rounded-lg ">
 
-            <div class="flex w-32">IMage</div>
-            <div class="flex flex-grow">Components</div>
+            <div class="flex w-12"></div>
+            <div class="flex w-7"></div>
+            <div class="flex flex-grow bg-blue-200">Component</div>
             <div class="flex flex-row w-28 md:w-48 pl-1">Due</div>
 
             <div class="flex">Options</div>
@@ -187,6 +188,7 @@
         <div class="w-full text-gray-600 flex items-center">
 
               @if (!$checklistItem->artifactCreatedAt)
+              <div class="flex  flex-shrink-0 w-12 h-12 rounded-lg "></div>
               @else
               <a href="{{ route('show-artifact', $checklistItem->artifactID) }}">
                 <img class="flex flex-shrink-0 w-12 h-12 border-4 border-white rounded-lg" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklistItem->artifactPath}}" 
@@ -194,10 +196,37 @@
                 title="Due: {{$duedate->format('m/d g:i A')}} - Submitted: {{$submitted->format('m/d g:i A') }}">
               </a>
               @endif
+           
+               <div class="flex p-2 flex items-center">
+
+               @if (!$checklistItem->artifactCreatedAt)
+
+                <a href="{{action('App\Http\Controllers\ArtifactController@create', ['section' => $currentSection , 'assignment' => $checklistItem->assignmentID , 'komponent' => $checklistItem->componentID ])}}">
+                <x-feathericon-plus-circle class="w-5 h-5 text-gray-400 mr-2"/>
+              </a>
+                
+                @else
+
+                   <!-- ue: {{ $duedate }}<br/>
+                   pos: {{ $submitted }} -->
+        
+                    @if ($submitted <= $duedate)
+                        <!-- Display Green Check -->
+                        <x-feathericon-check-circle class="w-5 h-5 text-green-500 mr-2"/>
+
+                    @else 
+                        <!-- Display Yellow Check -->
+                        <x-feathericon-check-circle class="w-5 h-5 text-yellow-400 mr-2"/>
+                    @endif
+                @endif
+
+
+
+            </div>
 
             <div class="flex py-2 flex-grow items-center">
 
-                 title                         
+            {{ $checklistItem->componentTitle }}
                     <!-- Instructions Dropdown  -->
                    
                     <span class="inline-flex" @click="open = ! open"><x-feathericon-chevron-right x-show="!open" class="inline-block h-4 w-4 text-gray-300"/></span>
@@ -209,11 +238,72 @@
             </div>
            
             <div class="flex w-28 md:w-48 justify-start">
-             date
+             @if (is_null($checklistItem->componentDateDue))
+                <div class="ml-3">
+                -
+                <div>
+              @else
+                <div class="hidden md:block">{{ Carbon\Carbon::parse($checklistItem->componentDateDue)->format('D, M jS @ g:ia')}}</div>
+                <div class="md:hidden">{{ Carbon\Carbon::parse($checklistItem->componentDateDue)->format(' n/j/y @ g:ia')}}</div>
+              @endif
             </div>
 
 
-            <div class="flex items-center justify-center w-16 ">
+<!--             <div class="flex items-center justify-center w-16 ">
+ -->                            
+
+ <div class="flex justify-center items-center w-12">
+       
+                 <x-jet-dropdown align="right" width="48">
+                        
+                         <x-slot name="trigger">
+                         <x-feathericon-more-horizontal class="w-5 h-5 hover:text-red-500 text-gray-400"/>
+                          <button class="flex transition duration-150 ease-in-out">
+                          </button>
+                         
+                          </x-slot>
+                          <x-slot name="content">
+                              
+                               <x-jet-dropdown-link href="{{action('App\Http\Controllers\ArtifactController@create', ['section' => $currentSection , 'assignment' => $checklistItem->assignmentID , 'komponent' => $checklistItem->componentID ])}}" class="text-left">
+                                  Add Artifact
+                                 </x-jet-dropdown-link>
+
+                                 @if ($checklistItem->componentClassViewable == 1 ) 
+
+                                 <x-jet-dropdown-link href="{{route('show-component-gallery', 
+
+                                 ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $checklistItem->componentID ])}}" class="text-left">
+                                 View classmates work
+                                 </x-jet-dropdown-link>
+
+                                 @endif
+
+                                 @if ($checklistItem->artifactID)                   
+
+                                 <x-jet-dropdown-link href="{{route('unsubmit-artifact', $checklistItem->artifactID)}}" class="text-left" onclick="return confirm('Are you sure you want to unsubmit this artifact?')">
+                                    Unsubmit
+                                 
+                                 </x-jet-dropdown-link> 
+
+                                 <x-jet-dropdown-link  class="text-left">
+                                 <form id="delete_artifact" method="POST" action="{{ route('destroy-artifact', $checklistItem->artifactID) }}">
+                                 {{ csrf_field() }}
+                                 <input type="hidden" name="_method" value="DELETE">
+                                 <button type="submit" onclick="return confirm('Are you sure you want to delete this artifact?')">
+                                 Delete
+                                 </button>
+                                 </form>
+                                 </x-jet-dropdown-link> 
+                                 
+                                @else
+                                @endif
+  
+                          </x-slot>
+                    </x-jet-dropdown>
+        
+
+
+<!-- 
                               <x-jet-dropdown align="right" width="48">
                                <x-slot name="trigger">
                                    <x-feathericon-more-horizontal class="w-5 h-5 hover:text-red-500 text-gray-400 "/>
@@ -222,19 +312,25 @@
                                   links
 
                                 </x-slot>
-                              </x-jet-dropdown>  
+                              </x-jet-dropdown>   -->
 
                             </div>
 
             <div class="w-6">
               
-                          eyeba;l  
-            </div>
+            @if ($checklistItem->componentClassViewable == true)
+            <a href="{{route('show-component-gallery', ['section' => $currentSection , 'assignment' => $activeAssignment , 'component' => $checklistItem->componentID ])}}" class="text-left">
+            <x-feathericon-eye class="inline-block w-5 h-5 hover:text-red-500 text-green-400"/>
+            </a>
+            @else
+            @endif                      
+          </div>
 
       </div>
 
     <div x-show="open" class="border-t px-2 flex bg-gray-100 py-2 text-xs">
-    description
+    {{ $checklistItem->componentDescription }}
+
     </div>
     </div> 
 
@@ -281,7 +377,8 @@
                 @if (!$checklistItem->artifactCreatedAt)
 
                 <a href="{{action('App\Http\Controllers\ArtifactController@create', ['section' => $currentSection , 'assignment' => $checklistItem->assignmentID , 'komponent' => $checklistItem->componentID ])}}">
-                <x-feathericon-plus-circle class="w-5 h-5 text-gray-500 mr-2"/></a>
+                <x-feathericon-plus-circle class="w-5 h-5 text-gray-500 mr-2"/>
+              </a>
                 
                 
                 <a href="#create-artifact">
@@ -290,7 +387,7 @@
 
                 <!-- Create Modal-->
 
-                    <x-v10_confirmation-modal name="create-artifact" height="h-60" >
+                <x-v10_confirmation-modal name="create-artifact" height="h-60" >
               
                       <x-slot name="title">
                       Create New Artifact
@@ -304,7 +401,7 @@
 
                       <input type="hidden" name="user_id" value="{{ Auth::User()->id }}"><br/>
 
-                       {{-- Pass Artifact if variable is set --}}
+                       <!-- Pass Artifact if variable is set -->>
                      
                       <input type="hidden" name="section_id" value="{{$checklistItem->sectionID}}">
                       <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
@@ -313,9 +410,9 @@
                       <label for="file" class="block mx-auto text-gray-600 mt-2 text-center p-2 rounded">
                        
                        <div class="relative flex items-center justify-center text-gray-600">
-                          <div class="p-2 bg-cool-gray-400 text-white hover:bg-gray-500 hover:text-gray-100 rounded-full">
-                          <x-feathericon-camera class="h-8 w-8" />
-                          </div>
+                       <div class="p-2 bg-cool-gray-400 text-white hover:bg-gray-500 hover:text-gray-100 rounded-full">
+                       <x-feathericon-camera class="h-8 w-8" />
+                       </div>
                        </div>
 
                       </label>
@@ -330,9 +427,14 @@
                 </div>
                 @endif
 
+              </form>
+
+              <x-jet-button type="submit"  @click="clicked = true">
+                              <span>{{ __('Upload!') }}</span>
+                              </x-jet-button>
             </x-slot>
 
-            <x-slot name="footer">
+                        <x-slot name="footer">
 
                         <div id="fileSubmitButton"  x-data="{ clicked: false }" class="block">
 
@@ -350,14 +452,14 @@
 
                         </form>
 
-                        <hr/>
+                         <hr/>
                          <a class=
                          "text-xs" href="#create-artifact-from-url"> Click here to upload from URL
                          </a>
 
                       </x-slot>
             
-            </x-v10_confirmation-modal>
+            </x-v10_confirmation-modal> 
 
 <!--End Create Modal  -->
 

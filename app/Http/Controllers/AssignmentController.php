@@ -41,6 +41,7 @@ class AssignmentController extends Controller
                       'components.assignment_id AS assignmentID',
                       'components.id AS componentID', 
                       'components.title AS componentTitle',
+                      'components.description AS componentDescription',
                       'components.class_viewable AS componentClassViewable',
                       'components.date_due AS componentDateDue',
                       'artifacts.artifact_thumb AS artifactThumb',

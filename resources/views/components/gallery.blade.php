@@ -161,18 +161,17 @@
                   </div> -->
             
                   <div class="flex px-1 items-start leading-tight">
-                  <span class="text-gray-900 text-sm font-medium">
+                  <span class="text-gray-900 text-sm">
                   <a href="{{route('student-progress', ['section' => $currentSection, 'user' => $student ])}}">{{$student->fullName}}</a>
                    </span>
                    </div>
               </div>
 
-              <div class="flex rounded-lg m-1 bg-gray-100">
+              <div class="flex rounded-lg m-1 bg-white pb-3">
       
              @if ($student->artifacts->count() < 1)
 
-              <div class="flex inline-flex items-center justify-center">...</div>
-
+              <div class="flex inline-flex items-center">...</div>
               @else
 
                   @foreach ($student->artifacts as $artifact) 

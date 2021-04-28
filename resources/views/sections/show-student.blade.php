@@ -34,7 +34,7 @@
                   </div>
                   </div>
                 
-                <div class="mb-2 p-2 shadow-inner">
+                <div class="mb-2 px-4 py-3 shadow-inner">
                  
                   @if ($sectionAssignments->count() > 0)
 
@@ -57,7 +57,7 @@
                     <!-- If no assignments -->
                     @else
    
-                        <div class="text-gray-600 bg-gray-100 p-2 no-underline rounded-lg text-sm">Nothing assigned. Stay tuned...
+                        <div class="text-gray-600 bg-gray-100 no-underline rounded-lg text-sm">Nothing assigned. Stay tuned...
                         </div>
 
                     @endif
