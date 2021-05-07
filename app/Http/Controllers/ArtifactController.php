@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Image;
 
-
 // testing extension($path) for image rotate
 use Illuminate\Filesystem\Filesystem;
 
@@ -95,11 +94,13 @@ class ArtifactController extends Controller
         $this->validate($request, [
         
             'file' => 'required|image',
-            //mimes:jpeg,png,jpg,pdf|max:10000',
+            'mimes:jpeg,png,jpg,pdf|max:10000',
             'user_id' => 'required',
-            'assignment_id' => 'required',
-            'component_id' => 'required',
+            //'assignment_id' => 'required',
+            //'component_id' => 'required',
             ]);
+
+            //dd($request);
 
 
             // get form input data

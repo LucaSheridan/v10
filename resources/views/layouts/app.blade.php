@@ -207,11 +207,11 @@
                 filename = filename.substring(lastIndex + 1);
               }
               document.getElementById('filename').innerHTML = filename;
+              // document.getElementById('fileSubmitButton').classList.add('opacity-100');
+
               }
 
              </script>
-
-<!--              @bukScripts
- -->    
+  
     </body>
 </html>

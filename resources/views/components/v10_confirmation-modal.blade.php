@@ -17,7 +17,7 @@
 
         {{-- Overlay --}}
 
-        <a href="#"><div class="fixed inset-0 bg-gray-900 opacity-75 z-10"></div></a>
+        <a href=""><div class="fixed inset-0 bg-gray-900 opacity-75 z-10"></div></a>
         
         {{-- Modal --}}
         
