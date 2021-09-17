@@ -92,7 +92,7 @@
 
         </div>
 
-        <div class="flex w-16 justify-end items-center bg-red-400 pr-3">
+        <div class="flex w-16 h-14 justify-end items-center  pr-3">
 
             <x-jet-dropdown align="right" width="48" class="flex align-start">
                      
@@ -207,8 +207,6 @@
                 filename = filename.substring(lastIndex + 1);
               }
               document.getElementById('filename').innerHTML = filename;
-              // document.getElementById('fileSubmitButton').classList.add('opacity-100');
-
               }
 
              </script>

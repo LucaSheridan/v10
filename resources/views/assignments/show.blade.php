@@ -129,7 +129,7 @@
                                        </form>
                                     </x-jet-dropdown-link> 
                                     <hr class="mt-2 mb-1" />
-                                    <x-jet-dropdown-link href="{{ route('create-component', ['section' => $currentSection, 'assignment' => $assignment ])}}">
+                                    <x-jet-dropdown-link href="{{ route('create-component', ['section' => $currentSection, 'assignment' => $activeAssignment ])}}">
                                        Add Component
                                     </x-jet-dropdown-link> 
                                     
@@ -161,7 +161,7 @@
 
              <!-- Begin Table -->
   
-        <div class="flex flex-col w-full px-2 pb-2 rounded-lg border bg-white">
+        <div class="flex flex-col w-full px-2 pb-2 rounded-lg border bg-white mb-2">
         <!-- Begin Table Headder -->
         <div class="flex flex-row py-2 font-semibold space-x-2 w-full rounded-lg ">
 
@@ -204,7 +204,77 @@
                 <a href="{{action('App\Http\Controllers\ArtifactController@create', ['section' => $currentSection , 'assignment' => $checklistItem->assignmentID , 'komponent' => $checklistItem->componentID ])}}">
                 <x-feathericon-plus-circle class="w-5 h-5 text-gray-400 mr-2"/>
               </a>
-                
+
+                <a href="#create-artifact">
+                <x-feathericon-camera class="w-5 h-5 text-gray-400 mr-2 hover:text-red-500 "/>
+                </a>
+
+                <!-- Create Modal-->
+
+                    <x-v10_confirmation-modal name="create-artifact" height="h-60" >
+              
+                      <x-slot name="title">
+                      Create New Artifact
+                      </x-slot>
+
+                      <x-slot name="body">
+                      <form action="{{route('save-artifact')}}" role="form" method="POST" enctype="multipart/form-data" class="">
+
+                      {!! csrf_field() !!}
+      
+                      <input name="file" type="file" style="display:none" value="{{ old('file') }}" id="file" >
+
+                      {{-- Pass Artifact if variable is set --}}
+
+                       <input type="hidden" name="user_id" value="{{ Auth::User()->id }}">
+                     
+                          
+                          <input type="text" name="section_id" value="{{$checklistItem->sectionID}}">
+                          <input type="text" name="assignment_id" value="{{$$checklistItem->assignmentID}}">
+                          <input type="text" name="component_id" value="{{$checklistItem->componentID}}"> 
+                          
+
+                       <label for="file" class="block mx-auto text-gray-600 mt-2 text-center p-2 rounded">
+                       
+                       <div class="relative flex items-center justify-center text-gray-600">
+                          <div class="p-2 bg-cool-gray-400 text-white hover:bg-gray-500 hover:text-gray-100 rounded-full">
+                          <x-feathericon-camera class="h-8 w-8" />
+                          </div>
+                       </div>
+
+                      </label>
+                        
+                      <div class="w-full text-center mb-2 p-1 rounded" id="filename"></div>
+
+                @if ($errors->has('file'))
+                <div class="help-block mb-4 text-red-500">
+                {{ $errors->first('file') }}
+                </div>
+                @endif
+
+            </x-slot>
+
+            <x-slot name="footer">
+
+                        <div x-data="{ clicked: false }" class="block">
+
+                              <x-jet-button id="fileSubmitButton" class="" type="submit"  @click="clicked = true">
+                              <span>{{ __('Upload --') }}</span>
+                              </x-jet-button>
+
+                        </div>
+
+                        </form>
+
+                         <a class="text-xs" href="#create-artifact-from-url"> Click here to upload from URL
+                         </a>
+
+                      </x-slot>
+            
+            </x-v10_confirmation-modal>
+
+<!--End Create Modal  -->
+
                 @else
 
                    <!-- ue: {{ $duedate }}<br/>
@@ -340,7 +410,7 @@
       <!-- End Table -->   
 
         </div>
-
+<!--
     <table class="w-full">
           <tr class="text-gray-600">
           <td class="text-center"></td>
@@ -380,100 +450,18 @@
                 <x-feathericon-plus-circle class="w-5 h-5 text-gray-500 mr-2"/>
               </a>
                 
-                
-                <a href="#create-artifact">
-                <x-feathericon-camera class="w-5 h-5 hover:text-red-500 "/>
-                </a>
-
-                <!-- Create Modal-->
-
-                <x-v10_confirmation-modal name="create-artifact" height="h-60" >
               
-                      <x-slot name="title">
-                      Create New Artifact
-                      </x-slot>
-
-                      <x-slot name="body">
-                      
-                      <form action="{{route('save-artifact')}}" role="form" method="POST" enctype="multipart/form-data"class="">
-
-                      {!! csrf_field() !!}
-
-                      <input type="hidden" name="user_id" value="{{ Auth::User()->id }}"><br/>
-
-                       <!-- Pass Artifact if variable is set -->>
-                     
-                      <input type="hidden" name="section_id" value="{{$checklistItem->sectionID}}">
-                      <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
-                      <input type="hidden" name="component_id" value="{{$checklistItem->componentID}}">
-                      
-                      <label for="file" class="block mx-auto text-gray-600 mt-2 text-center p-2 rounded">
-                       
-                       <div class="relative flex items-center justify-center text-gray-600">
-                       <div class="p-2 bg-cool-gray-400 text-white hover:bg-gray-500 hover:text-gray-100 rounded-full">
-                       <x-feathericon-camera class="h-8 w-8" />
-                       </div>
-                       </div>
-
-                      </label>
-
-                      <input name="file" type="file" value="{{ old('file') }}" id="file" >
-                        
-                      <div class="w-full text-center mb-2 p-1 rounded" id="filename"></div>
-
-                @if ($errors->has('file'))
-                <div class="help-block mb-4 text-red-500">
-                {{ $errors->first('file') }}
-                </div>
-                @endif
-
-              </form>
-
-              <x-jet-button type="submit"  @click="clicked = true">
-                              <span>{{ __('Upload!') }}</span>
-                              </x-jet-button>
-            </x-slot>
-
-                        <x-slot name="footer">
-
-                        <div id="fileSubmitButton"  x-data="{ clicked: false }" class="block">
-
-                              <x-jet-button type="submit"  @click="clicked = true">
-                              <span>{{ __('Upload') }}</span>
-                              </x-jet-button>
-
-                              <div class="flex bg-gray-300 items-center justify-center" x-show="clicked">
-                              
-                              <p>Processing</p>
-                              <x-feathericon-refresh-cw class="rounded-full bg-green-300 animate-spin text-gray-900"/>
-                              </div>
-
-                        </div>
-
-                        </form>
-
-                         <hr/>
-                         <a class=
-                         "text-xs" href="#create-artifact-from-url"> Click here to upload from URL
-                         </a>
-
-                      </x-slot>
-            
-            </x-v10_confirmation-modal> 
-
-<!--End Create Modal  -->
-
                 @else
 
-                   <!-- ue: {{ $duedate }}<br/>
-                   pos: {{ $submitted }} -->
+                {{-- ue: {{ $duedate }}<br/>
+                   pos: {{ $submitted }} --}}
         
                     @if ($submitted <= $duedate)
-                        <!-- Display Green Check -->
+                        {{-- Display Green Check --}}
                         <x-feathericon-check-circle class="w-5 h-5 text-green-500 mr-2"/>
 
                     @else 
-                        <!-- Display Yellow Check -->
+                        {{-- Display Yellow Check --}}
                         <x-feathericon-check-circle class="w-5 h-5 text-yellow-400 mr-2"/>
                     @endif
                 @endif
@@ -485,7 +473,7 @@
           </div>
           </td>
 
-          <!-- Due Date -->
+          {{-- Due Date --}}
           <td class="py-2">
               @if (is_null($checklistItem->componentDateDue))
                 <div class="ml-3">
@@ -497,7 +485,7 @@
               @endif
           </td>
           
-          <!-- Options-->
+          {{-- Options --}}
           <td class="text-center">
 
           <div class="flex justify-center items-center">
@@ -572,9 +560,11 @@
 
           </table>
 
-          @endrole
+          -->
 
-       <!-- Student Table ends -->
+          @endrole
+          
+       {{-- Student Table ends --}}
         <!--  Teacher Table Begins -->
         @role('teacher')
 <!--        </div>
