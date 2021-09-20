@@ -43,16 +43,13 @@
             
                 <div x-data="{ clicked: false }">
             
-               <input class="inline-block btn-gray" type="submit" value="submit" @click="clicked = true">
+               <input class="hidden inline-block btn-gray" type="submit" value="submit" @click="clicked = true">
 
                 <div  id="fileSubmitButton"><x-jet-button class="" @click="clicked = true">
                 {{ __('Upload') }}
                 </x-jet-button>
                 </div>
 
-                <!-- <div x-show.transition.duration.1000="clicked">
-                <x-feathericon-refresh-cw x-show.transition.duration.1000="clicked" class="animate-spin" />
-                </div> -->
             </div>
 
                 </form>
@@ -89,7 +86,7 @@
 
             <div x-data="{ clicked: false }">
             
-               <input class="inline-block btn-gray" type="submit" value="submit" @click="clicked = true">
+               <input class="hidden inline-block btn-gray" type="submit" value="submit" @click="clicked = true">
 
                 <x-jet-button class=""  @click="clicked = true">
                 {{ __('Upload') }}

@@ -120,9 +120,9 @@
                        
                         <x-slot name="content">
                                 
-                                    <x-jet-dropdown-link href="/user/profile">
+                                    {{-- <x-jet-dropdown-link href="/user/profile">
                                     View Profile
-                                    </x-jet-dropdown-link>
+                                    </x-jet-dropdown-link> --}}
 
                                     @role('teacher')
                                     {{-- hidden for teachers--}}
