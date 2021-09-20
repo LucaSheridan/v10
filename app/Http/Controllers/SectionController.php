@@ -31,8 +31,6 @@ class SectionController extends Controller
                        return redirect()->route('show-section', Auth::User()->firstActiveSection->first());
 
 
-
-
     }
      
      /**
@@ -219,7 +217,9 @@ class SectionController extends Controller
 
                 ->whereIn('components.assignment_id', $assignments)
                 ->orderBy('assignment_id', 'desc')
-                ->orderBy('components.date_due', 'desc')
+                ->orderBy('components.date_due', 'asc')
+                ->orderBy('components.title', 'asc')
+
                 ->select(
                  'artifacts.id AS artifactID',
                  'components.assignment_id AS assignment_id',
