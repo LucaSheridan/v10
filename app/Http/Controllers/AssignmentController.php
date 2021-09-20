@@ -35,6 +35,7 @@ class AssignmentController extends Controller
             })
             ->where('components.assignment_id', '=', $assignment->id)
             ->orderBy('components.date_due', 'ASC')
+            ->orderBy('components.title', 'ASC')
             ->select(
                       'artifacts.id AS artifactID',
                       'components.section_id AS sectionID',
