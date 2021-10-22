@@ -178,23 +178,19 @@
                   @foreach ($student->artifacts as $artifact) 
                   
 
-        <div> 
+        <div class="flex" > 
 
-        {{--  <div x-data="{ modalOpen: false }">
                                                
-        <button @click="modalOpen = true">                                               
-        <img class="flex" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
-        </button> --}}
-   
         <a href="#{{$loop->index}}-{{$artifact->user_id}}">
-        LINK
+
+        <img class="flex" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
+
         </a>
 
         {{-- <div class="absolute inset-0 h-full w-full rounded bg-red-300 flex justify-center items-center z-10 p-10" x-show="modalOpen" @click="modalOpen = false">
         <img class="flex object-scale-down" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
         </div> --}}
 
-    
         </div>
 
 
