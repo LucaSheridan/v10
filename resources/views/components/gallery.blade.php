@@ -154,7 +154,8 @@
         <li class="col-span-1 bg-white rounded-lg shadow">
   
              <div class="flex p-1 rounded-lg">
-                 <!-- <div class="flex-shrink-0">
+                
+                  <!-- <div class="flex-shrink-0">
                  
                   <img class="w-8 sm:w-10 h-8 sm:h-10 bg-gray-300 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
                   
@@ -177,18 +178,92 @@
                   @foreach ($student->artifacts as $artifact) 
                   
 
-                     <div x-data="{ modalOpen: false }">
+        <div> 
+
+        {{--  <div x-data="{ modalOpen: false }">
                                                
         <button @click="modalOpen = true">                                               
         <img class="flex" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
-         </button>
+        </button> --}}
    
-        <div class="absolute inset-0 h-full w-full rounded bg-black flex justify-center items-center z-10 p-10" x-show="modalOpen" @click="modalOpen = false">
+        <a href="#{{$loop->index}}-{{$artifact->user_id}}">
+        LINK
+        </a>
+
+        {{-- <div class="absolute inset-0 h-full w-full rounded bg-red-300 flex justify-center items-center z-10 p-10" x-show="modalOpen" @click="modalOpen = false">
         <img class="flex object-scale-down" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
-        </div>
+        </div> --}}
 
     
         </div>
+
+
+
+        <x-lightbox-modal name="{{$loop->index}}-{{$artifact->user_id}}" >
+        
+        <x-slot name="title">
+        {{$loop->index}}
+        </x-slot>
+
+        <x-slot name="body">
+                          
+            <div class="flex flex-col justify-center">
+            
+            <div class="flex pb-2">
+            <img class="object-scale-down" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
+            </div>
+            
+            <div class="flex justify-center space-x-1 text-gray-600 text-sm">
+            <span class="font-semibold">{{$artifact->artist}}</span>
+            <span class="italic"> {{$artifact->title}}</span>
+            <span class="">{{$artifact->year}}</span>
+            </div>
+
+            </div>
+                           
+        </x-slot>
+
+        <x-slot name="caption">
+        {{$artifact}} 
+        </x-slot>  
+        
+        <x-slot name="arrowleft">
+            
+            @if (!$loop->first)
+            <a href="#{{$loop->index-1}}-{{$artifact->user_id}}" class="block hover:text-white transition-all duration-200">
+            <x-feathericon-chevron-left class="w-10 h-10 m-4 bg-white rounded-full text-gray-400 hover:text-gray-500" /></a>
+            @else
+            <x-feathericon-chevron-left class="w-10 h-10 m-4 bg-white rounded-full text-white" />
+            @endif
+
+        </x-slot>
+        
+        <x-slot name="arrowright">
+   
+            @if (!$loop->last)
+            <a href="#{{$loop->index+1}}-{{$artifact->user_id}}" class="block hover:text-white transition-all duration-200">
+            <x-feathericon-chevron-right class="w-10 h-10 m-4 bg-white rounded-full text-gray-400 hover:text-gray-500" /></a>
+            @else
+            <x-feathericon-chevron-right class="w-10 h-10 m-4 bg-white rounded-full text-white" />
+            @endif
+
+            </x-slot>
+
+                <x-slot name="counter">
+                
+                {{$loop->index+1}} of {{$loop->count}}
+                
+                </x-slot>
+
+                <x-slot name="exit">
+                
+                <a href="#">
+                <x-feathericon-x class="w-6 h-6 m-4 bg-white rounded-full text-gray-400" />
+                </a>
+
+                </x-slot>
+
+        </x-lightbox-modal>
 
                   
                   @endforeach   
