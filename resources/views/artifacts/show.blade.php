@@ -401,16 +401,23 @@
     <!-- Level 2 - Begin Section Content  -->
 
         <div class="mt-1 py-1 border rounded-lg"> 
+            
+            @if ($artifact->collections->count() === 0)
+                <div class="flex items-center justify-between px-2 py-0 font-medium text-gray-500 text-sm">
+                    This artifact is not featured in a collection
+                </div>
+            @else    
+                
+                @foreach ($artifact->collections as $collection)
 
-            @foreach ($artifact->collections as $collection)
+                    <div class="flex items-center justify-between px-2 py-0 font-medium text-gray-500 text-sm">
+                    <a  href="{{route('show-collection', $collection)}}" class="hover:text-red-500" >{{ $collection->title }}</a>
+                    <a href="{{ route('remove-from-collection', ['artifact' => $artifact, 'collection' => $collection ]) }}" onclick="return confirm('Are you sure you want this removed from the collection?')"><x-feathericon-x class="w-4 h-4 hover:text-red-500 text-gray-400"/></a>
+                    </div>
 
-<div class="flex items-center justify-between px-2 py-0 font-medium text-gray-500">
-<a  href="{{route('show-collection', $collection)}}" class="hover:text-red-500 text-sm" >{{ $collection->title }}</a>
-<a href="{{ route('remove-from-collection', ['artifact' => $artifact, 'collection' => $collection ]) }}" onclick="return confirm('Are you sure you want this removed from the collection?')"><x-feathericon-x class="w-4 h-4 hover:text-red-500 text-gray-400"/></a>
-</div>
-
- @endforeach
-
+                @endforeach
+            
+            @endif
 
         </div>
 
