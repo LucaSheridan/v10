@@ -145,7 +145,7 @@
     <!-- Level 2 - Begin Info Content  -->
 
 <!--             <div class="pt-1 text-gray-800 text-xs md:text-sm border rounded-lg ">
- -->            <div class="text-gray-500 text-xs bg-white mt-1 border rounded-lg p-2 mb-2">
+ -->            <div class="text-gray-500 text-xs bg-white mt-1 border rounded-lg p-4 mb-2">
 
                 <ul class=" ">
                     <li>
