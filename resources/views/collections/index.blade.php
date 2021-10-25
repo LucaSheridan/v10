@@ -68,9 +68,9 @@
         <!-- Collection Title -->
         <div class="flex absolute bottom-0 left-0 w-full bg-white bg-opacity-80 text-gray-600 py-1 pl-1 z-10 text-sm">
 
-        <div class="flex flex-grow bg-red-200">{{$collection->title}}</div></a>
+        <div class="flex flex-grow">{{$collection->title}}</div></a>
 
-        <div class="flex  class="z-50">
+        <div class="flex z-50">
                         
                         <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -109,7 +109,10 @@
 
                             @if ($loop->first ) 
                             
-                            <img  class="object-cover h-48 w-full opacity-100 hover:opacity-75 rounded-lg" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
+                             <a href="{{route('show-collection', $collection->id)}}">   
+                              <img  class="object-cover h-48 w-full opacity-100 hover:opacity-75 rounded-lg" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
+
+                            </a>
 
                             @endif
 
