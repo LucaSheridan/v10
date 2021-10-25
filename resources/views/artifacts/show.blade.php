@@ -249,11 +249,7 @@
             
                     <!-- Comment Title -->
                     <div class="flex flex-grow text-gray-500 text-sm">
-                    @if ($artifact->comments->count() === 1)
-                    1 COMMENT
-                    @else
-                    {{$artifact->comments->count()}} COMMENTS
-                    @endif
+                    COMMENTS
                     </div>
 
                     <div class="flex">
