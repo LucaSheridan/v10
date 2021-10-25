@@ -308,7 +308,7 @@
 
                     @if ($artifact->comments)
 
-                    <div class="text-left overflow-y-scroll space-y-0 mt-0 text-sm rounded-lg">
+                    <div class="text-left  space-y-0 mt-0 text-sm rounded-lg">
 
                         @foreach ($artifact->comments as $comment)
             
