@@ -30,7 +30,7 @@
     
     <div id="artifactTitleMenu" x-data="{open: false}" class="flex items-center relative">
 
-    <span class="text-gray-500 text-sm">IMAGE</span>
+    <span class="text-gray-500 text-sm">{{strToUpper($artifact->title)}}</span>
     <!-- Artifact Title --><!-- Artifact Menu Trigger -->
     
     <div class="pb-1.5 pt-1.5 flex flex-grow justify-end">
@@ -224,18 +224,21 @@
                             @if (is_null($artifact->assignment))
                             @else     
                             Assignment:
-                            <a class="hover:text-red-500" href="{{route('show-component-gallery', ['section' => $artifact->section_id, 'assignment' => $artifact->assignment_id, 'component' => $artifact->component_id])}}">
+                            <a class="hover:text-red-500" href="{{route('show-assignment', ['section' => $artifact->section_id, 'assignment' => $artifact->assignment_id])}}">
                            {{ $artifact->assignment->title }}</a>
                            @endif
                         </li>
                         
                         <li><!-- Component -->
-                            @if (is_null($artifact->component))
-                            @else     
+                           @if (is_null($artifact->component))
+                           @else     
                            Component:
+                           @role('teacher')
                            <a class="hover:text-red-500" href="{{route('show-component-gallery', ['section' => $artifact->section_id, 'assignment' => $artifact->assignment_id, 'component' => $artifact->component_id])}}">
+                           {{ $artifact->component->title }}
+                           @endrole
                            {{ $artifact->component->title }}</a>
-                            @endif
+                           @endif
                         </li>
                 </ul>
                 
@@ -308,13 +311,13 @@
 
                     @if ($artifact->comments)
 
-                    <div class="text-left  space-y-0 mt-0 text-sm rounded-lg">
+                    <div class="text-left  space-y-1 mt-0 text-sm rounded-lg">
 
                         @foreach ($artifact->comments as $comment)
             
                             <!-- Begin comment -->
 
-                            <div class="p-0 border-b border-gray-200 flex flex-col">
+                            <div class="p-0 border-b border-gray-200 flex flex-col bg-yellow-100">
                                 
                             <!-- Begin User/Role/Timestamp -->
 
