@@ -129,7 +129,7 @@
                                        </form>
                                     </x-jet-dropdown-link> 
                                     <hr class="mt-2 mb-1" />
-                                    <x-jet-dropdown-link href="{{ route('create-component', ['section' => $currentSection, 'assignment' => $assignment ])}}">
+                                    <x-jet-dropdown-link href="{{ route('create-component', ['section' => $currentSection, 'assignment' => $activeAssignment ])}}">
                                        Add Component
                                     </x-jet-dropdown-link> 
                                     
