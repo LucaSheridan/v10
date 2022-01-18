@@ -181,7 +181,9 @@
         <div class="flex" > 
 
                                                
-        <a href="#{{$loop->index}}-{{$artifact->user_id}}">
+        {{-- <a href="#{{$loop->index}}-{{$artifact->user_id}}"> --}}
+
+         <a href="{{ route('show-artifact', $artifact) }}">
 
         <img class="flex" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}">
 
@@ -195,7 +197,7 @@
 
 
 
-        <x-lightbox-modal name="{{$loop->index}}-{{$artifact->user_id}}" >
+        {{-- <x-lightbox-modal name="{{$loop->index}}-{{$artifact->user_id}}" >
         
         <x-slot name="title">
         {{$loop->index}}
@@ -259,7 +261,7 @@
 
                 </x-slot>
 
-        </x-lightbox-modal>
+        </x-lightbox-modal> --}}
 
                   
                   @endforeach   
