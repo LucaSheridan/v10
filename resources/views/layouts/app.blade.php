@@ -26,11 +26,9 @@
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.js" defer></script>
 
         <style>
-
           [x-cloak] {
             display: none;
           }
-
         </style>
 
 <!--         @bukStyles
@@ -84,10 +82,10 @@
         
         <div class="flex w-16"></div>
         
-        <div class="flex flex-grow justify-center items-center text-4xl font-thin">
+        <div class="flex flex-grow justify-center items-center text-4xl font-thin text-gray-400">
           
             <a href="/artifacts" class="outline-none">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500 uppercase pl-1">ARTIFACTS</span>
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500 uppercase pl-1">BSGE</span> | Artifacts
             </a>
 
         </div>
@@ -187,11 +185,9 @@
         
             <script type="text/javascript">
             window.setTimeout("hideMessage();", 2000);
-
             function hideMessage(){
             document.getElementById("message").style.display="none";
             }
-
             </script>
 
          {{--  show uploaded file name before submission --}}
@@ -199,7 +195,6 @@
             <script type="text/javascript">
             // show selected file when selected for file upload
             document.getElementById('file').onchange = uploadOnChange;
-
             function uploadOnChange() {
               var filename = this.value;
               var lastIndex = filename.lastIndexOf("\\");
@@ -208,7 +203,6 @@
               }
               document.getElementById('filename').innerHTML = filename;
               }
-
              </script>
   
     </body>
