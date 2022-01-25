@@ -163,7 +163,11 @@
             
                   <div class="flex px-1 items-start leading-tight">
                   <span class="text-gray-900 text-sm">
-                  <a href="{{route('student-progress', ['section' => $currentSection, 'user' => $student ])}}">{{$student->fullName}}</a>
+                  @role('teacher')
+                  <a href="{{route('student-progress', ['section' => $currentSection, 'user' => $student ])}}">
+                  @endrole
+                  {{$student->fullName}}
+                  </a>
                    </span>
                    </div>
               </div>
