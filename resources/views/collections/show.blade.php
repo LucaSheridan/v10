@@ -130,7 +130,7 @@
                                    @if($collection->showLabel == 1)
                                    @if (is_null($artifact->pivot->label_text))
                                    @else
-                                   <li class="my-4 w-full bg-cool-gray-50 rounded-lg">{{$artifact->pivot->label_text}}</li>
+                                   <li class="my-4 w-full">{{$artifact->pivot->label_text}}</li>
                                    @endif
                                    @else
                                    @endif
