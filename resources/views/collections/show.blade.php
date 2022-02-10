@@ -65,7 +65,7 @@
         @foreach ($collection->artifacts as $artifact) 
 
               <!-- Artifact Card -->
-              <div id="ArtifactCard" x-data="{open: false}" class="rounded-lg w-full p-2 bg-white rounded-lg shadow-lg">
+              <div id="ArtifactCard" x-data="{open: false}" class="w-full rounded">
 
               <!-- Artifact Image -->
               <div class="flex">
@@ -80,7 +80,7 @@
                             <div class="flex mt-2">
                            <div class="flex flex-grow mb-0">
 
-                              <ul class="leading-tight pr-1 text-sm text-gray-600">      
+                              <ul class="leading-tight pr-1 text-sm text-gray-500">      
 
                                   @if($collection->showArtist == 1)
                                   <li class="font-semibold">
@@ -222,7 +222,7 @@
             
             @endforeach
             <br/>
-            Containing artworks by:
+            {{-- Containing artworks by:
 
              @foreach ($collection->artifacts as $artifact)
           
@@ -247,7 +247,7 @@
 
               @endif
 
-             @endforeach
+             @endforeach --}}
 
                   
           </div>
