@@ -235,7 +235,6 @@
                            Component:
                            @role('teacher')
                            <a class="hover:text-red-500" href="{{route('show-component-gallery', ['section' => $artifact->section_id, 'assignment' => $artifact->assignment_id, 'component' => $artifact->component_id])}}">
-                           {{ $artifact->component->title }}
                            @endrole
                            {{ $artifact->component->title }}</a>
                            @endif
