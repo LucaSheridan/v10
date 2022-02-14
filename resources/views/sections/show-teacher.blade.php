@@ -127,31 +127,31 @@
 
                     @foreach ($currentSection->students as $student)
 
-                            
-             <li class="col-span-1 bg-white rounded-lg shadow-xl">
+                    <li class="col-span-1 bg-white rounded-lg shadow-xl">
     
-    <div class="flex p-1 rounded-lg">
-       
-        <div class="flex-shrink-0">
+                        <div class="flex p-1 rounded-lg">
+              
+                        <div class="flex-shrink-0">
 
-                  @if ( !empty($student->profile_photo_path))
+                        @if ( !empty($student->profile_photo_path))
 
-                      <!-- JetStream Profile Photo -->
-                      <img src="{{  $student->profile_photo_path }}" class="rounded-full w-10 h-10 sm:w-16 sm:h-16 border border-cool-gray-200">
+                            <!-- JetStream Profile Photo -->
+                            <img src="{{  $student->profile_photo_path }}" class="rounded-full w-10 h-10 sm:w-16 sm:h-16 border border-cool-gray-200">
 
-                  @else
-                      
-                      <!-- TailwindUI Avatar -->
-                      <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-cool-gray-200">
-                      <span class="text-sm sm:text-md font-medium leading-none text-gray-500">
-                      {{ $student->initials }}
-                      </span>
-                      </span>
-            
-                  @endif
+                        @else
+                            
+                            <!-- TailwindUI Avatar -->
+                            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-cool-gray-200">
+                            <span class="text-sm sm:text-md font-medium leading-none text-gray-500">
+                            {{ $student->initials }}
+                            </span>
+                            </span>
+                  
+                        @endif
 
-          <!--   <img class="w-8 sm:w-10 h-8 sm:h-10 bg-gray-300 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt=""> -->
-        </div>
+                <!--   <img class="w-8 sm:w-10 h-8 sm:h-10 bg-gray-300 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt=""> -->
+              
+                  </div>
       
         <div class="flex px-1 items-start leading-tight">
         <span class="text-gray-500 text-xs sm:text-sm font-medium">
@@ -218,7 +218,7 @@
 
  @if ($currentSection->students->count() > 0)
 
-                                    <ul class="flex flex-wrap flex-col hidden sm:inline-block  h-80 md:h-40 lg:h-28 leading-snug text-sm no-underline text-gray-700  ">
+                                    <ul class="flex flex-wrap flex-col sm:inline-block h-80 md:h-40 lg:h-28 leading-snug text-sm no-underline text-gray-700  ">
                                     
                                     @foreach ($currentSection->students as $student)                                    
                                    
