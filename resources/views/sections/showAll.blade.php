@@ -12,9 +12,9 @@
             <table cellpadding="10">
             @foreach ($sections as $section)
             <tr>
+            <td>{{ $section->id }}</td>
             
             <td>
-            <td>{{ $section->id }}</td>
 
         <a href="{{route('show-section', $section->id)}}">{{ $section->title}}</a></td>
             <td>{{ $section->users->count() }}</td>
