@@ -13,7 +13,8 @@
             @foreach ($sections as $section)
             <tr>
             
-            <td>{{ $section->title }}</td>
+            <td>
+            <a href="{{route('show-section', $section->id)}}">{{ $section->title}}</a></td>
             <td>{{ $section->users->count() }}</td>
             <td>{{ $section->year }}
             <td>{{ $section->created_at }}
