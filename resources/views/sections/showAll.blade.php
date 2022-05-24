@@ -15,7 +15,9 @@
             
             <td>{{ $section->title }}</td>
             <td>{{ $section->users->count() }}</td>
-            <td>{{ $section->created_at}}
+            <td>{{ $section->year }}
+            <td>{{ $section->created_at }}
+
             </td>
             </tr>
             @endforeach
