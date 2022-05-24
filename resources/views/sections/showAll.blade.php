@@ -14,7 +14,9 @@
             <tr>
             
             <td>
-            <a href="{{route('show-section', $section->id)}}">{{ $section->title}}</a></td>
+            <td>{{ $section->id }}</td>
+
+        <a href="{{route('show-section', $section->id)}}">{{ $section->title}}</a></td>
             <td>{{ $section->users->count() }}</td>
             <td>{{ $section->year }}
             <td>{{ $section->created_at }}
