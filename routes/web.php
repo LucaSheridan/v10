@@ -34,6 +34,12 @@ Route::get('/anchor-modal', function () {
     return view('anchorModal');
 });
 
+// See all Sectins by Year with students
+
+Route::get('/sections/all', function () {
+    return view('sectionsAll');
+});
+
 // Artifacts
 
 	Route::get('/artifacts/create/{section?}/{assignment?}/{komponent?}', [ArtifactController::class, 'create'])->middleware('auth');
@@ -87,6 +93,11 @@ Route::get('/anchor-modal', function () {
 // Sections
 
 	Route::get('/sections', [SectionController::class, 'index'])->middleware('auth')->name('sections');
+
+	// BRANCH
+		Route::get('/sections/show-all', [SectionController::class, 'showAllSections'])->middleware('auth')->name('show-all-sections');
+
+
 	Route::get('/sections/create', [SectionController::class, 'create'])->middleware('auth')->name('create-section');
 	Route::post('/sections',  [SectionController::class, 'store'])->middleware('auth')->name('save-section');
 	Route::get('/sections/{section}', [SectionController::class, 'show'])->middleware('auth')->name('show-section');
@@ -97,6 +108,10 @@ Route::get('/anchor-modal', function () {
 
 	//Progress
 	Route::get('/sections/{section}/student/{user}/progress', [SectionController::class, 'studentProgress'])->middleware('auth')->name('student-progress');
+
+
+	//STREAm
+	Route::get('/sections/{section}/student/{user}/stream', [SectionController::class, 'studentStream'])->middleware('auth')->name('student-stream');
 
 	
 	// Enroll student in a new Section

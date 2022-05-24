@@ -30,7 +30,6 @@ class SectionController extends Controller
 
                        return redirect()->route('show-section', Auth::User()->firstActiveSection->first());
 
-
     }
      
      /**
@@ -58,6 +57,25 @@ class SectionController extends Controller
 
         return view('sections.show', compact('currentSection','activeSections','sectionAssignments','feedback'));
     }
+
+
+/**
+     * Display the all Sections.
+     *
+     * @param  \App\Site  $site
+     * @return \Illuminate\Http\Response
+     */
+    public function showAllSections()
+    {
+        
+        $sections = Section::with('students')->get();
+
+            //dd($sections;
+
+        return view('sections.showAll')->with('sections', $sections);
+    }
+
+
 
     /**
      * Show the form for creating a new section.
@@ -305,6 +323,28 @@ public function sectionProgress(Section $section)
                       'students' => $students]);
     
     }
+
+    public function sectionStream(Section $section, User $user)
+    
+    {
+         
+        $artifacts = Artifact::where('section_id', $section->id)
+                                 ->where('user_id', $user->id)
+                                 ->orderBy('created_at', 'asc');
+
+        dd($artifacts);
+
+          
+
+        return view('partials.teacher.section.stream')
+               ->with(['section' => $section,
+                      'students' => $students]);
+
+    
+    }
+
+
+
 
        /**
      * Display an individual student assignment
