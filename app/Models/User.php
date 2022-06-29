@@ -160,7 +160,7 @@ class User extends Authenticatable
     public function collections()
     {
         return $this->belongsToMany('App\Models\Collection')->withPivot('position')
-        ->orderBy('position');
+        ->orderBy('position','desc');
     }
 
     // public function feedback()
